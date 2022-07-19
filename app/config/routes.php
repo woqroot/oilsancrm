@@ -1,0 +1,113 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+
+$route['default_controller'] = 'Dashboard/index';
+$route['404_override'] = '';
+$route['translate_uri_dashes'] = FALSE;
+
+/* User:START */
+$route["auth/login"]["GET"] = "User/login";
+$route["auth/login"]["POST"] = "User/loginPost";
+$route["auth/logout"]["GET"] = "User/signOut";
+$route["change-theme"]["POST"] = "User/changeTheme";
+$route["users"]["GET"] = "User/list";
+$route["users/(:num)"]["GET"] = "User/details/$1";
+$route["users/add"]["POST"] = "User/add";
+/* User:END */
+
+/* Role:START */
+$route["roles"]["GET"] = "Role/list";
+$route["roles/add"]["POST"] = "Role/add";
+$route["roles/update"]["POST"] = "Role/update";
+$route["roles/find"]["POST"] = "Role/find";
+$route["roles/delete"]["POST"] = "Role/delete";
+$route["roles/(:num)"]["GET"] = "Role/details/$1";
+/* Role:END */
+
+/* Customers:START */
+$route["customers"]["GET"] = "Customer/list";
+$route["customers/(:num)"]["GET"] = "Customer/details/$1";
+$route["customers"]["POST"] = "Customer/action";
+$route["customers/ajax"]["POST"] = "Customer/ajax";
+$route["customers/search"]["POST"] = "Customer/search";
+/* Customers:END */
+
+/* Suppliers:START */
+$route["suppliers"]["GET"] = "Supplier/list";
+$route["suppliers/(:num)"]["GET"] = "Supplier/details/$1";
+$route["suppliers"]["POST"] = "Supplier/action";
+$route["suppliers/ajax"]["POST"] = "Supplier/ajax";
+$route["suppliers/search"]["POST"] = "Supplier/search";
+/* Suppliers:END */
+
+/* CustomerGroup:START */
+$route["customer-groups"]["GET"] = "CustomerGroup/list";
+$route["customer-groups"]["POST"] = "CustomerGroup/action";
+/* CustomerGroup:END */
+
+/* Config:START */
+$route["settings"]["GET"] = "Config/view";
+$route["settings"]["POST"] = "Config/update";
+/* Config:END */
+
+/* District:START */
+$route["districts/search"]["POST"] = "District/search";
+/* District:END */
+
+/* Country:START */
+$route["countries/search"]["POST"] = "Country/search";
+/* Country:END */
+
+/* Account:START */
+$route["accounts"]["GET"] = "Account/list";
+$route["accounts/(:num)"]["GET"] = "Account/details/$1";
+$route["accounts"]["POST"] = "Account/action";
+/* Account:END */
+
+/* Product:START */
+$route["products"]["GET"] = "Product/list";
+$route["products"]["search"] = "Product/search";
+$route["products"]["POST"] = "Product/action";
+$route["stack-activities"]["GET"] = "Product/stackActivities";
+/* Product:END */
+
+/* Sale:START */
+$route["sales/create"]["GET"] = "Sale/add";
+$route["sales/(:num)"]["GET"] = "Sale/edit/$1";
+$route["sales/(:num)/view"]["GET"] = "Sale/view/$1";
+$route["sales"]["GET"] = "Sale/list";
+$route["sales"]["POST"] = "Sale/action";
+$route["sales/ajax"]["POST"] = "Sale/ajax";
+$route["invoice-detail/(:num)"]["GET"] = "Sale/viewByPublic/$1";
+$route["invoice-detail/(:num)/paymentDetails"]["POST"] = "Sale/paymentDetails/$1";
+/* Sale:END */
+
+/* Expense:START */
+$route["expenses/create"]["GET"] = "Expense/add";
+$route["expenses/(:num)"]["GET"] = "Expense/edit/$1";
+$route["expenses/(:num)/view"]["GET"] = "Expense/view/$1";
+$route["expenses"]["GET"] = "Expense/list";
+$route["expenses"]["POST"] = "Expense/action";
+$route["expenses/ajax"]["POST"] = "Expense/ajax";
+/* Expense:END */
+
+/* Collect:START */
+$route["collects/ajax"]["POST"] = "Collect/ajax";
+$route["collects"]["POST"] = "Collect/action";
+/* Collect:END */
+
+/* Collect:START */
+$route["payments/ajax"]["POST"] = "Payment/ajax";
+$route["payments"]["POST"] = "Payment/action";
+/* Collect:END */
+
+$route["documents/ajax"]["POST"] = "Document/ajax";
+$route["documents"]["POST"] = "Document/action";
+
+$route["notes/ajax"]["POST"] = "Note/ajax";
+$route["notes"]["POST"] = "Note/action";
+
+$route["logs/ajax"]["POST"] = "ActivityLog/ajax";
+
+$route["sale-statuses"]["GET"] = "Status/saleStatus";

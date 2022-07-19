@@ -1,0 +1,9 @@
+- Görev oluştururken proje seçimi yapılmalı.
+- Görev durumu eklenmeli. Yapım aşamasında. Başlangıç tarihini kaldırabiliriz.
+- Yapılacaklar listesine "yapılıyor" eklenmeli.
+- Proje tamamlandıysa o projeye ait görevler üzerinde işlem yapılamamalı.
+- Tekrarlanabilir görevler (aylık-haftalık 7-30)
+- Görev revize iste butonu ve yorum
+- Dashboard yapılacaklar listesi ve görevler eklenmeli. Tarihe göre sıralamalı.
+
+- Tamamlayan görev sayısı dashboard check (only self)
