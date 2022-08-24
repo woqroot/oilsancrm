@@ -32,3 +32,7 @@
 <link href="<?= public_url() ?>assets/css/style<?= Auth::get("theme") == "dark" ? ".dark" : ""; ?>.bundle.css" rel="stylesheet" type="text/css"/>
 <!--end::Global Stylesheets Bundle-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/5.1.0/introjs.min.css">
+<link
+		rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+/>

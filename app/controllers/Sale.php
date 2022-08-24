@@ -16,6 +16,7 @@ class Sale extends NP_Controller
 		$this->load->model("CustomerModel");
 		$this->load->model("SaleProductModel");
 		$this->load->model("DocumentModel");
+		$this->load->model("UserModel");
 		$this->load->model("AccountModel");
 		$this->load->model("ProductModel");
 		$this->load->model("StackActivityModel");
@@ -33,15 +34,21 @@ class Sale extends NP_Controller
 	public function add()
 	{
 
+
 		$this->setBreadcrumb(["Satışlar", "Yeni Oluştur"]);
 		$data = [
 			"currencies" => $this->CurrencyModel->all([], "currencyId"),
 			"cities" => $this->CityModel->all([], "title ASC"),
 			"customerGroups" => $this->CustomerGroupModel->all([], "title ASC"),
-			"units" => $this->UnitModel->all([], "name ASC")
+			"units" => $this->UnitModel->all([], "name ASC"),
+			"company" => json_decode(config('companyInformation'), true),
+			"users" => $this->UserModel->all(),
+			"statuses" => $this->StatusModel->all([], 'statusId ASC')
 		];
 
+
 		$lastSale = $this->SaleModel->last();
+
 		$data["defaultInvoiceNumber"] = $lastSale ? generateInvoiceNumber($lastSale["saleId"]) : generateInvoiceNumber();
 		$this->render($data);
 	}
@@ -54,7 +61,8 @@ class Sale extends NP_Controller
 		$data = [
 			"units" => $this->UnitModel->all([], "name ASC"),
 			"cities" => $this->CityModel->all(),
-			"customerGroups" => $this->CustomerGroupModel->all()
+			"customerGroups" => $this->CustomerGroupModel->all(),
+			"company" => json_decode(config('companyInformation'), true)
 		];
 
 
@@ -66,7 +74,8 @@ class Sale extends NP_Controller
 		}
 		$data["customer"] = $this->CustomerModel->first($sale["fkCustomer"]);
 		$data["currencies"] = $this->CurrencyModel->all();
-
+		$data["sortedProducts"] = $this->ProductModel->all([], "name ASC");
+		$data["user"] = $this->UserModel->first($sale["fkUser"]);
 
 		$this->setBreadcrumb("Fatura Detay");
 		$this->render($data);
@@ -76,6 +85,12 @@ class Sale extends NP_Controller
 	{
 		switch (post("action")) {
 			case "ADD":
+
+				if (isCan("change-sale-user")) {
+					$fkUser = post("fkUser");
+				} else {
+					$fkUser = Auth::get('userId');
+				}
 				$findCustomer = $this->CustomerModel->first(post("customerID"));
 				$findCurrency = $this->CurrencyModel->first(post("fkCurrency"));
 				$findAccount = $this->AccountModel->first(post("fkAccount"));
@@ -90,7 +105,9 @@ class Sale extends NP_Controller
 					"fkCustomer" => post("customerID"),
 					"notes" => post("notes"),
 					"invoiceNotes" => post("invoiceNotes"),
-					"fkCurrency" => post("fkCurrency")
+					"fkCurrency" => post("fkCurrency"),
+					"fkUser" => $fkUser,
+					"fkStatus" => post("fkStatus") ?: 1
 				];
 
 
@@ -162,9 +179,9 @@ class Sale extends NP_Controller
 					}
 				}
 
-				if ($_countProduct <= 0) {
-					return $this->response(0, "En az 1 ürün/hizmet seçimi yapmalısınız.");
-				}
+//				if ($_countProduct <= 0) {
+//					return $this->response(0, "En az 1 ürün/hizmet seçimi yapmalısınız.");
+//				}
 
 				// $saleData = array_merge($saleData, $collectData);
 
@@ -460,7 +477,7 @@ class Sale extends NP_Controller
 								</div></div>',
 				convertDate($item["invoiceDate"]),
 				$showBalance,
-				'<span class="badge badge-success">Ödeme Bekliyor</span>',
+				'<span class="badge badge-' . $item["stClassName"] . '">' . $item["stTitle"] . '</span>',
 				'<a href="' . base_url("sales/" . $item["saleId"]) . '"><button class="btn btn-light-primary btn-sm">İncele</button></a>
 				
 									'
@@ -538,12 +555,11 @@ class Sale extends NP_Controller
 	{
 		$data = [];
 		$sale = $this->SaleModel->first(['invoiceNumber' => $invoiceNumber]);
-		if(!$sale) return $this->response();
+		if (!$sale) return $this->response();
 
-		if($sale["balance"] <= 0) return $this->response();
+		if ($sale["balance"] <= 0) return $this->response();
 
 
-
-		return $this->toJson(["status" => 1,"data" => $data]);
+		return $this->toJson(["status" => 1, "data" => $data]);
 	}
 }

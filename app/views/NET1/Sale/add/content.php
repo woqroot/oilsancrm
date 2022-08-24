@@ -124,7 +124,7 @@
 	<!--begin::Post-->
 	<div class="post d-flex flex-column-fluid" id="kt_post">
 		<!--begin::Container-->
-		<div id="kt_content_container" class="container-xxl">
+		<div id="kt_content_container" class="container-fluid">
 			<!--begin::Layout-->
 			<div class="d-flex flex-column flex-lg-row">
 				<!--begin::Content-->
@@ -146,7 +146,7 @@
 										<div class="position-relative d-flex align-items-center w-150px">
 											<!--begin::Datepicker-->
 											<input class="form-control form-control-transparent fw-bolder pe-5"
-												   value="<?= localizeDate("d M Y") ?>" name="invoiceDate"/>
+												   value="" name="invoiceDate"/>
 											<!--end::Datepicker-->
 											<!--begin::Icon-->
 											<!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
@@ -165,7 +165,7 @@
 									<!--end::Input group-->
 									<!--begin::Input group-->
 									<div class="me-auto d-flex flex-center flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4"
-										 data-bs-toggle="tooltip" data-bs-trigger="hover" title="Fatura Numarası">
+										 data-bs-toggle="tooltip" data-bs-trigger="hover" title="Kayıt Numarası">
 										<span class="fs-2x fw-bolder text-gray-800">Fatura #</span>
 										<input type="text" name="invoiceNumber"
 											   class="form-control form-control-flush fw-bolder text-muted fs-3 w-125px"
@@ -206,18 +206,15 @@
 											<!--begin::Input group-->
 
 											<div class="mb-1">
-												<h6>Netpus Yazılım & Otomasyon Hizmetleri</h6>
+												<h6><?= $company['name'] ?></h6>
 											</div>
 											<!--end::Input group-->
 											<!--begin::Input group-->
-											<div class="mb-">
-												182 Sk. No 15/3 Emrez Mah.
+											<div class="mb-1">
+												<?= $company['address'] ?>
 											</div>
 											<div class="mb-5">
-												Gaziemir / İzmir - Türkiye
-											</div>
-											<div class="mb-5">
-												Gaziemir VD / 50167268218
+												<?= $company['taxNumber'] ?> / <?= $company['taxOffice'] ?>
 											</div>
 											<!--end::Input group-->
 
@@ -258,7 +255,7 @@
 												<th class="min-w-250px mw-250px">Ürün/Hizmet</th>
 												<th colspan="2" class="min-w-100px mw-100px">Miktar</th>
 												<th class="min-w-100px mw-125px">Fiyat</th>
-												<th class="min-w-100px mw-100px">KDV</th>
+												<th class="d-none min-w-100px mw-100px">KDV</th>
 												<th class="min-w-150px mw-150px text-start">Tutar</th>
 											</tr>
 											</thead>
@@ -282,7 +279,8 @@
 												</td>
 												<td class="ps-0" colspan="2">
 													<div class="d-flex">
-														<input class="form-control form-control-solid me-3" type="number" min="1"
+														<input class="form-control form-control-solid me-3"
+															   type="number" min="1"
 															   name="product[quantity][]" placeholder="1" value="1"
 															   data-kt-element="quantity"/>
 
@@ -306,7 +304,7 @@
 														   name="product[price][]" placeholder="0,00" value="0,00"
 														   data-kt-element="price"/>
 												</td>
-												<td>
+												<td class="d-none">
 													<select class="form-control form-control-solid"
 															name="product[vat][]"
 															data-kt-element="vat">
@@ -321,20 +319,23 @@
 												</td>
 												<td>
 													<div class="d-flex align-items-center">
-													<div class="input-group input-group-solid">
-														<div class="dropdown">
-															<span id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="input-group-text currencySymbol bg-light-primary "></span>
+														<div class="input-group input-group-solid">
+															<div class="dropdown">
+																<span id="dropdownMenuButton1" data-bs-toggle="dropdown"
+																	  aria-expanded="false"
+																	  class="input-group-text currencySymbol bg-light-primary "></span>
+															</div>
+															<input type="text" data-input-type='decimal'
+																   class="form-control form-control-solid text-end"
+																   name="product[totalPrice][]" placeholder="0,00"
+																   value="0,00"
+																   data-kt-element="total"/>
 														</div>
-														<input type="text" data-input-type='decimal'
-															   class="form-control form-control-solid text-end"
-															   name="product[totalPrice][]" placeholder="0,00" value="0,00"
-															   data-kt-element="total"/>
-													</div>
-													<button type="button"
-															class="btn btn-sm btn-icon btn-active-color-danger"
-															data-kt-element="remove-item">
-														<!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
-														<span class="svg-icon svg-icon-3">
+														<button type="button"
+																class="btn btn-sm btn-icon btn-active-color-danger"
+																data-kt-element="remove-item">
+															<!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+															<span class="svg-icon svg-icon-3">
 																					<svg xmlns="http://www.w3.org/2000/svg"
 																						 width="24" height="24"
 																						 viewBox="0 0 24 24"
@@ -349,8 +350,8 @@
 																							  fill="currentColor"/>
 																					</svg>
 																				</span>
-														<!--end::Svg Icon-->
-													</button>
+															<!--end::Svg Icon-->
+														</button>
 													</div>
 
 												</td>
@@ -372,20 +373,20 @@
 												<th colspan="2" class="border-bottom border-bottom-dashed ps-0">
 													<div class="d-flex flex-column align-items-start">
 														<div class="fs-5">Toplam</div>
-														<div class="fs-5">KDV Toplamı</div>
+														<div class="fs-5 d-none">KDV Toplamı</div>
 
 													</div>
 												</th>
 												<th colspan="2" class="border-bottom border-bottom-dashed text-end">
 													<span class="currencySymbol"></span>
 													<span data-kt-element="sub-total">0.00</span><br>
-													<span class="currencySymbol"></span>
-													<span data-kt-element="vat-total">0.00</span>
+													<span class="d-none currencySymbol"></span>
+													<span class="d-none " data-kt-element="vat-total">0.00</span>
 
 												</th>
 
 											</tr>
-											<tr class="align-top fw-bolder text-gray-700">
+											<tr class="d-none align-top fw-bolder text-gray-700">
 												<th></th>
 												<th colspan="2" class="fs-4 ps-0">Toplam</th>
 												<th colspan="2" class="text-end fs-4 text-nowrap"><span
@@ -416,7 +417,8 @@
 											</td>
 											<td class="ps-0" colspan="2">
 												<div class="d-flex">
-													<input class="form-control form-control-solid me-3" type="number" min="1"
+													<input class="form-control form-control-solid me-3" type="number"
+														   min="1"
 														   name="product[quantity][]" placeholder="1" value="1"
 														   data-kt-element="quantity"/>
 
@@ -440,7 +442,7 @@
 													   name="product[price][]" placeholder="0,00" value="0,00"
 													   data-kt-element="price"/>
 											</td>
-											<td>
+											<td class="d-none">
 												<select class="form-control form-control-solid"
 														name="product[vat][]"
 														data-kt-element="vat">
@@ -457,11 +459,14 @@
 												<div class="d-flex align-items-center">
 													<div class="input-group input-group-solid">
 														<div class="dropdown">
-															<span id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="input-group-text currencySymbol bg-light-primary "></span>
+															<span id="dropdownMenuButton1" data-bs-toggle="dropdown"
+																  aria-expanded="false"
+																  class="input-group-text currencySymbol bg-light-primary "></span>
 														</div>
 														<input type="text" data-input-type='decimal'
 															   class="form-control form-control-solid text-end"
-															   name="product[totalPrice][]" placeholder="0,00" value="0,00"
+															   name="product[totalPrice][]" placeholder="0,00"
+															   value="0,00"
 															   data-kt-element="total"/>
 													</div>
 													<button type="button"
@@ -498,11 +503,21 @@
 									</table>
 									<!--end::Item template-->
 									<!--begin::Notes-->
-									<div class="mb-0">
-										<label class="form-label fs-6 fw-bolder text-gray-700">Satış Notları <i
+									<div class="mb-3">
+										<label class="form-label fs-6 fw-bolder text-gray-700">Notlar <i
 													class="fa fa-info-circle" data-bs-toggle="tooltip"
 													title="Notlar, müşteriye gösterilmez"></i></label>
 										<textarea name="notes" class="resize-none form-control form-control-solid"
+												  rows="3"
+												  placeholder=""></textarea>
+									</div>
+									<!--end::Notes-->
+									<!--begin::Notes-->
+									<div class="mb-0">
+										<label class="form-label fs-6 fw-bolder text-gray-700">Teklif Notları <i
+													class="fa fa-info-circle" data-bs-toggle="tooltip"
+													title="Müşteriye iletilecek dokümanda yer alır."></i></label>
+										<textarea name="invoiceNotes" class="resize-none form-control form-control-solid"
 												  rows="3"
 												  placeholder=""></textarea>
 									</div>
@@ -529,6 +544,28 @@
 							<!--begin::Input group-->
 							<div class="mb-10">
 								<!--begin::Label-->
+								<label class="form-label fw-bolder fs-6 text-gray-700">Aşama</label>
+								<!--end::Label-->
+								<!--begin::Select-->
+								<select name="fkStatus" data-control="select2"
+										data-placeholder="Aşama Seçimi"
+										class="form-select form-select-solid ">
+									<option value=""></option>
+									<?php
+									foreach ($statuses as $status) {
+										?>
+										<option <?= $status["statusId"] == 1 ? "selected" : ""; ?>
+												value="<?= $status["statusId"] ?>"><?= $status["title"] ?></option>
+										<?php
+									}
+									?>
+								</select>
+								<!--end::Select-->
+							</div>
+							<!--end::Input group-->
+							<!--begin::Input group-->
+							<div class="mb-10">
+								<!--begin::Label-->
 								<label class="form-label fw-bolder fs-6 text-gray-700">Fatura Döviz Cinsi</label>
 								<!--end::Label-->
 								<!--begin::Select-->
@@ -550,11 +587,33 @@
 								<!--end::Select-->
 							</div>
 							<!--end::Input group-->
-							<!--begin::Separator-->
-							<div class="separator separator-dashed mb-8"></div>
-							<!--end::Separator-->
 							<!--begin::Input group-->
-							<div class="mb-8">
+							<div class="mb-10 <?= hideByPerm("admin") ?>">
+								<!--begin::Label-->
+								<label class="form-label fw-bolder fs-6 text-gray-700">Satış Sorumlusu</label>
+								<!--end::Label-->
+								<!--begin::Select-->
+								<select required name="fkUser" data-control="select2"
+										data-placeholder="Satış Sorumlusu Seçimi"
+										class="form-select form-select-solid selectCurrency">
+									<?php
+									foreach ($users as $user) {
+										?>
+										<option <?= $user["userId"] == Auth::get('userId') ? 'selected' : ''; ?>
+												value="<?= $user["userId"] ?>"><?= $user["firstName"] . " " . $user["lastName"] ?></option>
+										<?php
+									}
+									?>
+								</select>
+								<!--end::Select-->
+							</div>
+							<!--end::Input group-->
+							<!--begin::Separator-->
+							<div class="d-none separator separator-dashed mb-8"></div>
+							<!--end::Separator-->
+
+							<!--begin::Input group-->
+							<div class="mb-8 d-none">
 								<!--begin::Option-->
 								<label class="form-check form-switch form-switch-sm form-check-custom form-check-solid flex-stack mb-5">
 									<span class="form-check-label ms-0 fw-bolder fs-6 text-gray-700">Ödeme Alındı</span>

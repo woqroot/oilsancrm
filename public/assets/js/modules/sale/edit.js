@@ -86,6 +86,7 @@ var KTAppInvoicesCreate = function () {
 				})), $(e.querySelector('[name="invoiceDate"]')).flatpickr({
 				enableTime: !1,
 				dateFormat: "d M Y",
+				defaultDate: "24 Agu 2022",
 				locale: {
 					firstDayOfWeek: 1,
 					weekdays: {
@@ -93,8 +94,41 @@ var KTAppInvoicesCreate = function () {
 						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
 					},
 					months: {
-						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
+					},
+					today: 'Bugün',
+					clear: 'Temizle'
+				}
+			}),$('#tStartDate').flatpickr({
+				defaultDate: new Date(),
+				enableTime: !1,
+				dateFormat: "d M Y",
+				locale: {
+					firstDayOfWeek: 1,
+					weekdays: {
+						longhand: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
+					},
+					months: {
+						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
+					},
+					today: 'Bugün',
+					clear: 'Temizle'
+				}
+			}),$('#tEndDate').flatpickr({
+				enableTime: !1,
+				dateFormat: "d M Y",
+				locale: {
+					firstDayOfWeek: 1,
+					weekdays: {
+						longhand: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
+					},
+					months: {
+						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
 					},
 					today: 'Bugün',
 					clear: 'Temizle'
@@ -110,8 +144,8 @@ var KTAppInvoicesCreate = function () {
 						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
 					},
 					months: {
-						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
 					},
 					today: 'Bugün',
 					clear: 'Temizle'
@@ -127,8 +161,8 @@ var KTAppInvoicesCreate = function () {
 						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
 					},
 					months: {
-						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
 					},
 					today: 'Bugün',
 					clear: 'Temizle'
@@ -144,8 +178,8 @@ var KTAppInvoicesCreate = function () {
 						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
 					},
 					months: {
-						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
 					},
 					today: 'Bugün',
 					clear: 'Temizle'
@@ -161,8 +195,8 @@ var KTAppInvoicesCreate = function () {
 						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
 					},
 					months: {
-						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
 					},
 					today: 'Bugün',
 					clear: 'Temizle'
@@ -220,6 +254,22 @@ var KTAppInvoicesCreate = function () {
 				allowClear: true
 			});
 
+			$(".selectTrialProduct").select2({
+				placeholder: "Ürün Seçimi",
+				dropdownParent: "#addTrialProductModal",
+				allowClear: false
+			})
+
+			$(".addTrialProductButton").on("click",function () {
+				//
+				// setTimeout(function(){
+				// 	$(".selectTrialProduct").select2({
+				// 		placeholder: "Ürün Seçimi",
+				// 		dropdownParent: "#addTrialProductModal",
+				// 		allowClear: false
+				// 	}).trigger("change")
+				// },150)
+			})
 			var addAutoCollect = () => {
 				$(".submitAutoCollectButton").show();
 				$(".previewAutoCollectButton").hide();
@@ -714,7 +764,7 @@ var KTAppInvoicesCreate = function () {
 				$(".productInput").autocomplete({
 
 
-					serviceUrl: '/Product/search',
+					serviceUrl: hostUrl + 'Product/search',
 					onSelect: function (suggestion) {
 						$(this).data("id", suggestion.id);
 						// clearNewProductInput($(this));
@@ -728,7 +778,7 @@ var KTAppInvoicesCreate = function () {
 			$(".productInput").autocomplete({
 
 
-				serviceUrl: '/Product/search',
+				serviceUrl: hostUrl + '/Product/search',
 				onSelect: function (suggestion) {
 					$(this).data("id", suggestion.id);
 					// clearNewProductInput($(this));
@@ -1145,6 +1195,41 @@ var KTAppInvoicesCreate = function () {
 					});
 				});
 			}
+
+			let trialProductsTable = $(".trialProducts-datatable").DataTable({
+				info: !0,
+				order: [],
+				columnDefs: [
+					{
+						orderable: !0, targets: 0
+					},
+					{
+						orderable: !0, targets: 1
+					},
+					{
+						orderable: !0, targets: 2
+					},
+					{
+						orderable: !0, targets: 3
+					},
+					{
+						orderable: !0, targets: 4
+					}
+				],
+				"processing": true,
+				"serverSide": true,
+				"ajax": {
+					"url": hostUrl + "trial-products/ajax",
+					"data": function (d) {
+						d.fkSale = $(".currentSaleID").html();
+					},
+					"type": "POST",
+
+				}
+			}).on("draw", function () {
+				KTMenu.createInstances();
+			});
+
 			$(document).on("submit", "#addDocumentForm", function (e) {
 				e.preventDefault();
 				const formData = new FormData(this);
@@ -1265,6 +1350,66 @@ var KTAppInvoicesCreate = function () {
 					}
 				})
 			})
+			$(document).on("submit", "#addTrialProductForm", function (e) {
+
+				e.preventDefault();
+				const formData = new FormData(this);
+
+				$.ajax({
+					type: "POST",
+					url: hostUrl + "trial-products",
+					dataType: "json",
+					data: formData,
+					contentType: false,
+					processData: false,
+					cache: false,
+					beforeSend: function () {
+						$("button").prop("disabled", true);
+					},
+					success: function (res) {
+						if (res.status === 1) {
+							$(".modal").modal("hide");
+							Swal.fire({
+								icon: 'success',
+								text: res.message,
+								showConfirmButton: !1,
+								cancelButtonText: "Kapat",
+								showCancelButton: !0,
+								allowOutsideClick: !1
+							});
+
+							$("#addTrialProductForm input[type!=hidden][name!=collectDate]").val("");
+							$("#addTrialProductForm select[type!=hidden]").val("");
+							$("#addTrialProductForm textarea[type!=hidden]").val("");
+
+						} else {
+							Swal.fire({
+								icon: 'error',
+								text: res.message,
+								showConfirmButton: !1,
+								cancelButtonText: "Kapat",
+								showCancelButton: !0,
+								allowOutsideClick: !1
+							})
+						}
+						$("button").prop("disabled", false);
+
+					},
+					error: function (r) {
+						Swal.fire({
+							icon: 'error',
+							text: "Hata meydana geldi!",
+							showConfirmButton: !1,
+							cancelButtonText: "Kapat",
+							showCancelButton: !0,
+							allowOutsideClick: !1
+						})
+						$("button").prop("disabled", false);
+
+					}
+				})
+			})
+
 			$(document).on("submit", "#addCollectForm", function (e) {
 				e.preventDefault();
 				const formData = new FormData(this);
@@ -1690,6 +1835,22 @@ var KTAppInvoicesCreate = function () {
 			}
 
 			updateBalance();
+
+			$('#kt_docs_repeater_basic').repeater({
+				initEmpty: false,
+
+				defaultValues: {
+					'text-input': 'foo'
+				},
+
+				show: function () {
+					$(this).slideDown();
+				},
+
+				hide: function (deleteElement) {
+					$(this).slideUp(deleteElement);
+				}
+			});
 		}
 	}
 }();

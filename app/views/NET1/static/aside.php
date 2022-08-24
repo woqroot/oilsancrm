@@ -73,7 +73,7 @@
 									</span>
 					<div class="menu-sub menu-sub-accordion menu-active-bg">
 						<?php
-						if (isCanOr("add-customer","edit-customer","delete-customer","view-customer")) {
+
 							?>
 							<div class="menu-item">
 								<a class="menu-link" href="<?= base_url("customers") ?>">
@@ -84,61 +84,32 @@
 								</a>
 							</div>
 							<?php
-						}
+
 						?>
-						<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-											<span class="menu-link">
+						<div class="menu-item">
+											<a href="<?= base_url("customer-groups") ?>" class="menu-link">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
-												<span class="menu-title">Yönetim</span>
-												<span class="menu-arrow"></span>
-											</span>
-							<div class="menu-sub menu-sub-accordion menu-active-bg">
-								<div class="menu-item">
-									<a class="menu-link" href="<?= base_url("customer-groups") ?>">
-														<span class="menu-bullet">
-															<span class="bullet bullet-dot"></span>
-														</span>
-										<span class="menu-title">Müşteri Grupları</span>
-									</a>
-								</div>
-							</div>
-							<div class="menu-sub menu-sub-accordion menu-active-bg">
-								<div class="menu-item">
-									<a class="menu-link" href="<?= base_url("customers/settings") ?>">
-														<span class="menu-bullet">
-															<span class="bullet bullet-dot"></span>
-														</span>
-										<span class="menu-title">Ayarlar</span>
-									</a>
-								</div>
-							</div>
+												<span class="menu-title">Müşteri Grupları</span>
+											</a>
 						</div>
 
 
 					</div>
 				</div>
 
-				<div class="menu-item">
-					<a class="menu-link" href="<?= base_url("suppliers") ?>">
+
+				<div class="<?=hideByPerm("admin")?> menu-item">
+					<a class="menu-link" href="<?= base_url("duyuru-yonetimi") ?>">
 										<span class="menu-icon">
-											<i class="bi bi-person-workspace fs-3"></i>
+											<i class="bi-newspaper bi fs-3"></i>
 										</span>
-						<span class="menu-title">Tedarikçiler</span>
+						<span class="menu-title">Duyuru Yönetimi</span>
 					</a>
 				</div>
 
-				<div class="menu-item">
-					<a class="menu-link" href="<?= base_url("expenses") ?>">
-										<span class="menu-icon">
-											<i class="bi-cash-coin bi fs-3"></i>
-										</span>
-						<span class="menu-title">Giderler</span>
-					</a>
-				</div>
-
-				<div class="menu-item">
+				<div class="menu-item d-none">
 					<a class="menu-link" href="<?= base_url("accounts") ?>">
 										<span class="menu-icon">
 											<i class="bi bi-cash fs-3"></i>
@@ -172,7 +143,7 @@
 				</div>
 
 
-				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion d-none">
 									<span class="menu-link">
 										<span class="menu-icon">
 											<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -217,7 +188,14 @@
 
 					</div>
 				</div>
-
+				<div class="menu-item">
+					<a class="menu-link" href="<?= base_url("users") ?>">
+										<span class="menu-icon">
+											<i class="bi bi-person-workspace fs-3"></i>
+										</span>
+						<span class="menu-title">Ekip Yönetimi</span>
+					</a>
+				</div>
 
 				<div class="menu-item">
 					<a class="menu-link" href="<?= base_url("settings") ?>">

@@ -6,6 +6,10 @@ $route['default_controller'] = 'Dashboard/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+/* Ajax:START */
+$route["ajax/announcement"] = "Announcement/view";
+/* Ajax:END */
+
 /* User:START */
 $route["auth/login"]["GET"] = "User/login";
 $route["auth/login"]["POST"] = "User/loginPost";
@@ -108,6 +112,14 @@ $route["documents"]["POST"] = "Document/action";
 $route["notes/ajax"]["POST"] = "Note/ajax";
 $route["notes"]["POST"] = "Note/action";
 
+$route["trial-products/ajax"]["POST"] = "TrialProduct/ajax";
+$route["trial-products"]["POST"] = "TrialProduct/action";
+
 $route["logs/ajax"]["POST"] = "ActivityLog/ajax";
 
 $route["sale-statuses"]["GET"] = "Status/saleStatus";
+
+/* Announcement:START */
+$route["duyuru-yonetimi"]["GET"] = "Announcement/list";
+$route["duyuru-yonetimi"]["POST"] = "Announcement/action";
+

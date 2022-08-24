@@ -183,7 +183,7 @@
 	<!--end::Post-->
 </div>
 <?php
-if (isCanOr("add-customer")) {
+
 	?>
 
 	<div class="modal fade" id="kt_modal_add_user" data-bs-backdrop="static"
@@ -306,7 +306,7 @@ if (isCanOr("add-customer")) {
 												<label class="fw-bold fs-6 mb-2 d-flex">Müşteri
 													Grubu
 													<?php
-													if (isCanOr("manage-customer-groups")) {
+													if (isCanOr("admin")) {
 														?>
 														<a href="javascript:void(0)"
 														   onclick="$('#addCustomerGroupModal').modal('show')"><span
@@ -528,8 +528,6 @@ if (isCanOr("add-customer")) {
 	</div>
 
 	<?php
-}
-if (isCan("manage-customer-groups")) {
 	?>
 	<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="addCustomerGroupModal" tabindex="-1"
 		 aria-hidden="true">
@@ -615,6 +613,5 @@ if (isCan("manage-customer-groups")) {
 		<!--end::Modal dialog-->
 	</div>
 	<?php
-}
 
 ?>

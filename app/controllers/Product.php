@@ -136,10 +136,10 @@ class Product extends NP_Controller
 				if ($data) {
 					$data["unitPrice"] = number_format($data["unitPrice"], 2, ",", ".");
 					$data["currencySymbol"] = currency($data["fkCurrency"]);
-					$data["info"] = "<b>".$data["name"]."</b><br><b>KDV: </b>%".$data["vatPercent"]."<br><b>KDV Dahil: </b>".$data["totalPrice"]." ".$data["currencySymbol"]."<br>";
+					$data["info"] = "<b>".$data["name"]."</b><br><b>Varsayılan Fiyat: </b>".$data["totalPrice"]." ".$data["currencySymbol"]."<br>";
 					if($data["type"] == "PRODUCT"){
-						$data["info"] .= "<b>Stok Takip: </b>";
-						$data["info"] .= $data["stockTracking"] == "ACTIVE" ? "Aktif <br><b>Güncel Stok: </b>".$data["stock"]." ".Main::unit($data["fkUnit"]) : "Pasif";
+//						$data["info"] .= "<b>Stok Takip: </b>";
+//						$data["info"] .= $data["stockTracking"] == "ACTIVE" ? "Aktif <br><b>Güncel Stok: </b>".$data["stock"]." ".Main::unit($data["fkUnit"]) : "Pasif";
 
 					}
 					return $this->toJson(["status" => 1, "data" => $data]);

@@ -8,6 +8,7 @@ class Dashboard extends NP_Controller
 	{
 		parent::__construct();
 		$this->setViewFolder(self::class);
+		$this->load->model("AnnouncementModel");
 	}
 
 	public function index()
@@ -16,7 +17,11 @@ class Dashboard extends NP_Controller
 		$this->setBreadcrumb(["Genel Bakış","Ana Sayfa"]);
 		$this->setSubViewFolder("main");
 
-		$this->render();
+		$data = [
+			"announcements"            => $this->AnnouncementModel->getLast(15),
+			"hasAnyUnreadAnnouncement" => $this->AnnouncementModel->hasAnyUnread(),
+		];
+		$this->render($data);
 	}
 
 }

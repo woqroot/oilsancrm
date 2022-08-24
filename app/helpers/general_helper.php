@@ -41,6 +41,15 @@ function getThemeClass()
 	return "sun";
 }
 
+if (!function_exists("getUser")) {
+	function getUser($id, $columns = "*")
+	{
+		$ci =& get_instance();
+		$ci->load->model("UserModel");
+
+		return $ci->UserModel->first($id);
+	}
+}
 function getAvatar($image, $imgClass = "rounded-circle", $spanClass = null)
 {
 
@@ -190,8 +199,6 @@ function timeAgo($timestamp)
 
 function isCan(...$slugs)
 {
-	return true;
-
 	return Auth::isCan(...$slugs);
 }
 
@@ -202,7 +209,7 @@ function writeDisableByPerm(...$slugs)
 }
 function hideByPerm(...$slugs)
 {
-	return "";
+
 	return Auth::isCan(...$slugs) ? "" : "d-none";
 }
 
@@ -399,7 +406,7 @@ function clearDecimal($decimal)
 
 function getVats()
 {
-	return [0, 1, 8, 18];
+	return [0];
 }
 
 function generateInvoiceNumber($id = 1): string

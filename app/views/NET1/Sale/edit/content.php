@@ -1,3 +1,5 @@
+<?php
+?>
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 	<!--begin::Toolbar-->
@@ -142,10 +144,13 @@
 
 							<ul class="nav nav-tabs nav-pills border-0 flex-row flex-md-column mb-3 mb-md-0 fs-6">
 								<li class="nav-item w-md-150px me-0">
-									<a class="nav-link active" data-bs-toggle="tab" href="#invoice">Fatura
+									<a class="nav-link active" data-bs-toggle="tab" href="#invoice">Satış
 										Bilgileri</a>
 								</li>
-								<li class="nav-item w-md-150px me-0">
+								<li class="nav-item w-md-150px">
+									<a class="nav-link" data-bs-toggle="tab" href="#trialProducts">Deneme Süreçleri</a>
+								</li>
+								<li class="d-none nav-item w-md-150px me-0 ">
 									<a class="nav-link" data-bs-toggle="tab" href="#collects">Tahsilatlar</a>
 								</li>
 								<li class="nav-item w-md-150px me-0">
@@ -154,21 +159,37 @@
 								<li class="nav-item w-md-150px me-0">
 									<a class="nav-link" data-bs-toggle="tab" href="#notes">Notlar</a>
 								</li>
-								<li class="nav-item w-md-150px">
-									<a class="nav-link" data-bs-toggle="tab" href="#logs">İşlem Hareketleri</a>
-								</li>
+
 							</ul>
 						</div>
 					</div>
 					<div class="mt-5 card rounded-0 h-100">
 						<div class="card-body">
-							<div class="fv-row mb-7">
+							<div class="fv-row d-none mb-7">
 								<label class=" fw-bold  fs-6 mb-2">Kalan Bakiye</label>
 								<div class="text-gray-600 currentBalance"><?= $currencySymbol . " " . showBalance($sale["balance"]) ?></div>
 							</div>
-							<div class="fv-row">
+							<div class="fv-row mb-7">
+								<label class=" fw-bold  fs-6 mb-2">Durum</label>
+								<div class="text-gray-600 "><span class="cursor-pointer changeStatus badge badge-<?= Main::getStatus($sale["fkStatus"])["className"] ?>"><?= Main::getStatus($sale["fkStatus"])["title"] ?></span></div>
+							</div>
+							<div class="fv-row mb-7">
 								<label class=" fw-bold  fs-6 mb-2">Son İşlem Tarihi</label>
 								<div class="text-gray-600 "><?= showDate($sale["updatedAt"]) ?></div>
+							</div>
+							<div class="fv-row">
+								<label class=" fw-bold  fs-6 mb-2">Satış Sorumlusu</label>
+								<div class="text-gray-600 text-center">
+									<div class="align-items-center"><div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+											<a class=" cursor-default" href="javascript:void(0)">
+
+												<div class="symbol"><?=getAvatar($user)?></div>
+											</a>
+										</div>
+										<div class="d-flex flex-column">
+											<a href="javascript:void(0)" class="fw-bold text-gray-500 cursor-default mb-1"><?=$user["firstName"]?> <?=$user["lastName"]?></a>
+										</div></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -189,14 +210,15 @@
 											<!--begin::Input group-->
 											<div class="d-flex align-items-center flex-equal fw-row me-4 order-2">
 												<!--begin::Date-->
-												<div class="fs-6 fw-bolder text-gray-700 text-nowrap">Fatura Tarihi:
+												<div class="fs-6 fw-bolder text-gray-700 text-nowrap">Tarih:
 												</div>
 												<!--end::Date-->
 												<!--begin::Input-->
+												<span class="d-none" id="defInvoiceDate"><?= localizeDate("d M Y", $sale["invoiceDate"]) ?></span>
 												<div class="position-relative d-flex align-items-center w-150px">
 													<!--begin::Datepicker-->
 													<input class="form-control form-control-transparent fw-bolder pe-5"
-															<?=writeDisableByPerm("edit-sale")?>
+
 														   value="<?= localizeDate("d M Y", $sale["invoiceDate"]) ?>"
 														   name="invoiceDate"/>
 													<!--end::Datepicker-->
@@ -218,19 +240,21 @@
 											<!--begin::Input group-->
 											<div class="me-auto d-flex flex-center flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4"
 												 data-bs-toggle="tooltip" data-bs-trigger="hover"
-												 title="Fatura Numarası">
+												 title="Satış Fatura Numarası">
 												<span class="fs-2x fw-bolder text-gray-800">Fatura #</span>
 												<input type="text" name="invoiceNumber"
-														<?=writeDisableByPerm("edit-sale")?>
+														<?= writeDisableByPerm("edit-sale") ?>
 													   class="form-control form-control-flush fw-bolder text-muted fs-3 w-125px"
 													   value="<?= $sale["invoiceNumber"] ?>" placehoder="..."/>
 											</div>
 
 											<!--end::Input group-->
 											<!--begin::Input group-->
-											<div class="d-flex align-items-center justify-content-end flex-equal order-3 fw-row"
+											<div class="opacity-0 align-items-center justify-content-end flex-equal order-3 fw-row"
 												 data-bs-toggle="tooltip" data-bs-trigger="hover">
-												<a target="_blank" href="<?=base_url("sales/".$sale["saleId"]."/view")?>" type="button" role="button" class="btn btn-light-primary"><i
+												<a target="_blank"
+												   href="<?= base_url("sales/" . $sale["saleId"] . "/view") ?>"
+												   type="button" role="button" class="btn btn-light-primary"><i
 															class="fa fa-eye"></i> Fatura Görüntüle
 												</a>
 											</div>
@@ -309,10 +333,10 @@
 													<!--begin::Table head-->
 													<thead>
 													<tr class="border-bottom fs-7 fw-bolder text-gray-700 text-uppercase">
-														<th class="min-w-250px mw-250px">Ürün/Hizmet</th>
+														<th class="min-w-250px mw-250px">Ürün/Hİzmet</th>
 														<th colspan="2" class="min-w-100px mw-100px">Miktar</th>
 														<th class="min-w-100px mw-125px">Fiyat</th>
-														<th class="min-w-100px mw-100px">KDV</th>
+														<th class="d-none min-w-100px mw-100px">KDV</th>
 														<th class="min-w-150px mw-150px text-start">Tutar</th>
 													</tr>
 													</thead>
@@ -335,10 +359,10 @@
 																	 data-bs-placement="bottom"
 																	 class="productInputArea position-relative">
 																	<?php
-																	$tooltip = "<b>" . $product["item"]["name"] . "</b><br><b>KDV: </b>%" . $product["item"]["vatPercent"] . "<br><b>KDV Dahil: </b>" . $product["item"]["totalPrice"] . " " . currency($product["item"]["fkCurrency"]) . "<br>";
+																	$tooltip = "<b>" . $product["item"]["name"] . "</b><br><b>Varsayılan Fiyat: </b>" . $product["item"]["totalPrice"] . " " . currency($product["item"]["fkCurrency"]) . "<br>";
 																	if ($product["item"]["type"] == "PRODUCT") {
-																		$tooltip .= "<b>Stok Takip: </b>";
-																		$tooltip .= $product["item"]["stockTracking"] == "ACTIVE" ? "Aktif <br><b>Güncel Stok: </b>" . $product["item"]["stock"] . " " . Main::unit($product["item"]["fkUnit"]) : "Pasif";
+//																		$tooltip .= "<b>Stok Takip: </b>";
+//																		$tooltip .= $product["item"]["stockTracking"] == "ACTIVE" ? "Aktif <br><b>Güncel Stok: </b>" . $product["item"]["stock"] . " " . Main::unit($product["item"]["fkUnit"]) : "Pasif";
 
 																	}
 																	?>
@@ -359,7 +383,7 @@
 															<td class="ps-0" colspan="2">
 																<div class="d-flex">
 																	<input class="form-control form-control-solid me-3"
-																			<?=writeDisableByPerm("edit-sale")?>
+																			<?= writeDisableByPerm("edit-sale") ?>
 																		   type="number" min="1"
 																		   name="product[old][quantity][]"
 																		   placeholder="1"
@@ -368,7 +392,7 @@
 
 																	<select class="form-control form-control-solid"
 																			type="number"
-																			<?=writeDisableByPerm("edit-sale")?>
+																			<?= writeDisableByPerm("edit-sale") ?>
 																			name="product[old][unit][]"
 																			data-kt-element="unit">
 																		<?php
@@ -388,12 +412,12 @@
 																	   name="product[old][price][]" placeholder="0,00"
 																	   value="<?= number_format($product["unitPrice"], 4, ",", ".") ?>"
 																	   data-kt-element="price"
-																		<?=writeDisableByPerm("edit-sale")?>/>
+																		<?= writeDisableByPerm("edit-sale") ?>/>
 															</td>
-															<td>
+															<td class="d-none">
 																<select class="form-control form-control-solid"
 																		name="product[old][vat][]"
-																		<?=writeDisableByPerm("edit-sale")?>
+																		<?= writeDisableByPerm("edit-sale") ?>
 																		data-kt-element="vat">
 																	<?php
 																	foreach (getVats() as $vat) {
@@ -416,7 +440,7 @@
 																		  class="input-group-text currencySymbol bg-light-primary "></span>
 																		</div>
 																		<input type="text"
-																				<?=writeDisableByPerm("edit-sale")?>
+																				<?= writeDisableByPerm("edit-sale") ?>
 																			   class="form-control form-control-solid text-end"
 																			   name="product[old][totalPriceWithVat][]"
 																			   placeholder="0,00"
@@ -457,28 +481,29 @@
 													<tfoot>
 													<tr class="border-top border-top-dashed align-top fs-6 fw-bolder text-gray-700">
 
-															<th class="">
-																<button type="button" class="btn btn-light-primary me-3 <?=hideByPerm("edit-sale")?>"
-																		data-kt-element="add-item">
+														<th class="">
+															<button type="button"
+																	class="btn btn-light-primary me-3 <?= hideByPerm("edit-sale") ?>"
+																	data-kt-element="add-item">
 														<span class="svg-icon svg-icon-2">
 															<i class="fa fa-plus"></i>
 														</span>
-																	Ekle
-																</button>
-															</th>
+																Ekle
+															</button>
+														</th>
 
-														<th colspan="2" class="border-bottom border-bottom-dashed ps-0">
+														<th colspan="2" class="d-none border-bottom border-bottom-dashed ps-0">
 															<div class="d-flex flex-column align-items-start">
 																<div class="fs-5">Toplam</div>
-																<div class="fs-5">KDV Toplamı</div>
+																<div class="d-none fs-5">KDV Toplamı</div>
 															</div>
 														</th>
 														<th colspan="2"
-															class="border-bottom border-bottom-dashed text-end">
+															class="d-none border-bottom border-bottom-dashed text-end">
 															<span class="currencySymbol"></span>
 															<span data-kt-element="sub-total">0.00</span><br>
-															<span class="currencySymbol"></span>
-															<span data-kt-element="vat-total">0.00</span>
+															<span class="d-none currencySymbol"></span>
+															<span class="d-none " data-kt-element="vat-total">0.00</span>
 
 														</th>
 
@@ -490,7 +515,7 @@
 																	class="currencySymbol"></span>
 															<span data-kt-element="grand-total">0.00</span></th>
 													</tr>
-													<tr class="align-top fw-bolder text-gray-700">
+													<tr class="d-none align-top fw-bolder text-gray-700">
 														<th></th>
 														<th colspan="2" class="fs-4 ps-0">Kalan Bakiye</th>
 														<th colspan="2" class="text-end fs-4 text-nowrap">
@@ -511,7 +536,7 @@
 														<div class="productInputArea position-relative">
 
 															<input type="text"
-																	<?=writeDisableByPerm("edit-sale")?>
+																	<?= writeDisableByPerm("edit-sale") ?>
 																   class="productInput pe-20 form-control form-control-solid mb-2"
 																   name="product[new][name][]"
 																   placeholder="Ürün/Hizmet Adı"/>
@@ -526,7 +551,7 @@
 														<div class="d-flex">
 															<input class="form-control form-control-solid me-3"
 																   type="number"
-																	<?=writeDisableByPerm("edit-sale")?>
+																	<?= writeDisableByPerm("edit-sale") ?>
 																   min="1"
 																   name="product[new][quantity][]" placeholder="1"
 																   value="1"
@@ -535,7 +560,7 @@
 															<select class="form-control form-control-solid"
 																	type="number"
 																	min="1"
-																	<?=writeDisableByPerm("edit-sale")?>
+																	<?= writeDisableByPerm("edit-sale") ?>
 																	name="product[new][unit][]"
 																	data-kt-element="unit">
 																<?php
@@ -553,13 +578,13 @@
 															   class="form-control form-control-solid text-end"
 															   name="product[new][price][]" placeholder="0,00"
 															   value="0,00"
-																<?=writeDisableByPerm("edit-sale")?>
+																<?= writeDisableByPerm("edit-sale") ?>
 															   data-kt-element="price"/>
 													</td>
-													<td>
+													<td class="d-none">
 														<select class="form-control form-control-solid"
 																name="product[new][vat][]"
-																<?=writeDisableByPerm("edit-sale")?>
+																<?= writeDisableByPerm("edit-sale") ?>
 																data-kt-element="vat">
 															<?php
 															foreach (getVats() as $vat) {
@@ -581,7 +606,7 @@
 																<input type="text" data-input-type='decimal'
 																	   class="form-control form-control-solid text-end"
 																	   name="product[new][totalPriceWithVat][]"
-																		<?=writeDisableByPerm("edit-sale")?>
+																		<?= writeDisableByPerm("edit-sale") ?>
 																	   placeholder="0,00"
 																	   value="0,00"
 																	   data-kt-element="total"/>
@@ -625,7 +650,7 @@
 															class="fa fa-info-circle" data-bs-toggle="tooltip"
 															title="Satış notlarını yalnızca ekip üyeleri görebilir."></i></label>
 												<textarea name="notes"
-																		<?=writeDisableByPerm("edit-sale")?>
+																		<?= writeDisableByPerm("edit-sale") ?>
 														  class="resize-none form-control form-control-solid"
 														  rows="3"
 														  placeholder=""><?= $sale["notes"] ?></textarea>
@@ -637,7 +662,7 @@
 															class="fa fa-info-circle" data-bs-toggle="tooltip"
 															title="Bu alan, oluşturulan fatura şablonunda not olarak gösterilir."></i></label>
 												<textarea name="invoiceNotes"
-																		<?=writeDisableByPerm("edit-sale")?>
+																		<?= writeDisableByPerm("edit-sale") ?>
 														  class="resize-none form-control form-control-solid"
 														  rows="3"
 														  placeholder=""><?= $sale["invoiceNotes"] ?></textarea>
@@ -652,6 +677,81 @@
 										<!--end::Wrapper-->
 									</form>
 									<!--end::Form-->
+								</div>
+								<!--end::Card body-->
+							</div>
+							<!--end::Card-->
+						</div>
+						<!--end::Content-->
+					</div>
+					<div class="tab-pane fade " id="trialProducts" role="tabpanel">
+						<!--begin::Content-->
+						<div class="flex-lg-row-fluid mb-10 mb-lg-0">
+							<!--begin::Card-->
+							<div class="card">
+
+								<div class="card-header border-0 pt-6">
+									<!--begin::Card title-->
+									<div class="card-title">
+										<!--begin::Search-->
+										<div class="d-flex align-items-center position-relative my-1">
+											<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+											<span class="svg-icon svg-icon-1 position-absolute ms-6">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+														 viewBox="0 0 24 24" fill="none">
+														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+															  height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+															  fill="currentColor"></rect>
+														<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+															  fill="currentColor"></path>
+													</svg>
+												</span>
+											<!--end::Svg Icon-->
+											<input type="text" data-kt-filter="searchNoteInput"
+												   class="form-control form-control-solid w-250px ps-15"
+												   placeholder="Tabloda ara">
+										</div>
+										<!--end::Search-->
+									</div>
+									<!--begin::Card title-->
+									<div class="card-toolbar">
+										<div class="d-flex justify-content-end ms-4"
+											 data-kt-customer-table-toolbar="base">
+
+											<!--begin::Add customer-->
+											<button class="btn btn-primary" data-bs-toggle="modal"
+													data-bs-target="#addTrialProductModal"><i class="fa fa-plus"></i>
+												Deneme Ürünü Ekle
+											</button>
+											<!--end::Add customer-->
+										</div>
+									</div>
+								</div>
+								<!--begin::Card body-->
+								<div class="card-body p-12">
+									<div class="d-flex flex-column align-items-start flex-xxl-row">
+										<table class="table align-middle table-row-dashed fs-6 gy-5 trialProducts-datatable">
+											<!--begin::Table head-->
+											<thead>
+											<!--begin::Table row-->
+											<tr class="table-hover  text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+
+												<th class="min-w-50px">#</th>
+												<th class="min-w-125px">Ürün</th>
+												<th class="min-w-125px">Verildiği Tarih</th>
+												<th class="min-w-125px">Durum</th>
+												<th class="min-w-">İşlem</th>
+											</tr>
+											<!--end::Table row-->
+											</thead>
+											<!--end::Table head-->
+											<!--begin::Table body-->
+											<tbody class="text-gray-600 fw-bold cursor-pointer">
+
+
+											</tbody>
+										</table>
+									</div>
 								</div>
 								<!--end::Card body-->
 							</div>
@@ -745,7 +845,8 @@
 											 data-kt-customer-table-toolbar="base">
 
 											<!--begin::Add customer-->
-											<button class="btn btn-primary <?=hideByPerm('add-collect')?>" data-bs-toggle="modal"
+											<button class="btn btn-primary <?= hideByPerm('add-collect') ?>"
+													data-bs-toggle="modal"
 													data-bs-target="#addCollectModal"><i class="fa fa-plus"></i>
 												Tahsilat
 												Ekle
@@ -852,7 +953,8 @@
 											 data-kt-customer-table-toolbar="base">
 
 											<!--begin::Add customer-->
-											<button class="btn btn-primary <?=hideByPerm("add-sale-document")?>" data-bs-target="#addDocumentModal"
+											<button class="btn btn-primary <?= hideByPerm("add-sale-document") ?>"
+													data-bs-target="#addDocumentModal"
 													data-bs-toggle="modal">
 												<i class="fa fa-upload"></i> Dosya Yükle
 											</button>
@@ -1034,7 +1136,7 @@
 </div>
 <!--end::Content-->
 
-<div class="modal fade <?=hideByPerm()?>" id="addCollectModal" data-bs-backdrop="static"
+<div class="modal fade <?= hideByPerm() ?>" id="addCollectModal" data-bs-backdrop="static"
 	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
 	<!--begin::Modal dialog-->
 	<div class="modal-dialog modal-dialog-centered mw-750px">
@@ -1146,7 +1248,8 @@
 								<div class="fv-row mb-5">
 									<div class="col-md-12 col-sm-12 fv-row">
 										<div class="form-check form-check-custom form-check-success form-check-solid">
-											<input id="isCollectedNew" class="form-check-input" type="checkbox" name="isCollected"
+											<input id="isCollectedNew" class="form-check-input" type="checkbox"
+												   name="isCollected"
 												   value="1" checked/>
 											<label class="form-check-label" for="isCollectedNew">
 												Ödeme alındı
@@ -1290,7 +1393,7 @@
 											<span class="input-group-text"><?= $currencySymbol ?></span>
 											<input required name="totalAmount" type="text"
 												   placeholder="0,00"
-												   value="<?= showBalance( $sale["balance"]) ?>"
+												   value="<?= showBalance($sale["balance"]) ?>"
 												   data-input-type="decimal" class="form-control form-control-solid">
 										</div>
 
@@ -1484,6 +1587,175 @@
 </div>
 
 
+<div class="modal fade" id="addTrialProductModal" data-bs-backdrop="static"
+	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+	<!--begin::Modal dialog-->
+	<div class="modal-dialog modal-dialog-centered mw-750px">
+		<!--begin::Modal content-->
+		<div class="modal-content">
+			<!--begin::Modal header-->
+			<div class="modal-header" id="kt_modal_add_user_header">
+				<!--begin::Modal title-->
+				<h2 class="fw-bolder formTitle">Deneme Ürünü Ekle</h2>
+				<!--end::Modal title-->
+				<!--begin::Close-->
+				<div class="btn btn-icon btn-sm btn-active-icon-primary"
+					 data-bs-dismiss="modal">
+					<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+					<span class="svg-icon svg-icon-1">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
+					<!--end::Svg Icon-->
+				</div>
+				<!--end::Close-->
+			</div>
+			<!--end::Modal header-->
+			<!--begin::Modal body-->
+			<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+				<!--begin::Form-->
+				<form id="addTrialProductForm" enctype="multipart/form-data" class="form"
+					  action="#">
+					<input type="hidden" name="action" value="ADD">
+					<input type="hidden" name="saleID" value="<?= $sale["saleId"] ?>">
+					<input type="hidden" name="customerID" value="<?= $sale["fkCustomer"] ?>">
+					<!--begin::Scroll-->
+					<div class="d-flex flex-column scroll-y me-n7 pe-7"
+						 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+						 data-kt-scroll-activate="{default: false, lg: true}"
+						 data-kt-scroll-max-height="auto"
+						 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+						 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+						 data-kt-scroll-offset="300px">
+						<!--begin::Input group-->
+						<!--end::Input group-->
+						<div class="row">
+
+							<div class="col-lg-12">
+								<div class="fv-row row mb-5 ">
+									<div class="col-md-6 col-sm-12 fv-row ">
+										<!--begin::Label-->
+										<label class="fw-bold fs-6 mb-2">Ürünlerin Veriliş Tarihi</label>
+										<!--end::Label-->
+										<!--begin::Input-->
+										<input id="tStartDate" required class="form-control form-control-solid"
+											   name="startDate"/>
+										<!--end::Input-->
+									</div>
+									<div class="col-md-6 col-sm-12 fv-row ">
+										<!--begin::Label-->
+										<label class="fw-bold fs-6 mb-2">Geri Alınacak Tarih</label>
+										<!--end::Label-->
+										<!--begin::Input-->
+										<input id="tEndDate" required class="form-control form-control-solid"
+											   name="endDate"/>
+										<!--end::Input-->
+									</div>
+
+								</div>
+
+
+								<!--begin::Repeater-->
+								<div id="kt_docs_repeater_basic">
+									<!--begin::Form group-->
+									<div class="form-group">
+										<div data-repeater-list="kt_docs_repeater_basic">
+											<div data-repeater-item>
+												<div class="form-group row my-3">
+													<div class="col-md-4">
+														<label class="form-label">Ürün:</label>
+														<select required
+																class="form-control form-control-solid mb-2 mb-md-0 ">
+															<option value="">Lütfen Seçin</option>
+															<?php
+															foreach ($sortedProducts as $product) {
+																?>
+																<option value="<?= $product["productId"] ?>"><?= $product["name"] ?></option>
+																<?php
+															}
+															?>
+														</select>
+													</div>
+													<div class="col-md-5">
+														<label class="form-label">Miktar:</label>
+														<div class="row">
+															<div class="col">
+																<input type="number" required value="1"
+																	   class="form-control form-control-solid mb-2 mb-md-0"/>
+															</div>
+															<div class="col">
+																<select required class="form-control-solid form-control"
+																		name="unitID" id="">
+																	<?php
+																	foreach ($units as $unit) {
+																		?>
+																		<option value="<?= $unit["unitId"] ?>"><?= $unit["name"] ?></option>
+																		<?php
+																	}
+																	?>
+																</select>
+															</div>
+
+														</div>
+													</div>
+
+													<div class="col-md-2">
+														<a href="javascript:;" data-repeater-delete
+														   class="btn btn-sm btn-light-danger mt-3 mt-md-8">
+															<i class="la la-trash-o fw-bold fs-4"></i> Sil
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--end::Form group-->
+
+									<!--begin::Form group-->
+									<div class="form-group mt-5">
+										<a href="javascript:;" data-repeater-create
+										   class="btn btn-light-primary addTrialProductButton">
+											<i class="la la-plus"></i>Ekle
+										</a>
+									</div>
+									<!--end::Form group-->
+								</div>
+								<!--end::Repeater-->
+							</div>
+
+						</div>
+					</div>
+					<!--end::Scroll-->
+					<!--begin::Actions-->
+					<div class="text-center pt-15">
+						<button type="reset" class="btn btn-light me-3"
+								data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
+							Kapat
+						</button>
+						<button type="submit" class="btn btn-primary">
+							<span class="indicator-label">Kaydet</span>
+							<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+						</button>
+					</div>
+					<!--end::Actions-->
+				</form>
+				<!--end::Form-->
+			</div>
+			<!--end::Modal body-->
+		</div>
+		<!--end::Modal content-->
+	</div>
+	<!--end::Modal dialog-->
+</div>
 <div class="modal fade" id="addNoteModal" data-bs-backdrop="static"
 	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
 	<!--begin::Modal dialog-->
@@ -1788,7 +2060,7 @@
 			<div class="modal-header" id="kt_modal_add_user_header">
 				<!--begin::Modal title-->
 				<h2 class="fw-bolder formTitle">Tahsilat Detay <i
-							class="notEditable fa fa-info-circle fs-4 text-hover-primary <?=hideByPerm('edit-collect')?>"
+							class="notEditable fa fa-info-circle fs-4 text-hover-primary <?= hideByPerm('edit-collect') ?>"
 							title="Üzerine farklı kayıtlar açılan tashilatların tutar, işlem tarihi gibi bilgilerini güncelleyemezsiniz."
 							data-bs-toggle="tooltip"></i></h2>
 				<!--end::Modal title-->
@@ -1803,7 +2075,8 @@
 												class="btn btn-active-light-primary"><i class="fa fa-download fs-4"></i></button></a>
 					</span>
 					<button data-bs-toggle="tooltip" title="Tahsilat kaydını kalıcı olarak sil"
-							class="btn btn-active-light-danger deleteCollect <?=hideByPerm("delete-collect")?>"><i class="fa fa-trash fs-4"></i></button>
+							class="btn btn-active-light-danger deleteCollect <?= hideByPerm("delete-collect") ?>"><i
+								class="fa fa-trash fs-4"></i></button>
 
 				</div>
 				<!--end::Close-->
@@ -1850,7 +2123,8 @@
 										<!--end::Label-->
 										<!--begin::Select-->
 										<select required name="accountID"
-												class="form-select form-select-solid disableSelect2 editCollectSelectAccount" disabled="">
+												class="form-select form-select-solid disableSelect2 editCollectSelectAccount"
+												disabled="">
 											<option value="">Lütfen Seçin</option>
 
 										</select>
@@ -1859,7 +2133,7 @@
 								</div>
 								<div class="fv-row mb-5 row">
 									<div class="col-md-6 col-sm-12 fv-row ">
-										<label class="required fw-bold  fs-6 mb-2">İşlem Tarihix</label>
+										<label class="required fw-bold  fs-6 mb-2">İşlem Tarihi</label>
 										<!--end::Label-->
 
 										<input disabled required value="" name="collectDate" type="text"
@@ -1874,7 +2148,8 @@
 
 										<!--end::Label-->
 
-										<input value="" name="fileName" type="file" <?=writeDisableByPerm("edit-collect")?>
+										<input value="" name="fileName"
+											   type="file" <?= writeDisableByPerm("edit-collect") ?>
 											   class="form-control form-control-solid">
 
 									</div>
@@ -1885,7 +2160,7 @@
 										<label class="fw-bold fs-6 mb-2">Açıklama</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<textarea name="explanation" id="" <?=writeDisableByPerm("edit-collect")?>
+										<textarea name="explanation" id="" <?= writeDisableByPerm("edit-collect") ?>
 												  class="form-control form-control-solid resize-none"></textarea>
 										<!--end::Input-->
 									</div>
@@ -1893,7 +2168,8 @@
 								<div class="fv-row mb-5">
 									<div class="col-md-12 col-sm-12 fv-row">
 										<div class="form-check form-check-custom form-check-success form-check-solid">
-											<input id="isCollected" class="form-check-input" type="checkbox" name="isCollected"
+											<input id="isCollected" class="form-check-input" type="checkbox"
+												   name="isCollected"
 												   value="1" checked/>
 											<label class="form-check-label" for="isCollected">
 												Ödeme alındı
@@ -1913,7 +2189,7 @@
 								data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
 							Kapat
 						</button>
-						<button type="submit" class="btn btn-primary <?=hideByPerm("edit-collect")?>"
+						<button type="submit" class="btn btn-primary <?= hideByPerm("edit-collect") ?>"
 								data-kt-users-modal-action="submit">
 							<span class="indicator-label">Kaydet</span>
 							<span class="indicator-progress">Please wait...

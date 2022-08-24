@@ -231,12 +231,12 @@
 															</div>
 														</div>
 
-														<div class="col-md-4 col-sm-12 fv-row mb-7">
+														<div class="d-none col-md-4 col-sm-12 fv-row mb-7">
 															<!--begin::Label-->
 															<label class="fw-bold required fs-6 mb-2">KDV Oranı</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<select required name="vatPercent" id=""
+															<select  name="vatPercent" id=""
 																	class="form-control form-control-solid selectVat">
 																<?php
 																foreach (getVats() as $vat) {
@@ -249,7 +249,7 @@
 															</select>
 															<!--end::Input-->
 														</div>
-														<div class="col-md-4 col-sm-12 fv-row mb-7">
+														<div class="d-none col-md-4 col-sm-12 fv-row mb-7">
 															<!--begin::Label-->
 															<label class="fw-bold required fs-6 mb-2">KDV Dahil Tutar </label>
 															<!--end::Label-->
@@ -261,7 +261,7 @@
 																		  class="input-group-text currentCurrency bg-light-primary ">₺</span>
 
 																</div>
-																<input required maxlength="13" name="totalPrice" type="text"
+																<input  maxlength="13" name="totalPrice" type="text"
 																	   placeholder="0,00" data-input-type="decimal"
 																	   class="form-control form-control-solid">
 															</div>
@@ -285,7 +285,7 @@
 															<!--end::Input-->
 														</div>
 														<!--end::Input group-->
-														<div class="col-md-6 col-sm-12 fv-row mb-7" data-np-type="PRODUCT">
+														<div class="d-none col-md-6 col-sm-12 fv-row mb-7" data-np-type="PRODUCT">
 															<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 																<span class="required">Stok Takibi</span>
 															</label>
@@ -370,7 +370,7 @@
 							</th>
 							<th class="mw-100px">Ürün Kodu</th>
 							<th class="min-w-125px">Ürün/Hizmet Adı</th>
-							<th class="min-w-125px">Stok</th>
+							<th class="min-w-125px d-none">Stok</th>
 							<th class="min-w-125px">Birim Fiyat</th>
 							<th class="text- min-w-100px">İşlem</th>
 						</tr>
@@ -387,7 +387,7 @@
 								<td><?=++$counter;?></td>
 								<td><div class="badge badge-light-primary">#<?=$product["productCode"]?></div></td>
 								<td> <?=$product["name"]?></td>
-								<td><?=$product["stock"]?> <?=Main::unit($product["fkUnit"])?> </td>
+								<td class="d-none"><?=$product["stock"]?> <?=Main::unit($product["fkUnit"])?> </td>
 								<td><?=$product["totalPrice"]?> <?=currency($product["fkCurrency"])?></td>
 								<td>
 									<a href="#" class="btn btn-light btn-active-light-primary btn-sm"

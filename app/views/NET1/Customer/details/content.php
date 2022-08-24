@@ -156,14 +156,14 @@
 								   class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-1"><?= $data["name"] ? $data["name"] : $data["shortName"] ?></a>
 								<!--end::Name-->
 								<!--begin::Position-->
-								<div class="fs-5 fw-bold text-muted mb-6"><?= $data["shortName"] ? $data["shortName"] : "Yok" ?></div>
+								<div class="fs-5 fw-bold text-muted mb-6"><span class="badge badge-light-danger">Pasif Müşteri</span></div>
 								<!--end::Position-->
 								<!--begin::Info-->
 								<div class="d-flex flex-wrap flex-center">
 									<!--begin::Stats-->
 									<div class="border border-gray-300 border-dashed rounded py-3 px-3 mb-3">
 										<div class="fs-4 fw-bolder text-gray-700">
-											<span class="w-75px">₺ 6,900</span>
+											<span class="w-75px">3 adet</span>
 											<!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
 											<span class="svg-icon svg-icon-3 svg-icon-success">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -178,14 +178,14 @@
 																</span>
 											<!--end::Svg Icon-->
 										</div>
-										<div class="fw-bold text-muted">Satış</div>
+										<div class="fw-bold text-muted">Başarılı Satış</div>
 									</div>
 									<!--end::Stats-->
 									<!--begin::Stats-->
 									<div class="border border-gray-300 border-dashed rounded py-3 px-3 mx-4 mb-3">
 										<div class="fs-4 fw-bolder text-gray-700">
-											<span class="w-50px">130</span>
-											<!--begin::Svg Icon | path: icons/duotune/arrows/arr065.svg-->
+											<span class="w-50px">2 adet</span>
+											<!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
 											<span class="svg-icon svg-icon-3 svg-icon-danger">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
 																		 height="24" viewBox="0 0 24 24" fill="none">
@@ -199,28 +199,28 @@
 																</span>
 											<!--end::Svg Icon-->
 										</div>
-										<div class="fw-bold text-muted">Tasks</div>
+										<div class="fw-bold text-muted">Başarısız Satış</div>
 									</div>
 									<!--end::Stats-->
 									<!--begin::Stats-->
 									<div class="border border-gray-300 border-dashed rounded py-3 px-3 mb-3">
 										<div class="fs-4 fw-bolder text-gray-700">
-											<span class="w-50px">500</span>
+											<span class="w-50px">1 adet</span>
 											<!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
-											<span class="svg-icon svg-icon-3 svg-icon-success">
+											<span class="svg-icon svg-icon-3 svg-icon-danger">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
 																		 height="24" viewBox="0 0 24 24" fill="none">
-																		<rect opacity="0.5" x="13" y="6" width="13"
+																		<rect opacity="0.5" x="11" y="18" width="13"
 																			  height="2" rx="1"
-																			  transform="rotate(90 13 6)"
+																			  transform="rotate(-90 11 18)"
 																			  fill="currentColor"></rect>
-																		<path d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z"
+																		<path d="M11.4343 15.4343L7.25 11.25C6.83579 10.8358 6.16421 10.8358 5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75L11.2929 18.2929C11.6834 18.6834 12.3166 18.6834 12.7071 18.2929L18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25C17.8358 10.8358 17.1642 10.8358 16.75 11.25L12.5657 15.4343C12.2533 15.7467 11.7467 15.7467 11.4343 15.4343Z"
 																			  fill="currentColor"></path>
 																	</svg>
 																</span>
 											<!--end::Svg Icon-->
 										</div>
-										<div class="fw-bold text-muted">Hours</div>
+										<div class="fw-bold text-muted">Devam Eden</div>
 									</div>
 									<!--end::Stats-->
 								</div>
@@ -392,19 +392,19 @@
 						<!--begin:::Tab item-->
 						<li class="nav-item">
 							<a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
-							   href="#kt_customer_view_overview_tab">Fatura & Ödemeler</a>
+							   href="#kt_customer_view_overview_tab">Satış Süreçleri</a>
 						</li>
 						<!--end:::Tab item-->
 						<!--begin:::Tab item-->
 						<li class="nav-item">
 							<a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
-							   href="#kt_customer_view_overview_events_and_logs_tab">Events &amp; Logs</a>
+							   href="#kt_customer_view_overview_events_and_logs_tab">Tahsilatlar</a>
 						</li>
 						<!--end:::Tab item-->
 						<!--begin:::Tab item-->
 						<li class="nav-item">
 							<a class="nav-link text-active-primary pb-4" data-kt-countup-tabs="true"
-							   data-bs-toggle="tab" href="#kt_customer_view_overview_statements">Statements</a>
+							   data-bs-toggle="tab" href="#kt_customer_view_overview_statements">Deneme Süreçleri</a>
 						</li>
 						<!--end:::Tab item-->
 						<!--begin:::Tab item-->
@@ -526,7 +526,7 @@
 								<div class="card-header border-0">
 									<!--begin::Card title-->
 									<div class="card-title">
-										<h2>Payment Records</h2>
+										<h2>Satışlar</h2>
 									</div>
 									<!--end::Card title-->
 									<!--begin::Card toolbar-->
@@ -547,7 +547,7 @@
 																		  rx="1" fill="currentColor"></rect>
 																</svg>
 															</span>
-											<!--end::Svg Icon-->Add payment
+											<!--end::Svg Icon-->Yeni Oluştur
 										</button>
 										<!--end::Filter-->
 									</div>
@@ -569,29 +569,26 @@
 													<th class="min-w-100px sorting" tabindex="0"
 														aria-controls="kt_table_customers_payment" rowspan="1"
 														colspan="1"
-														aria-label="Invoice No.: activate to sort column ascending"
-														style="width: 139.344px;">Invoice No.
+														style="width: 139.344px;">Satış No
 													</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="kt_table_customers_payment" rowspan="1"
 														colspan="1"
-														aria-label="Status: activate to sort column ascending"
-														style="width: 119.688px;">Status
+														style="width: 119.688px;">Durum
 													</th>
 													<th class="sorting" tabindex="0"
 														aria-controls="kt_table_customers_payment" rowspan="1"
 														colspan="1"
-														aria-label="Amount: activate to sort column ascending"
-														style="width: 113.938px;">Amount
+														style="width: 113.938px;">Tutar
 													</th>
 													<th class="min-w-100px sorting" tabindex="0"
 														aria-controls="kt_table_customers_payment" rowspan="1"
 														colspan="1" aria-label="Date: activate to sort column ascending"
-														style="width: 229.469px;">Date
+														style="width: 229.469px;">Tarih
 													</th>
 													<th class="text-end min-w-100px pe-4 sorting_disabled" rowspan="1"
 														colspan="1" aria-label="Actions" style="width: 148.312px;">
-														Actions
+														İşlem
 													</th>
 												</tr>
 												<!--end::Table row-->
@@ -599,32 +596,6 @@
 												<!--end::Table head-->
 												<!--begin::Table body-->
 												<tbody class="fs-6 fw-bold text-gray-600">
-												<!--begin::Table row-->
-
-												<!--end::Table row-->
-												<!--begin::Table row-->
-
-												<!--end::Table row-->
-												<!--begin::Table row-->
-
-												<!--end::Table row-->
-												<!--begin::Table row-->
-
-												<!--end::Table row-->
-												<!--begin::Table row-->
-
-												<!--end::Table row-->
-												<!--begin::Table row-->
-
-												<!--end::Table row-->
-												<!--begin::Table row-->
-
-												<!--end::Table row-->
-												<!--begin::Table row-->
-
-												<!--end::Table row-->
-												<!--begin::Table row-->
-
 												<!--end::Table row-->
 												<tr class="odd">
 													<!--begin::Invoice=-->
@@ -4963,7 +4934,7 @@
 						<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
 							<!--begin::Form-->
 							<form id="editCustomerForm" enctype="multipart/form-data" class="form"
-								  action="#">"customerType" value="INDIVIDUAL">
+								  action="#">
 								<input type="hidden" name=
 
 								<input type="hidden" name="customerID" value="<?=$data["customerId"]?>">

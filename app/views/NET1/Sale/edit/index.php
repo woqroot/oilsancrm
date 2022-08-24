@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -6,17 +7,22 @@
 	<head>
 		<?= $CI->loadLayout("head"); ?>
 		<style>
-			.fkAccountWrapper{display: none}
+			.fkAccountWrapper {
+				display: none
+			}
+
 			.inputNewTag {
 				position: absolute;
 				top: 28%;
 				right: 1rem;
 			}
+
 			.inputInfoTag {
 				position: absolute;
 				top: 28%;
 				right: 1rem;
 			}
+
 			.autocomplete-suggestions {
 				border: 1px solid #ddd;
 				background: #FFF;
@@ -50,7 +56,7 @@
 				border-bottom: 1px solid #000;
 			}
 
-			.dataTables_wrapper{
+			.dataTables_wrapper {
 				width: 100% !important;
 			}
 		</style>
@@ -63,6 +69,7 @@
 <?= $CI->loadLayout("footer") ?>
 
 <!--begin::Page Vendors Javascript(used by this page)-->
+<script src="<?= public_url() ?>assets/plugins/custom/formrepeater/formrepeater.bundle.js"></script>
 <script src="<?= public_url() ?>assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
 <script src="<?= public_url() ?>assets/plugins/custom/datatables/datatables.bundle.js"></script>
 <!--end::Page Vendors Javascript-->

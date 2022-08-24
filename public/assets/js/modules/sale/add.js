@@ -83,6 +83,7 @@ var KTAppInvoicesCreate = function () {
 			})), $(e.querySelector('[name="invoiceDate"]')).flatpickr({
 				enableTime: !1,
 				dateFormat: "d M Y",
+				defaultDate: "today",
 				locale: {
 					firstDayOfWeek: 1,
 					weekdays: {
@@ -326,7 +327,7 @@ var KTAppInvoicesCreate = function () {
 				$(".productInput").autocomplete({
 
 
-					serviceUrl: '/Product/search',
+					serviceUrl: hostUrl + '/Product/search',
 					onSelect: function (suggestion) {
 						$(this).data("id", suggestion.id);
 						// clearNewProductInput($(this));
@@ -340,7 +341,7 @@ var KTAppInvoicesCreate = function () {
 			$(".productInput").autocomplete({
 
 
-				serviceUrl: '/Product/search',
+				serviceUrl: hostUrl + '/Product/search',
 				onSelect: function (suggestion) {
 					$(this).data("id", suggestion.id);
 					// clearNewProductInput($(this));
