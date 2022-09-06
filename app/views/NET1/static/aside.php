@@ -135,6 +135,14 @@
 						<span class="menu-title">Satışlar</span>
 					</a>
 				</div>
+				<div class="menu-item">
+					<a class="menu-link" href="<?= base_url("missions") ?>">
+										<span class="menu-icon">
+											<i class="fa fa-folder fs-3"></i>
+										</span>
+						<span class="menu-title">Görev Yönetimi</span>
+					</a>
+				</div>
 
 				<div class="menu-item">
 					<div class="menu-content pt-8 pb-2">

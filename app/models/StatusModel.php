@@ -7,4 +7,5 @@ class StatusModel extends NP_Model
 		parent::__construct();
 		$this->setTableName("status");
 	}
+
 }

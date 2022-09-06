@@ -91,6 +91,23 @@ function convertDateTime($dateTime)
 	return date("Y-m-d H:i:s", strtotime($dateTime));
 }
 
+function getMissionStatuses($id = null)
+{
+	return [
+		[
+			'statusId' => 1,
+			'title' => 'İşlem Bekliyor',
+			'className' => 'info'
+		],
+		[
+			'statusId' => 2,
+			'title' => 'Tamamlandı',
+			'className' => 'success'
+		],
+
+	];
+}
+
 function convertDate($date)
 {
 
@@ -207,6 +224,7 @@ function writeDisableByPerm(...$slugs)
 	return "";
 	return Auth::isCan(...$slugs) ? "" : "disabled";
 }
+
 function hideByPerm(...$slugs)
 {
 
@@ -240,7 +258,7 @@ function post($var)
 
 function rounder($num)
 {
-	$decimals = number_format($num - floor($num),2,".","");
+	$decimals = number_format($num - floor($num), 2, ".", "");
 
 	if ($decimals >= 0.99) {
 		return ceil($num);

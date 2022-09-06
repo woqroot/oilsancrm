@@ -122,4 +122,12 @@ $route["sale-statuses"]["GET"] = "Status/saleStatus";
 /* Announcement:START */
 $route["duyuru-yonetimi"]["GET"] = "Announcement/list";
 $route["duyuru-yonetimi"]["POST"] = "Announcement/action";
+/* Announcement:END */
 
+/* Mission:START */
+$route["missions"]["GET"] = "Mission/list";
+$route["missions/add"]["GET"] = "Mission/add";
+$route["missions"]["POST"] = "Mission/action";
+$route["missions/ajax"]["POST"] = "Mission/ajax";
+$route["missions/(:num)"]["GET"] = "Mission/edit/$1";
+/* Mission:END */
