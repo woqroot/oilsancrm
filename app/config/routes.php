@@ -131,3 +131,8 @@ $route["missions"]["POST"] = "Mission/action";
 $route["missions/ajax"]["POST"] = "Mission/ajax";
 $route["missions/(:num)"]["GET"] = "Mission/edit/$1";
 /* Mission:END */
+
+/* Calendar:START */
+$route["calendar"]["GET"] = "Calendar/index";
+$route["calendar"]["POST"] = "Calendar/action";
+/* Calendar:END */

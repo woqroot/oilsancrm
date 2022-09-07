@@ -53,11 +53,12 @@ $(document).ready(function () {
 			success: function (res) {
 				if (res.status === 1) {
 					Swal.fire('Başarılı!', res.message, 'success').then(r => {
-						window.location.href = hostUrl + "missions";
+						window.location.reload();
 					});
 
 					setTimeout(function () {
-						window.location.href = hostUrl + "missions";
+						window.location.reload();
+
 					}, 2500)
 				} else {
 					Swal.fire('Hata!', res.message, 'error');

@@ -107,6 +107,10 @@ function getMissionStatuses($id = null)
 
 	];
 }
+function clearDateTime($date)
+{
+	return str_replace(["T", "+03:00"], [" ", ""], $date);
+}
 
 function convertDate($date)
 {

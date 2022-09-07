@@ -146,44 +146,6 @@
 											</select>
 										</div>
 										<!--end::Input group-->
-										<!--begin::Input group-->
-										<div class="mb-6">
-											<label class="form-label fs-6 fw-bold">Durum:</label>
-											<select class="form-select form-select-solid fw-bolder"
-													data-kt-select2="true"
-													data-placeholder="Tümü" data-allow-clear="true"
-													data-kt-user-table-filter="role" id="filterStatusID"
-													data-hide-search="true">
-												<option value=""></option>
-												<?php
-												foreach ($statuses as $status) {
-													?>
-													<option value="<?= $status["statusId"] ?>"><?= $status["name"] ?></option>
-													<?php
-												}
-												?>
-											</select>
-										</div>
-										<!--end::Input group-->
-										<!--begin::Input group-->
-										<div class="mb-6">
-											<label class="form-label fs-6 fw-bold">Ülke:</label>
-											<select class="form-select form-select-solid fw-bolder"
-													data-kt-select2="true"
-													data-placeholder="Tümü" data-allow-clear="true"
-													data-kt-user-table-filter="role" id="filterCountryID"
-													data-hide-search="true">
-												<option value=""></option>
-												<?php
-												foreach ($countries as $country) {
-													?>
-													<option value="<?= $country["countryId"] ?>"><?= $country["title"] ?></option>
-													<?php
-												}
-												?>
-											</select>
-										</div>
-										<!--end::Input group-->
 
 										<!--begin::Actions-->
 										<div class="d-flex justify-content-end">

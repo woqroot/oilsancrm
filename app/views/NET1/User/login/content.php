@@ -6,7 +6,7 @@
 		<div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
 			<!--begin::Logo-->
 			<a href="" class="mb-12">
-				<img alt="Logo" src="<?=base_url("public/assets/media/logo.png")?>" class="h-100px" />
+				<img alt="Logo" src="<?=base_url("public/assets/media/logos/logo-white.svg")?>" class="h-150px" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Wrapper-->
@@ -16,7 +16,7 @@
 					<!--begin::Heading-->
 					<div class="text-center mb-10">
 						<!--begin::Title-->
-						<h1 class=" mb-3">NetCRM v0.1 - Giriş Yap</h1>
+						<h1 class=" mb-3">OilsanCRM v0.7 - Giriş Yap</h1>
 						<!--end::Title-->
 
 					</div>
@@ -66,10 +66,10 @@
 		<!--begin::Footer-->
 		<div class="d-flex flex-center flex-column-auto p-10">
 			<!--begin::Links-->
-			<div class="d-flex align-items-center fw-bold fs-6">
-				<a href="javascript:void(0)" class="text-muted text-hover-primary px-2">About</a>
-				<a href="javascript:void(0)" class="text-muted text-hover-primary px-2">Contact</a>
-				<a href="javascript:void(0)" class="text-muted text-hover-primary px-2">Contact Us</a>
+			<div class="d-flex align-items-center fw-bold fs-8">
+				<span class="text-muted px-2">Developed with ♥ by
+				<a target="_blank" href="https://netpus.com.tr" class=" text-hover-primary">Netpus</a>
+					</span>
 			</div>
 			<!--end::Links-->
 		</div>

@@ -3,11 +3,14 @@
 	 data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start"
 	 data-kt-drawer-toggle="#kt_aside_mobile_toggle">
 	<!--begin::Brand-->
-	<div class="aside-logo flex-column-auto" id="kt_aside_logo">
+	<div class="aside-logo align-items-center flex-column-auto" id="kt_aside_logo">
 		<!--begin::Logo-->
-		<a href="<?= base_url() ?>">
-			<img alt="Logo" src="<?= uploads_url("logo/logo.png") ?>" class="w-175px logo"/>
+		<a class="" href="<?= base_url() ?>">
+			<img alt="Logo" src="<?= public_url("assets/media/logos/logo-white.svg") ?>" class="w-50px logo"/>
 		</a>
+
+			<h3 class="m-0 text-white">OilsanCRM</h3>
+
 		<!--end::Logo-->
 		<!--begin::Aside toggler-->
 		<div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
@@ -143,7 +146,14 @@
 						<span class="menu-title">Görev Yönetimi</span>
 					</a>
 				</div>
-
+				<div class="menu-item">
+					<a class="menu-link" href="<?= base_url("calendar") ?>">
+										<span class="menu-icon">
+											<i class="bi bi-calendar fs-3"></i>
+										</span>
+						<span class="menu-title">Takvim</span>
+					</a>
+				</div>
 				<div class="menu-item">
 					<div class="menu-content pt-8 pb-2">
 						<span class="menu-section text-muted text-uppercase fs-8 ls-1">Yönetim</span>
@@ -221,10 +231,8 @@
 	<!--end::Aside menu-->
 	<!--begin::Footer-->
 	<div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="kt_aside_footer">
-		<a href="javascript:void(0)" class="btn btn-custom btn-primary w-100"
-		   data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss-="click"
-		   title="---">
-			<span class="btn-label">Destek</span>
+		<a href="<?=base_url("auth/logout")?>" class="btn btn-custom btn-primary w-100">
+			<span class="btn-label">Çıkış Yap</span>
 			<!--begin::Svg Icon | path: icons/duotune/general/gen005.svg-->
 			<span class="svg-icon btn-icon svg-icon-2">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

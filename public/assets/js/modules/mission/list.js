@@ -91,7 +91,7 @@ $(document).ready(function () {
 	exportButtons();
 
 	var start = moment('2020-01-01');
-	var end = moment();
+	var end = moment('2029-12-31');
 
 	function cb(start, end) {
 		$("#kt_daterangepicker_1").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
@@ -102,7 +102,7 @@ $(document).ready(function () {
 		startDate: start,
 		endDate: end,
 		ranges: {
-			"Tüm Zamanlar": [moment('2020-01-01'), moment()],
+			"Tüm Zamanlar": [moment('2022-09-01'), moment('2029-12-31')],
 			"Bugün": [moment(), moment()],
 			"Dün": [moment().subtract(1, "days"), moment().subtract(1, "days")],
 			"Son 7 gün": [moment().subtract(6, "days"), moment()],

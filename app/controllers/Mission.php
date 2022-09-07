@@ -151,9 +151,11 @@ class Mission extends NP_Controller
 		$searchableColumns = [
 			"m.missionId",
 			"m.title",
-			"m.createdAt",
+			"m.startDate",
 			"m.endDate",
-			"s.name"
+			"CONCAT(u.firstName,' ',u.lastName)",
+			"s.name",
+			"m.missionId"
 		];
 
 		$searchVal = $this->input->post("search")["value"];
@@ -207,14 +209,9 @@ class Mission extends NP_Controller
 		if (isset($this->input->post("order")[0]["column"]) and isset($this->input->post("order")[0]["dir"])) {
 			$orderBy = "ORDER BY " . $searchableColumns[$this->input->post("order")[0]["column"]] . " " . $this->input->post("order")[0]["dir"];
 		} else {
-			$orderBy = "ORDER BY m.missionId DESC";
+			$orderBy = "ORDER BY s.name ASC, m.missionId DESC";
 		}
 
-
-		if (post("orderByUpdatedAt")) {
-			$whereSearch .= " AND m.fkMissionStatus != 1";
-			$orderBy = "ORDER BY m.updatedAt DESC";
-		}
 
 		$start = $this->input->post("start") ?? 0;
 		$length = $this->input->post("length") == -1 ? 10 : $this->input->post("length");
