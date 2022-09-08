@@ -9,7 +9,7 @@
 			<img alt="Logo" src="<?= public_url("assets/media/logos/logo-white.svg") ?>" class="w-50px logo"/>
 		</a>
 
-			<h3 class="m-0 text-white">OilsanCRM</h3>
+		<h3 class="m-0 text-white">OilsanCRM</h3>
 
 		<!--end::Logo-->
 		<!--begin::Aside toggler-->
@@ -77,25 +77,25 @@
 					<div class="menu-sub menu-sub-accordion menu-active-bg">
 						<?php
 
-							?>
-							<div class="menu-item">
-								<a class="menu-link" href="<?= base_url("customers") ?>">
+						?>
+						<div class="menu-item">
+							<a class="menu-link" href="<?= base_url("customers") ?>">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
-									<span class="menu-title">Müşteriler</span>
-								</a>
-							</div>
-							<?php
+								<span class="menu-title">Müşteriler</span>
+							</a>
+						</div>
+						<?php
 
 						?>
 						<div class="menu-item">
-											<a href="<?= base_url("customer-groups") ?>" class="menu-link">
+							<a href="<?= base_url("customer-groups") ?>" class="menu-link">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
-												<span class="menu-title">Müşteri Grupları</span>
-											</a>
+								<span class="menu-title">Müşteri Grupları</span>
+							</a>
 						</div>
 
 
@@ -103,7 +103,7 @@
 				</div>
 
 
-				<div class="<?=hideByPerm("admin")?> menu-item">
+				<div class="<?= hideByPerm("admin") ?> menu-item">
 					<a class="menu-link" href="<?= base_url("duyuru-yonetimi") ?>">
 										<span class="menu-icon">
 											<i class="bi-newspaper bi fs-3"></i>
@@ -120,16 +120,82 @@
 						<span class="menu-title">Kasa & Bankalar</span>
 					</a>
 				</div>
+				<?php
+				if (isCan('admin')) {
+					?>
+					<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+									<span class="menu-link">
+										<span class="menu-icon">
+											<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
+											<i class="bi bi-stack fs-3"></i>
+											<!--end::Svg Icon-->
+										</span>
+										<span class="menu-title">Ürün Yönetimi</span>
+										<span class="menu-arrow"></span>
+									</span>
+						<div class="menu-sub menu-sub-accordion menu-active-bg">
+							<?php
 
-				<div class="menu-item">
-					<a class="menu-link" href="<?= base_url("products") ?>">
+							?>
+							<div class="menu-item">
+								<a class="menu-link" href="<?= base_url("products") ?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Ürün Listesi</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a href="<?= base_url("brands") ?>" class="menu-link">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Markalar</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a href="<?= base_url("product-types") ?>" class="menu-link">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Ürün Tipleri</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a href="<?= base_url("product-packs") ?>" class="menu-link">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Ambalaj Çeşitleri</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a href="<?= base_url("product-fluidities") ?>" class="menu-link">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Akışkanlık Çeşitleri</span>
+								</a>
+							</div>
+
+
+						</div>
+					</div>
+
+					<?php
+				} else {
+					?>
+					<div class="menu-item">
+						<a class="menu-link" href="<?= base_url("products") ?>">
 										<span class="menu-icon">
 											<i class="bi bi-stack fs-3"></i>
 										</span>
-						<span class="menu-title">Ürün & Hizmetler</span>
-					</a>
-				</div>
-
+							<span class="menu-title">Ürünler</span>
+						</a>
+					</div>
+					<?php
+				}
+				?>
 				<div class="menu-item">
 					<a class="menu-link" href="<?= base_url("sales") ?>">
 										<span class="menu-icon">
@@ -160,6 +226,14 @@
 					</div>
 				</div>
 
+				<div class="menu-item">
+					<a class="menu-link" href="<?= base_url("brands") ?>">
+										<span class="menu-icon">
+											<i class="fa fa-compress fs-3"></i>
+										</span>
+						<span class="menu-title">Markalar</span>
+					</a>
+				</div>
 
 				<div data-kt-menu-trigger="click" class="menu-item menu-accordion d-none">
 									<span class="menu-link">
@@ -231,7 +305,7 @@
 	<!--end::Aside menu-->
 	<!--begin::Footer-->
 	<div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="kt_aside_footer">
-		<a href="<?=base_url("auth/logout")?>" class="btn btn-custom btn-primary w-100">
+		<a href="<?= base_url("auth/logout") ?>" class="btn btn-custom btn-primary w-100">
 			<span class="btn-label">Çıkış Yap</span>
 			<!--begin::Svg Icon | path: icons/duotune/general/gen005.svg-->
 			<span class="svg-icon btn-icon svg-icon-2">

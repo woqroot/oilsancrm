@@ -10,6 +10,21 @@ var KTAppInvoicesCreate = function () {
 		// }
 		return num;
 	}
+	let r;
+	let localeFlatpickr = {
+		firstDayOfWeek: 1,
+		weekdays: {
+			longhand: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+			shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
+		},
+		months: {
+			longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+			shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+		},
+		today: 'Bugün',
+		clear: 'Temizle'
+	};
+
 	let rx = wNumb({mark: ',', decimals: 4, thousand: "."});
 	let rxtwo = wNumb({mark: ',', decimals: 2, thousand: "."});
 
@@ -100,57 +115,27 @@ var KTAppInvoicesCreate = function () {
 					today: 'Bugün',
 					clear: 'Temizle'
 				}
-			}),$('#tStartDate').flatpickr({
-				defaultDate: new Date(),
-				enableTime: !1,
-				dateFormat: "d M Y",
-				locale: {
-					firstDayOfWeek: 1,
-					weekdays: {
-						longhand: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
-						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
-					},
-					months: {
-						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
-					},
-					today: 'Bugün',
-					clear: 'Temizle'
-				}
-			}),$('#tEndDate').flatpickr({
-				enableTime: !1,
-				dateFormat: "d M Y",
-				locale: {
-					firstDayOfWeek: 1,
-					weekdays: {
-						longhand: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
-						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
-					},
-					months: {
-						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
-					},
-					today: 'Bugün',
-					clear: 'Temizle'
-				}
-			}), $(document.querySelector('.collectDate')).flatpickr({
-				enableTime: !1,
-				dateFormat: "d M Y",
-				defaultDate: "today",
-				locale: {
-					firstDayOfWeek: 1,
-					weekdays: {
-						longhand: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
-						shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
-					},
-					months: {
-						longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
-						shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
-					},
-					today: 'Bugün',
-					clear: 'Temizle'
-				}
-			}), $(document.querySelector('.editCollectDate')).flatpickr({
+			}),
+				r = document.querySelectorAll('[data-kt-calendar="datepicker"]');
+			flatpickr(r, {enableTime: !1, dateFormat: "d M Y", locale: localeFlatpickr}),
+				$(document.querySelector('.collectDate')).flatpickr({
+					enableTime: !1,
+					dateFormat: "d M Y",
+					defaultDate: "today",
+					locale: {
+						firstDayOfWeek: 1,
+						weekdays: {
+							longhand: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+							shorthand: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
+						},
+						months: {
+							longhand: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Agustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+							shorthand: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Eki', 'Kas', 'Ara']
+						},
+						today: 'Bugün',
+						clear: 'Temizle'
+					}
+				}), $(document.querySelector('.editCollectDate')).flatpickr({
 				enableTime: !1,
 				dateFormat: "d M Y",
 				defaultDate: "today",
@@ -260,7 +245,7 @@ var KTAppInvoicesCreate = function () {
 				allowClear: false
 			})
 
-			$(".addTrialProductButton").on("click",function () {
+			$(".addTrialProductButton").on("click", function () {
 				//
 				// setTimeout(function(){
 				// 	$(".selectTrialProduct").select2({
@@ -617,6 +602,40 @@ var KTAppInvoicesCreate = function () {
 					}
 				}
 			});
+
+
+			$(document).on("click", ".editTrialProductButton", function () {
+				var trialProductID = $(this).data('id');
+				$.ajax({
+					type: "POST",
+					url: hostUrl + "trial-products",
+					dataType: "json",
+					data: {
+						id: trialProductID,
+						action: "FIND"
+					},
+					success: function (res) {
+						if (res.status == 1) {
+							$('#editTrialProductForm [name="trialProductID"]').val(res.data.trialProductId);
+							$('#editTrialProductForm [name="department"]').val(res.data.department);
+							$('#editTrialProductForm [name="author"]').val(res.data.author);
+							$('#editTrialProductForm [name="equipment"]').val(res.data.equipment);
+							$('#editTrialProductForm [name="expectedPerformance"]').val(res.data.expectedPerformance);
+							$('#editTrialProductForm [name="resultPerformance"]').val(res.data.resultPerformance);
+							$('#editTrialProductForm [name="startDate"]').flatpickr().setDate(res.data.startDate);
+							$('#editTrialProductForm [name="endDate"]').flatpickr().setDate(res.data.endDate);
+							$('#editTrialProductForm [name="amount"]').val(res.data.amount);
+							$('#editTrialProductForm [name="notes"]').val(res.data.notes);
+							$('#editTrialProductForm [name="tpStatus"]').val(res.data.tpStatus);
+							$('#editTrialProductForm [name="unitID"]').val(res.data.fkUnit);
+							$('#editTrialProductForm [name="productID"]').val(res.data.fkProduct).trigger("change");
+						}
+					}
+				})
+
+				$("#editTrialProductModal").modal("show");
+			})
+
 			$(document).on("click", ".editNoteButton", function () {
 				var noteID = $(this).data('id');
 				$.ajax({
@@ -957,7 +976,7 @@ var KTAppInvoicesCreate = function () {
 				}
 
 			})
-			
+
 			// $("#editCollectModal").modal("show");
 			let collectsTable = $(".collects-datatable").DataTable({
 				info: !0,
@@ -1228,6 +1247,21 @@ var KTAppInvoicesCreate = function () {
 				}
 			}).on("draw", function () {
 				KTMenu.createInstances();
+				$('.trialProducts-datatable tbody tr').each(function (index, item) {
+
+					var status = $(item).find("span.tpStatus").data("status");
+
+					if (status == '0') {
+						$(this).addClass('bg-light-warning');
+
+					} else if (status == '1') {
+						$(this).addClass('bg-light-success');
+
+					} else if (status == '2') {
+						$(this).addClass('bg-light-danger');
+
+					}
+				})
 			});
 
 			$(document).on("submit", "#addDocumentForm", function (e) {
@@ -1350,7 +1384,7 @@ var KTAppInvoicesCreate = function () {
 					}
 				})
 			})
-			$(document).on("submit", "#addTrialProductForm", function (e) {
+			$(document).on("submit", "#addTrialProductForm,#editTrialProductForm", function (e) {
 
 				e.preventDefault();
 				const formData = new FormData(this);
@@ -1393,7 +1427,7 @@ var KTAppInvoicesCreate = function () {
 							})
 						}
 						$("button").prop("disabled", false);
-
+						trialProductsTable.draw();
 					},
 					error: function (r) {
 						Swal.fire({
@@ -1774,6 +1808,49 @@ var KTAppInvoicesCreate = function () {
 					}
 				})
 			})
+			$(document).on("click", ".deleteTrialProduct", function (e) {
+				var trialProductID = $(this).data('id');
+				Swal.fire({
+					icon: 'warning',
+					title: 'Süreci kalıcı olarak silmek istediğinize emin misiniz?',
+					showConfirmButton: !0,
+					showCancelButton: !0,
+					cancelButtonText: "Vazgeç",
+					confirmButtonText: "Sil",
+				}).then((result) => {
+					if (result.isConfirmed === true) {
+						$.ajax({
+							type: "POST",
+							url: hostUrl + "trial-products",
+							dataType: "json",
+							data: {
+								action: "DELETE",
+								id: trialProductID
+							},
+							beforeSend: function () {
+								$("button").prop("disabled", true);
+							},
+							success: function (res) {
+								$("button").prop("disabled", false);
+
+								if (res.status == 1) {
+
+									// reloadPage();
+									Swal.fire({
+										icon: 'success',
+										text: res.message,
+										showConfirmButton: !1,
+										cancelButtonText: "Kapat",
+										showCancelButton: !0,
+										allowOutsideClick: !1
+									});
+									trialProductsTable.draw(false);
+								}
+							}
+						})
+					}
+				})
+			})
 			$(document).on("click", ".deleteCollect", function (e) {
 				Swal.fire({
 					icon: 'warning',
@@ -1836,7 +1913,7 @@ var KTAppInvoicesCreate = function () {
 
 			updateBalance();
 
-			$('#kt_docs_repeater_basic').repeater({
+			$('#products').repeater({
 				initEmpty: false,
 
 				defaultValues: {

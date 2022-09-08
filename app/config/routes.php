@@ -45,6 +45,26 @@ $route["suppliers/ajax"]["POST"] = "Supplier/ajax";
 $route["suppliers/search"]["POST"] = "Supplier/search";
 /* Suppliers:END */
 
+/* Brand:START */
+$route["brands"]["GET"] = "Brand/list";
+$route["brands"]["POST"] = "Brand/action";
+/* Brand:END */
+
+/* ProductType:START */
+$route["product-types"]["GET"] = "ProductType/list";
+$route["product-types"]["POST"] = "ProductType/action";
+/* ProductType:END */
+
+/* ProductPack:START */
+$route["product-packs"]["GET"] = "ProductPack/list";
+$route["product-packs"]["POST"] = "ProductPack/action";
+/* ProductPack:END */
+
+/* ProductFluidity:START */
+$route["product-fluidities"]["GET"] = "ProductFluidity/list";
+$route["product-fluidities"]["POST"] = "ProductFluidity/action";
+/* ProductFluidity:END */
+
 /* CustomerGroup:START */
 $route["customer-groups"]["GET"] = "CustomerGroup/list";
 $route["customer-groups"]["POST"] = "CustomerGroup/action";
