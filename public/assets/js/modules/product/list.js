@@ -7,9 +7,10 @@ $(document).ready(function () {
 		placeholder: "Birim Seçimi",
 		allowClear: false
 	});
-	$(".selectVat").select2({
+
+	$(".select2Init").select2({
 		dropdownParent: "#primaryModal",
-		placeholder: "KDV Oranı Seçimi",
+		placeholder: "Lütfen seçin",
 		allowClear: false
 	});
 
@@ -252,6 +253,10 @@ $(document).ready(function () {
 					$("#primaryForm").find("[name='vatPercent']").val(res.data.vatPercent).trigger("change");
 					$("#primaryForm").find("[name='unitID']").val(res.data.fkUnit).trigger("change");
 					$("#primaryForm").find("[name='bankID']").val(res.data.fkBank).trigger("change");
+					$("#primaryForm").find("[name='brandID']").val(res.data.fkBrand).trigger("change");
+					$("#primaryForm").find("[name='productTypeID']").val(res.data.fkProductType).trigger("change");
+					$("#primaryForm").find("[name='productFluidityID']").val(res.data.fkProductFluidity).trigger("change");
+					$("#primaryForm").find("[name='productPackID']").val(res.data.fkProductPack).trigger("change");
 					$("#primaryForm").find(".currentCurrency").html(res.data.currencySymbol);
 
 					var unit = n.from($("[name='unitPrice']").val());

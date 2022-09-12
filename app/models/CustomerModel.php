@@ -62,4 +62,24 @@ class CustomerModel extends NP_Model
 	{
 		return $this->db->query("UPDATE customer SET balance = balance-{$amount} WHERE customerId = {$customerId}");
 	}
+
+	public function getStatistics($customerID)
+	{
+
+		$successSales = $this->SaleModel->count(['fkCustomer' => $customerID,'fkStatus' => 4]);
+		$failSales = $this->SaleModel->count(['fkCustomer' => $customerID,'fkStatus' => 5]);
+		$continueSales = $this->SaleModel->count(['fkCustomer' => $customerID,'fkStatus <' => '4']);
+
+
+		return [
+			'sales' => [
+				'data' => [],
+				'counts' => [
+					'success' => $successSales,
+					'fail' => $failSales,
+					'continue' => $continueSales
+				]
+			]
+		];
+	}
 }

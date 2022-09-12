@@ -89,7 +89,7 @@ class Note extends NP_Controller
 					
 					</div>
 					<div class="ms-2">
-						<button type="button" data-id="' . $item['noteId'] . '" class="btn btn-sm btn-icon btn-light btn-active-light-danger deleteNote" >
+						<button type="button" data-id="' . $item['noteId'] . '" class="' . hideByPerm('admin') . ' btn btn-sm btn-icon btn-light btn-active-light-danger deleteNote" >
 							<!--begin::Svg Icon | path: icons/duotune/coding/cod007.svg-->
 							<span class="svg-icon svg-icon-5 m-0">
 								<i class="fa fa-trash"></i>

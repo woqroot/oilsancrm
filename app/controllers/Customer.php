@@ -12,6 +12,8 @@ class Customer extends NP_Controller
 		$this->load->model("DistrictModel");
 		$this->load->model("CustomerModel");
 		$this->load->model("CustomerGroupModel");
+		$this->load->model("TrialProductModel");
+		$this->load->model("ProductModel");
 	}
 
 	public function list()
@@ -154,12 +156,23 @@ class Customer extends NP_Controller
 	{
 		$customer = $this->CustomerModel->first($customerID) ?: redirect(base_url());
 
+		$trialproducts = [];
+
+		foreach ($this->TrialProductModel->all(['fkCustomer' => $customerID]) as $item) {
+
+			$item["productName"] = $this->ProductModel->first($item['fkProduct'])["name"] ?? null;
+
+			$trialproducts[] = $item;
+		}
 
 		$data = [
 			"data" => $customer,
 			"cities" => $this->CityModel->all([], "title ASC"),
 			"districts" => $this->DistrictModel->all(["fkCity" => $customer["fkCity"]]),
-			"customerGroups" => $this->CustomerGroupModel->all([], "title ASC")
+			"customerGroups" => $this->CustomerGroupModel->all([], "title ASC"),
+			"sales" => $this->SaleModel->all(['fkCustomer' => $customerID],'fkStatus ASC, invoiceDate ASC'),
+			"trialProducts" => $trialproducts,
+			"statistics" => $this->CustomerModel->getStatistics($customerID)
 
 		];
 
@@ -231,15 +244,22 @@ class Customer extends NP_Controller
 										</div>';
 			}
 
+			if($item["isActive"] == 1){
+				$isActiveHTML = '<span class="badge badge-success">Aktif</span>';
+			}else{
+				$isActiveHTML = '<span class="badge badge-danger">Pasif</span>';
+			}
+
 			if ($item["phone"]) {
 				$drawPhone = private_str(phoneMask($item["phone"]), 7, 3) . " <a href='javascript:void(0)' data-text='" . ltrim($item["phone"], "9") . "' class='copyThis text-hover-primary badge badge-light-primary'><i class='fa fa-copy 2x '></i></a>";
 			} else {
 				$drawPhone = "-";
 			}
-			$customerViewLink = isCan("view-customer") ? base_url("customers/" . $item["customerId"]) : "javascript:void(0)";
+			$customerViewLink = base_url("customers/" . $item["customerId"]);
 			$customerName = $item["shortName"] ? $item["shortName"] . " - " . $item["name"] : $item["name"];
 			$data[] = [
 				$item["customerId"],
+				$isActiveHTML,
 				'<div class="d-flex align-items-center">
 								<div class="d-flex flex-column">
 									<a href="' . $customerViewLink . '"
@@ -247,7 +267,6 @@ class Customer extends NP_Controller
 									<span class="text-gray-500">' . $item["email"] . '</span>
 								</div></div>',
 				$drawPhone,
-				showBalance($item["balance"], true),
 				'<span class="badge badge-success">' . $item["cgTitle"] . '</span>',
 				'
 				<a href="javascript:void(0)" class="btn btn-light btn-active-light-primary btn-sm"
@@ -263,7 +282,7 @@ class Customer extends NP_Controller
 										 data-kt-menu="true" style="">
 										<!--begin::Menu item-->
 										<div class="menu-item px-3">
-											<a href="' . $customerViewLink . '" class="menu-link px-3 deleteButton">Görüntüle</a>
+											<a href="' . $customerViewLink . '" class="menu-link px-3 ">Görüntüle</a>
 										</div>
 										<!--end::Menu item-->
 										<!--begin::Menu item-->

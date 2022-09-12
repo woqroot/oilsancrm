@@ -45,7 +45,7 @@
 												</span>
 							<!--end::Svg Icon-->
 							<input type="text" data-table-action="search"
-								   class="form-control form-control-solid w-250px ps-14" placeholder="Müşteri Ara"/>
+								   class="form-control form-control-solid w-250px ps-14" placeholder="Satış Kaydı Ara"/>
 						</div>
 						<!--end::Search-->
 					</div>
@@ -71,7 +71,7 @@
 							<div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
 								<!--begin::Header-->
 								<div class="px-7 py-5">
-									<div class="fs-5 text-dark fw-bolder">Müşterileri Filtrele</div>
+									<div class="fs-5 text-dark fw-bolder">Kayıtları Filtrele</div>
 								</div>
 								<!--end::Header-->
 								<!--begin::Separator-->
@@ -81,22 +81,47 @@
 								<div class="px-7 py-5" data-kt-user-table-filter="form">
 									<!--begin::Input group-->
 									<div class="mb-10">
-										<label class="form-label fs-6 fw-bold">Müşteri Grubu:</label>
+										<label class="form-label fs-6 fw-bold">Durum:</label>
 										<select class="form-select form-select-solid fw-bolder" data-kt-select2="true"
-												data-placeholder="Seçim Yapın" data-allow-clear="true"
-												data-kt-user-table-filter="role" id="filterCustomerGroup"
+												data-placeholder="Tümü" data-allow-clear="true"
+												data-kt-user-table-filter="role" id="filterStatus"
 												data-hide-search="true">
 											<option value=""></option>
 											<?php
-											foreach ($customerGroups as $customerGroup) {
+											foreach ($statuses as $status) {
 												?>
-												<option value="<?= $customerGroup["customerGroupId"] ?>"><?= $customerGroup["title"] ?></option>
+												<option value="<?= $status["statusId"] ?>"><?= $status["title"] ?></option>
 												<?php
 											}
 											?>
 										</select>
 									</div>
 									<!--end::Input group-->
+									<?php
+									if (isCan('admin')) {
+										?>
+										<!--begin::Input group-->
+										<div class="mb-10">
+											<label class="form-label fs-6 fw-bold">Satış Personeli:</label>
+											<select class="form-select form-select-solid fw-bolder"
+													data-kt-select2="true"
+													data-placeholder="Tümü" data-allow-clear="true"
+													data-kt-user-table-filter="role" id="filterUser"
+													data-hide-search="true">
+												<option value=""></option>
+												<?php
+												foreach ($users as $user) {
+													?>
+													<option value="<?= $user["userId"] ?>"><?= $user["firstName"] . " " . $user["lastName"] ?></option>
+													<?php
+												}
+												?>
+											</select>
+										</div>
+										<!--end::Input group-->
+										<?php
+									}
+									?>
 
 									<!--begin::Actions-->
 									<div class="d-flex justify-content-end">
@@ -118,11 +143,11 @@
 							<!--begin::Add user-->
 							<?php
 
-								?>
-								<a href="<?= base_url("sales/create") ?>">
-									<button type="button" class="btn btn-primary">
-										<!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-										<span class="svg-icon svg-icon-2">
+							?>
+							<a href="<?= base_url("sales/create") ?>">
+								<button type="button" class="btn btn-primary">
+									<!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+									<span class="svg-icon svg-icon-2">
 													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 														 viewBox="0 0 24 24" fill="none">
 														<rect opacity="0.5" x="11.364" y="20.364" width="16" height="2"
@@ -132,10 +157,10 @@
 															  fill="currentColor"/>
 													</svg>
 												</span>
-										<!--end::Svg Icon-->Yeni Oluştur
-									</button>
-								</a>
-								<?php
+									<!--end::Svg Icon-->Yeni Oluştur
+								</button>
+							</a>
+							<?php
 
 							?>
 							<!--end::Add user-->
@@ -169,7 +194,17 @@
 							</th>
 							<th class="min-w-125px">Müşteri</th>
 							<th class="min-w-125px">Fatura Tarihi</th>
-							<th class="min-w-125px">Bakiye</th>
+							<?php
+							if (isCan('admin')) {
+								?>
+								<th class="min-w-125px">Satış Sorumlusu</th>
+								<?php
+							} else {
+								?>
+								<th class="min-w-125px">Son İşlem</th>
+								<?php
+							}
+							?>
 							<th class="min-w-125px">Durum</th>
 							<th class="text- min-w-100px">İşlem</th>
 						</tr>

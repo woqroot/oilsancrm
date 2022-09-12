@@ -12,7 +12,7 @@
 			<!--begin::Item-->
 			<li class="breadcrumb-item text-muted">
 				<a href="<?= base_url() ?>"
-				   class="text-muted text-hover-primary">NetCRM v1.0</a>
+				   class="text-muted text-hover-primary">OilsanCRM</a>
 			</li>
 			<!--end::Item-->
 			<?php

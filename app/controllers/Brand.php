@@ -41,7 +41,7 @@ class Brand extends NP_Controller
 				];
 
 				$success = $this->BrandModel->insert($data);
-				$lastID = $this->BrandModel->db->insert_id();
+
 				if (!$success) return $this->response();
 				return $this->response(1, "Marka başarıyla oluşturuldu.",["data" => $success]);
 				break;

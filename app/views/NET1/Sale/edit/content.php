@@ -111,12 +111,6 @@
 					<!--end::Menu 1-->
 				</div>
 				<!--end::Filter menu-->
-				<!--begin::Secondary button-->
-				<!--end::Secondary button-->
-				<!--begin::Primary button-->
-				<a href="/metronic8/demo1/../demo1/.html" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-				   data-bs-target="#kt_modal_create_app">Bakiye: 1.234,00 ₺</a>
-				<!--end::Primary button-->
 			</div>
 			<!--end::Actions-->
 		</div>
@@ -171,8 +165,8 @@
 							</div>
 							<div class="fv-row mb-7">
 								<label class=" fw-bold  fs-6 mb-2">Durum</label>
-								<div class="text-gray-600 "><span
-											class="cursor-pointer changeStatus badge badge-<?= Main::getStatus($sale["fkStatus"])["className"] ?>"><?= Main::getStatus($sale["fkStatus"])["title"] ?></span>
+								<div class="text-gray-600 "><span <?= $editable ? 'data-bs-target="#changeSaleStatusModal" data-bs-toggle="modal"' : ''; ?>
+																  class="<?= $editable ? 'cursor-pointer' : ''; ?> changeStatus badge badge-<?= Main::getStatus($sale["fkStatus"])["className"] ?>"><?= Main::getStatus($sale["fkStatus"])["title"] ?></span>
 								</div>
 							</div>
 							<div class="fv-row mb-7">
@@ -200,6 +194,46 @@
 					</div>
 				</div>
 				<div class="col-10 tab-content" id="myTabContent">
+					<div class="card mb-2">
+						<div class="card-body">
+							<?php
+							if ($sale['fkStatus'] == 1) {
+								$text = "Ön Bilgilendirme";
+								$classNames = "bg-primary progress-bar-animated";
+								$percent = 20;
+							} elseif ($sale['fkStatus'] == 2) {
+								$text = "Deneme Süreci";
+								$classNames = "bg-info progress-bar-animated";
+								$percent = 40;
+							} elseif ($sale['fkStatus'] == 3) {
+								$text = "Teklif Süreci";
+								$classNames = "bg-success progress-bar-animated";
+								$percent = 60;
+							} elseif ($sale['fkStatus'] == 4) {
+								$text = "Başarılı Satış";
+								$classNames = "bg-success";
+								$percent = 100;
+							} elseif ($sale['fkStatus'] == 5) {
+								$text = "Başarısız Satış";
+								$classNames = "bg-danger";
+								$percent = 100;
+							} else {
+								$text = "Bilinmiyor";
+								$classNames = "bg-warning";
+								$percent = 100;
+							}
+							?>
+							<div data-bs-toggle="tooltip" title="<?= $text ?>" data-bs-placement="top" class="progress">
+
+								<div class="progress-bar  progress-bar-striped <?= $classNames ?>"
+									 role="progressbar"
+									 style="width: <?= $percent ?>%"
+									 aria-valuenow="10"
+									 aria-valuemin="0"
+									 aria-valuemax="100"></div>
+							</div>
+						</div>
+					</div>
 					<div class="tab-pane fade show active" id="invoice" role="tabpanel">
 						<!--begin::Content-->
 						<div class="flex-lg-row-fluid mb-10 mb-lg-0">
@@ -220,17 +254,16 @@
 												<!--end::Date-->
 												<!--begin::Input-->
 												<span class="d-none"
-													  id="defInvoiceDate"><?= localizeDate("d M Y", $sale["invoiceDate"]) ?></span>
+													  id="defInvoiceDate"><?= date('d M Y', strtotime($sale["invoiceDate"])) ?></span>
 												<div class="position-relative d-flex align-items-center w-150px">
 													<!--begin::Datepicker-->
-													<input class="form-control form-control-transparent fw-bolder pe-5"
-
-														   value="<?= localizeDate("d M Y", $sale["invoiceDate"]) ?>"
-														   name="invoiceDate"/>
+													<input <?= !$editable ? "disabled" : ""; ?>
+															class="form-control form-control-transparent fw-bolder pe-5"
+															name="invoiceDate"/>
 													<!--end::Datepicker-->
 													<!--begin::Icon-->
 													<!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-													<span class="svg-icon svg-icon-2 position-absolute ms-4 end-0">
+													<span class="<?=!$editable ? "d-none" : "";?> svg-icon svg-icon-2 position-absolute ms-4 end-0">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
 																		 height="24" viewBox="0 0 24 24" fill="none">
 																		<path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
@@ -246,10 +279,12 @@
 											<!--begin::Input group-->
 											<div class="me-auto d-flex flex-center flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4"
 												 data-bs-toggle="tooltip" data-bs-trigger="hover"
+												 disabled
 												 title="Satış Fatura Numarası">
 												<span class="fs-2x fw-bolder text-gray-800">Fatura #</span>
 												<input type="text" name="invoiceNumber"
 														<?= writeDisableByPerm("edit-sale") ?>
+														<?=!$editable ? "disabled" : "";?>
 													   class="form-control form-control-flush fw-bolder text-muted fs-3 w-125px"
 													   value="<?= $sale["invoiceNumber"] ?>" placehoder="..."/>
 											</div>
@@ -282,18 +317,15 @@
 													<!--begin::Input group-->
 
 													<div class="mb-1">
-														<h6>Netpus Yazılım & Otomasyon Hizmetleri</h6>
+														<h6><?= $company['name'] ?></h6>
 													</div>
 													<!--end::Input group-->
 													<!--begin::Input group-->
-													<div class="mb-">
-														182 Sk. No 15/3 Emrez Mah.
+													<div class="mb-1">
+														<?= $company['address'] ?>
 													</div>
 													<div class="mb-5">
-														Gaziemir / İzmir - Türkiye
-													</div>
-													<div class="mb-5">
-														Gaziemir VD / 50167268218
+														<?= $company['taxNumber'] ?> / <?= $company['taxOffice'] ?>
 													</div>
 													<!--end::Input group-->
 
@@ -366,6 +398,20 @@
 																	 class="productInputArea position-relative">
 																	<?php
 																	$tooltip = "<b>" . $product["item"]["name"] . "</b><br><b>Varsayılan Fiyat: </b>" . $product["item"]["totalPrice"] . " " . currency($product["item"]["fkCurrency"]) . "<br>";
+
+
+																	if ($product["item"]["brand"]) {
+																		$tooltip .= "<b>Marka: </b>" . $product["item"]["brand"]["title"] . "<br>";
+																	}
+																	if ($product["item"]["productType"]) {
+																		$tooltip .= "<b>Ürün Tipi: </b>" . $product["item"]["productType"]["title"] . "<br>";
+																	}
+																	if ($product["item"]["productPack"]) {
+																		$tooltip .= "<b>Ambalaj: </b>" . $product["item"]["productPack"]["title"] . "<br>";
+																	}
+																	if ($product["item"]["productFluidity"]) {
+																		$tooltip .= "<b>Akışkanlık Der: </b>" . $product["item"]["productFluidity"]["title"] . "<br>";
+																	}
 																	if ($product["item"]["type"] == "PRODUCT") {
 //																		$tooltip .= "<b>Stok Takip: </b>";
 //																		$tooltip .= $product["item"]["stockTracking"] == "ACTIVE" ? "Aktif <br><b>Güncel Stok: </b>" . $product["item"]["stock"] . " " . Main::unit($product["item"]["fkUnit"]) : "Pasif";
@@ -658,7 +704,8 @@
 															class="fa fa-info-circle" data-bs-toggle="tooltip"
 															title="Satış notlarını yalnızca ekip üyeleri görebilir."></i></label>
 												<textarea name="notes"
-																		<?= writeDisableByPerm("edit-sale") ?>
+														  <?= !$editable ? "disabled" : ""; ?>
+														<?= writeDisableByPerm("edit-sale") ?>
 														  class="resize-none form-control form-control-solid"
 														  rows="3"
 														  placeholder=""><?= $sale["notes"] ?></textarea>
@@ -670,17 +717,24 @@
 															class="fa fa-info-circle" data-bs-toggle="tooltip"
 															title="Bu alan, oluşturulan fatura şablonunda not olarak gösterilir."></i></label>
 												<textarea name="invoiceNotes"
-																		<?= writeDisableByPerm("edit-sale") ?>
+														  <?= !$editable ? "disabled" : ""; ?>
+														<?= writeDisableByPerm("edit-sale") ?>
 														  class="resize-none form-control form-control-solid"
 														  rows="3"
 														  placeholder=""><?= $sale["invoiceNotes"] ?></textarea>
 											</div>
 											<!--end::Notes-->
-											<div class="mt-5 text-end">
-												<button type="submit" class="btn btn-light-success">Değişiklikleri
-													Kaydet
-												</button>
-											</div>
+											<?php
+											if ($editable) {
+												?>
+												<div class="mt-5 text-end">
+													<button type="submit" class="btn btn-light-success">Değişiklikleri
+														Kaydet
+													</button>
+												</div>
+												<?php
+											}
+											?>
 										</div>
 										<!--end::Wrapper-->
 									</form>
@@ -715,7 +769,7 @@
 													</svg>
 												</span>
 											<!--end::Svg Icon-->
-											<input type="text" data-kt-filter="searchNoteInput"
+											<input type="text" data-kt-filter="searchTrialProductInput"
 												   class="form-control form-control-solid w-250px ps-15"
 												   placeholder="Tabloda ara">
 										</div>
@@ -961,7 +1015,7 @@
 											 data-kt-customer-table-toolbar="base">
 
 											<!--begin::Add customer-->
-											<button class="btn btn-primary <?= hideByPerm("add-sale-document") ?>"
+											<button class="btn btn-primary"
 													data-bs-target="#addDocumentModal"
 													data-bs-toggle="modal">
 												<i class="fa fa-upload"></i> Dosya Yükle
@@ -1143,7 +1197,7 @@
 	<!--end::Post-->
 </div>
 <!--end::Content-->
-
+<div id="userRole"><?= Auth::get('fkRole') ?></div>
 <div class="modal fade <?= hideByPerm() ?>" id="addCollectModal" data-bs-backdrop="static"
 	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
 	<!--begin::Modal dialog-->
@@ -1654,7 +1708,7 @@
 										<label class="fw-bold fs-6 mb-2">Denemenin Yapıldığı Bölüm</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<input required class="form-control form-control-solid"
+										<input class="form-control form-control-solid"
 											   name="department"/>
 										<!--end::Input-->
 									</div>
@@ -1663,7 +1717,7 @@
 										<label class="fw-bold fs-6 mb-2">Denemeyi Yapan Usta/Mühendis</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<input required class="form-control form-control-solid"
+										<input class="form-control form-control-solid"
 											   name="author"/>
 										<!--end::Input-->
 									</div>
@@ -1675,7 +1729,7 @@
 											Özellikleri</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<textarea required rows="4" class="resize-none form-control form-control-solid"
+										<textarea rows="4" class="resize-none form-control form-control-solid"
 												  name="equipment"></textarea>
 										<!--end::Input-->
 									</div>
@@ -1687,7 +1741,7 @@
 										<label class="fw-bold fs-6 mb-2">Beklenen Performans</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<textarea required rows="3" class="resize-none form-control form-control-solid"
+										<textarea rows="3" class="resize-none form-control form-control-solid"
 												  name="expectedPerformance"></textarea>
 										<!--end::Input-->
 									</div>
@@ -1696,7 +1750,7 @@
 										<label class="fw-bold fs-6 mb-2">Deneme Sonucu Performans</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<textarea required rows="3" class="resize-none form-control form-control-solid"
+										<textarea rows="3" class="resize-none form-control form-control-solid"
 												  name="resultPerformance"></textarea>
 										<!--end::Input-->
 									</div>
@@ -1708,7 +1762,7 @@
 										<label class="fw-bold fs-6 mb-2">Ürünlerin Veriliş Tarihi</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<input data-kt-calendar="datepicker" required
+										<input required data-kt-calendar="datepicker"
 											   class="form-control form-control-solid"
 											   name="startDate"/>
 										<!--end::Input-->
@@ -1821,6 +1875,109 @@
 	</div>
 	<!--end::Modal dialog-->
 </div>
+<?php
+if ($editable) {
+	?>
+	<div class="modal fade" id="changeSaleStatusModal" data-bs-backdrop="static"
+		 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<!--begin::Modal dialog-->
+		<div class="modal-dialog modal-dialog-centered modal-md">
+			<!--begin::Modal content-->
+			<div class="modal-content">
+				<!--begin::Modal header-->
+				<div class="modal-header" id="kt_modal_add_user_header">
+					<!--begin::Modal title-->
+					<h2 class="fw-bolder formTitle">Süreç Durumunu Değiştir</h2>
+					<!--end::Modal title-->
+					<!--begin::Close-->
+					<div class="btn btn-icon btn-sm btn-active-icon-primary"
+						 data-bs-dismiss="modal">
+						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+						<span class="svg-icon svg-icon-1">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
+						<!--end::Svg Icon-->
+					</div>
+					<!--end::Close-->
+				</div>
+				<!--end::Modal header-->
+				<!--begin::Modal body-->
+				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+					<!--begin::Form-->
+					<form id="changeSaleStatusForm" enctype="multipart/form-data" class="form"
+						  action="#">
+						<input type="hidden" name="action" value="UPDATE_STATUS">
+						<input type="hidden" name="saleID" value="<?= $sale["saleId"] ?>">
+						<input type="hidden" name="customerID" value="<?= $sale["fkCustomer"] ?>">
+						<!--begin::Scroll-->
+						<div class="d-flex flex-column scroll-y me-n7 pe-7"
+							 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+							 data-kt-scroll-activate="{default: false, lg: true}"
+							 data-kt-scroll-max-height="auto"
+							 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+							 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+							 data-kt-scroll-offset="300px">
+							<!--begin::Input group-->
+							<!--end::Input group-->
+							<div class="row">
+
+								<div class="col-lg-12">
+
+									<!--begin::Label-->
+									<label class="fw-bold fs-6 mb-2">Durum</label>
+									<!--end::Label-->
+									<!--begin::Input-->
+									<select name="statusID" id="" class="form-control form-control-solid">
+										<?php
+										foreach ($statuses as $status) {
+											?>
+											<option <?= $sale['fkStatus'] == $status['statusId'] ? 'selected' : ''; ?>
+													value="<?= $status['statusId'] ?>"><?= $status['title'] ?></option>
+											<?php
+										}
+										?>
+									</select>
+
+
+								</div>
+
+							</div>
+						</div>
+						<!--end::Scroll-->
+						<!--begin::Actions-->
+						<div class="text-center pt-15">
+							<button type="reset" class="btn btn-light me-3"
+									data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
+								Kapat
+							</button>
+							<button type="submit" class="btn btn-primary">
+								<span class="indicator-label">Kaydet</span>
+								<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+							</button>
+						</div>
+						<!--end::Actions-->
+					</form>
+					<!--end::Form-->
+				</div>
+				<!--end::Modal body-->
+			</div>
+			<!--end::Modal content-->
+		</div>
+		<!--end::Modal dialog-->
+	</div>
+	<?php
+}
+?>
 <div class="modal fade" id="editTrialProductModal" data-bs-backdrop="static"
 	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
 	<!--begin::Modal dialog-->
@@ -1881,7 +2038,7 @@
 										<label class="fw-bold fs-6 mb-2">Yapıldığı Bölüm</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<input  class="form-control form-control-solid"
+										<input class="form-control form-control-solid"
 											   name="department"/>
 										<!--end::Input-->
 									</div>
@@ -1890,7 +2047,7 @@
 										<label class="fw-bold fs-6 mb-2">Görevli Usta/Mühendis</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<input  class="form-control form-control-solid"
+										<input class="form-control form-control-solid"
 											   name="author"/>
 										<!--end::Input-->
 									</div>
@@ -1922,7 +2079,7 @@
 											Özellikleri</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<textarea  rows="4" class="resize-none form-control form-control-solid"
+										<textarea rows="4" class="resize-none form-control form-control-solid"
 												  name="equipment"></textarea>
 										<!--end::Input-->
 									</div>
@@ -1931,7 +2088,7 @@
 										<label class="fw-bold fs-6 mb-2">Sürece İlişkin Notlar</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<textarea  rows="4" class="resize-none form-control form-control-solid"
+										<textarea rows="4" class="resize-none form-control form-control-solid"
 												  name="notes"></textarea>
 										<!--end::Input-->
 									</div>
@@ -1943,7 +2100,7 @@
 										<label class="fw-bold fs-6 mb-2">Beklenen Performans</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<textarea  rows="3" class="resize-none form-control form-control-solid"
+										<textarea rows="3" class="resize-none form-control form-control-solid"
 												  name="expectedPerformance"></textarea>
 										<!--end::Input-->
 									</div>
@@ -1952,7 +2109,7 @@
 										<label class="fw-bold fs-6 mb-2">Deneme Sonucu Performans</label>
 										<!--end::Label-->
 										<!--begin::Input-->
-										<textarea  rows="3" class="resize-none form-control form-control-solid"
+										<textarea rows="3" class="resize-none form-control form-control-solid"
 												  name="resultPerformance"></textarea>
 										<!--end::Input-->
 									</div>
@@ -2022,7 +2179,7 @@
 									</div>
 									<!--end::Form group-->
 
-							
+
 								</div>
 								<!--end::Repeater-->
 							</div>

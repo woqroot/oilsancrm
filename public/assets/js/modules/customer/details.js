@@ -12,6 +12,8 @@ $(document).ready(function(){
 		allowClear: true
 	});
 
+	$("#sales-table,#trialproducts-table").DataTable();
+
 	let selectCustomerGroup = $(".selectCustomerGroup").select2({
 		dropdownParent: "#kt_modal_edit_user",
 		placeholder: "Seçim Yok",

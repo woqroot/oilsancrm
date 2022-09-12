@@ -22,8 +22,6 @@
 	<!--begin::Post-->
 	<div class="post d-flex flex-column-fluid" id="kt_post">
 		<!--begin::Container-->
-		<!--begin::Container-->
-		<!--begin::Container-->
 		<div id="kt_content_container" class="container-xxl">
 			<!--begin::Card-->
 			<div class="card">

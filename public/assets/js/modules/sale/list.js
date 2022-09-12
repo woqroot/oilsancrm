@@ -28,7 +28,8 @@ $(document).ready(function () {
 		"ajax": {
 			"url": hostUrl + "sales/ajax",
 			"data": function(d){
-				// d.customerGroupID = $("#filterCustomerGroup").val();
+				d.statusID = $("#filterStatus").val();
+				d.userID = $("#filterUser").val();
 			},
 			"type": "POST",
 
@@ -36,7 +37,9 @@ $(document).ready(function () {
 	}).on("draw",function(){
 		KTMenu.createInstances();
 	});
-
+	$('button[data-kt-user-table-filter="filter"]').on("click",function(){
+		t.draw();
+	})
 	document.querySelector('[data-table-action="search"]').addEventListener("keyup", (function (e) {
 		t.search(e.target.value).draw();
 	}));

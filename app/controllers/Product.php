@@ -8,6 +8,10 @@ class Product extends NP_Controller
 		$this->load->model("ProductModel");
 		$this->load->model("StackActivityModel");
 		$this->load->model("UnitModel");
+		$this->load->model("ProductTypeModel");
+		$this->load->model("ProductFluidityModel");
+		$this->load->model("BrandModel");
+		$this->load->model("ProductPackModel");
 	}
 
 	public function list()
@@ -17,12 +21,26 @@ class Product extends NP_Controller
 		if (!$last) $last["productId"] = 1;
 
 		$defualtCode = "NP" . date("Y") . "0" . $last["productId"];
+		$_products = [];
+
+		$products = $this->ProductModel->all([], 'name ASC');
+		foreach ($products as $product) {
+
+			$product["brand"] = $this->BrandModel->first($product['fkBrand']);
+
+			$_products[] = $product;
+
+		}
 
 		$data = [
-			"products" => $this->ProductModel->all(),
+			"products" => $_products,
 			"currencies" => $this->CurrencyModel->all(),
 			"units" => $this->UnitModel->all([], "name ASC"),
-			"defaultCode" => $defualtCode
+			"defaultCode" => $defualtCode,
+			"brands" => $this->BrandModel->all([], 'title ASC'),
+			"productFluidities" => $this->ProductFluidityModel->all([], 'title ASC'),
+			"productPacks" => $this->ProductPackModel->all([], 'title ASC'),
+			"productTypes" => $this->ProductTypeModel->all([], 'title ASC'),
 		];
 		$this->render($data);
 	}
@@ -54,9 +72,13 @@ class Product extends NP_Controller
 					"productCode" => post("productCode"),
 					"unitPrice" => clearDecimal(post("unitPrice")),
 					"fkUnit" => post("unitID"),
+					"fkProductType" => post('productTypeID'),
+					"fkProductFluidity" => post('productFluidityID'),
+					"fkBrand" => post('brandID'),
+					"fkProductPack" => post('productPackID'),
 					"fkCurrency" => post("currencyID"),
 					"vatPercent" => intval(post("vatPercent")),
-					"totalPrice" => includeVat(clearDecimal(post("unitPrice")),intval(post("vatPercent")))
+					"totalPrice" => includeVat(clearDecimal(post("unitPrice")), intval(post("vatPercent")))
 				];
 
 				if (post("productType") == "PRODUCT") {
@@ -107,6 +129,10 @@ class Product extends NP_Controller
 					"productCode" => post("productCode"),
 					"unitPrice" => clearDecimal(post("unitPrice")),
 					"fkUnit" => post("unitID"),
+					"fkProductType" => post('productTypeID'),
+					"fkProductFluidity" => post('productFluidityID'),
+					"fkBrand" => post('brandID'),
+					"fkProductPack" => post('productPackID'),
 					"fkCurrency" => post("currencyID"),
 					"vatPercent" => intval(post("vatPercent")),
 					"totalPrice" => includeVat(clearDecimal(post("unitPrice")))
@@ -131,17 +157,36 @@ class Product extends NP_Controller
 				break;
 
 			case "FIND_BY_NAME":
-				$name = post("name");
+				$name = explode(" [-",post("name"))[0];
+
 				$data = $this->ProductModel->first(["name" => $name]);
 				if ($data) {
+					$brand = $this->BrandModel->first($data['fkBrand']);
+					$productType = $this->ProductTypeModel->first($data['fkBrand']);
+					$productPack = $this->ProductPackModel->first($data['fkProductPack']);
+					$productFluidity = $this->ProductFluidityModel->first($data['fkProductFluidity']);
 					$data["unitPrice"] = number_format($data["unitPrice"], 2, ",", ".");
 					$data["currencySymbol"] = currency($data["fkCurrency"]);
-					$data["info"] = "<b>".$data["name"]."</b><br><b>Varsayılan Fiyat: </b>".$data["totalPrice"]." ".$data["currencySymbol"]."<br>";
-					if($data["type"] == "PRODUCT"){
+					$data["info"] = "<b>" . $data["name"] . "</b><br><b>Varsayılan Fiyat: </b>" . $data["totalPrice"] . " " . $data["currencySymbol"] . "<br>";
+					if ($brand) {
+						$data["info"] .= "<b>Marka: </b>" . $brand["title"] . "<br>";
+					}
+					if ($productType) {
+						$data["info"] .= "<b>Ürün Tipi: </b>" . $productType["title"] . "<br>";
+					}
+					if ($productPack) {
+						$data["info"] .= "<b>Ambalaj: </b>" . $productPack["title"] . "<br>";
+					}
+					if ($productFluidity) {
+						$data["info"] .= "<b>Akışkanlık Der: </b>" . $productFluidity["title"] . "<br>";
+					}
+
+					if ($data["type"] == "PRODUCT") {
 //						$data["info"] .= "<b>Stok Takip: </b>";
 //						$data["info"] .= $data["stockTracking"] == "ACTIVE" ? "Aktif <br><b>Güncel Stok: </b>".$data["stock"]." ".Main::unit($data["fkUnit"]) : "Pasif";
 
 					}
+
 					return $this->toJson(["status" => 1, "data" => $data]);
 				}
 				return $this->toJson(["status" => 0]);
@@ -170,9 +215,13 @@ class Product extends NP_Controller
 
 		$results = $this->ProductModel->search($query);
 		foreach ($results as $result) {
+			$brand = $this->BrandModel->first($result['fkBrand']);
+			$val = $result["name"];
+			if($brand)
+				$val .= " [-".$brand["title"]."-]";
 			$suggestions[] = [
-				"value" => $result["name"],
-				"data"  => $result["name"],
+				"value" => $val,
+				"data" => $result["name"],
 			];
 		}
 		return $this->toJson([

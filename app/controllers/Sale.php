@@ -20,15 +20,23 @@ class Sale extends NP_Controller
 		$this->load->model("AccountModel");
 		$this->load->model("ProductModel");
 		$this->load->model("StackActivityModel");
+		$this->load->model("BrandModel");
+		$this->load->model("ProductTypeModel");
+		$this->load->model("ProductPackModel");
+		$this->load->model("ProductFluidityModel");
 
 
 	}
 
 	public function list()
 	{
+		$data = [
+			'statuses' => $this->StatusModel->all([], 'title ASC'),
+			'users' => $this->UserModel->all(['fkRole' => 2], 'firstName ASC,lastName ASC')
+		];
 		$this->setBreadcrumb("Satışlar");
 
-		$this->render();
+		$this->render($data);
 	}
 
 	public function add()
@@ -62,7 +70,8 @@ class Sale extends NP_Controller
 			"units" => $this->UnitModel->all([], "name ASC"),
 			"cities" => $this->CityModel->all(),
 			"customerGroups" => $this->CustomerGroupModel->all(),
-			"company" => json_decode(config('companyInformation'), true)
+			"company" => json_decode(config('companyInformation'), true),
+			"statuses" => $this->StatusModel->all([], 'statusId ASC')
 		];
 
 
@@ -70,14 +79,31 @@ class Sale extends NP_Controller
 		$data["products"] = $this->SaleProductModel->all(["fkSale" => $sale["saleId"]], "saleProductId ASC");
 		foreach ($data["products"] as $index => $item) {
 			$findProduct = $this->ProductModel->first($item["fkProduct"]);
-			$data["products"][$index]["item"] = $findProduct;
+			if ($findProduct) {
+				$findProduct["brand"] = $this->BrandModel->first($findProduct['fkBrand']);
+				$findProduct["productType"] = $this->ProductTypeModel->first($findProduct['fkProductType']);
+				$findProduct["productPack"] = $this->ProductPackModel->first($findProduct['fkProductPack']);
+				$findProduct["productFluidity"] = $this->ProductFluidityModel->first($findProduct['fkProductFluidity']);
+				$data["products"][$index]["item"] = $findProduct;
+			}
+
 		}
 		$data["customer"] = $this->CustomerModel->first($sale["fkCustomer"]);
 		$data["currencies"] = $this->CurrencyModel->all();
 		$data["sortedProducts"] = $this->ProductModel->all([], "name ASC");
 		$data["user"] = $this->UserModel->first($sale["fkUser"]);
 
-		$this->setBreadcrumb("Fatura Detay");
+		$this->setBreadcrumb("Satış Detay");
+
+		$editable = true;
+
+		if (!isCan('admin') && ($sale["fkStatus"] == 4 || $sale["fkStatus"] == 5)) {
+			$editable = false;
+		}
+
+
+		$data["editable"] = $editable;
+
 		$this->render($data);
 	}
 
@@ -120,12 +146,13 @@ class Sale extends NP_Controller
 				foreach ($_POST["product"]["name"] as $index => $item) {
 					if (trim($item)) {
 						$_countProduct++;
-						$findProduct = $this->ProductModel->first(["name" => post("product")["name"][$index]]);
+						$prodName = explode(" [-", post("product")["name"][$index])[0];
+						$findProduct = $this->ProductModel->first(["name" => $prodName]);
 						if (!$findProduct) {
 							$last = $this->ProductModel->last();
 							if (!$last) $last["productId"] = 0;
 
-							$defualtCode = "NP" . date("Y") . "0" . $last["productId"] + 1;
+							$defualtCode = "OIL" . date("Y") . "0" . $last["productId"] + 1;
 							$newProduct = [
 								"type" => "PRODUCT",
 								"stockTracking" => "PASSIVE",
@@ -143,7 +170,8 @@ class Sale extends NP_Controller
 
 							$this->ProductModel->insert($newProduct);
 
-							$findProduct = $this->ProductModel->first(["name" => post("product")["name"][$index]]);
+							$prodName = explode(" [-", post("product")["name"][$index])[0];
+							$findProduct = $this->ProductModel->first(["name" => $prodName]);
 						}
 
 						if ($findProduct) {
@@ -228,7 +256,7 @@ class Sale extends NP_Controller
 					if (isset($_FILES["invoiceDocument"]["tmp_name"]) && $_FILES["invoiceDocument"]["tmp_name"]) {
 						$fileName = upload_file("invoiceDocument", "sale-documents");
 						$data = [
-							"name" => "Fatura Ek",
+							"name" => "Ek Dosya - 1",
 							"document" => $fileName,
 							"fkSale" => $insertSale["saleId"],
 							"createdBy" => Auth::get("userId")
@@ -254,11 +282,11 @@ class Sale extends NP_Controller
 
 
 				$findSale = $this->SaleModel->first($saleID);
-				if (!$findSale) $this->response(0, "Fatura bulunamadı...");
+				if (!$findSale) $this->response(0, "Satış bulunamadı...");
 
 				$saleData = [
 					"invoiceDate" => reLocalizeDate(post("invoiceDate")),
-					"invoiceNumber" => post("invoiceNumber"),
+//					"invoiceNumber" => post("invoiceNumber"),
 					"notes" => post("notes"),
 					"invoiceNotes" => post("invoiceNotes")
 				];
@@ -277,7 +305,8 @@ class Sale extends NP_Controller
 						$nonDeletedProducts[] = $item;
 						if (trim($item)) {
 							$_countProduct++;
-							$findProduct = $this->ProductModel->first(["name" => post("product")["old"]["saleProductId"][$index]]);
+							$prodName = explode(" [-", post("product")["old"]["saleProductId"][$index])[0];
+							$findProduct = $this->ProductModel->first(["name" => $prodName]);
 
 							$unitPrice = commaToDot(post("product")["old"]["price"][$index]);
 							$quantity = post("product")["old"]["quantity"][$index];
@@ -398,6 +427,22 @@ class Sale extends NP_Controller
 				}
 				return $this->response();
 				break;
+			case "UPDATE_STATUS":
+
+				$saleID = post('saleID');
+				$statusID = post('statusID');
+
+				$data = [
+					'fkStatus' => $statusID
+				];
+
+				$success = $this->SaleModel->update($data, $saleID);
+
+				if ($success)
+					return $this->response(1, "Değişiklikler başarıyla kaydedildi!");
+
+				return $this->response();
+				break;
 		}
 	}
 
@@ -420,6 +465,19 @@ class Sale extends NP_Controller
 //		if ($filterCustomerGroupID > 0) {
 //			$whereSearch .= " AND c.fkCustomerGroup = '$filterCustomerGroupID'";
 //		}
+
+
+		if (post('statusID')) {
+			$whereSearch .= " AND s.fkStatus = '" . post('statusID') . "'";
+		}
+
+		if (isCan('admin')) {
+			if (post('userID')) {
+				$whereSearch .= " AND s.fkUser = '" . post('userID') . "'";
+			}
+		} else {
+			$whereSearch .= " AND s.fkUser = '" . Auth::get('userId') . "'";
+		}
 
 		if ($searchVal) {
 
@@ -463,7 +521,20 @@ class Sale extends NP_Controller
 			$deleteLink = '';
 			$customerViewLink = isCan("view-customer") ? base_url("customers/" . $item["customerId"]) : "javascript:void(0)";
 
-			$showBalance = '<span class="badge badge-lg badge-light">' . showBalance($item["saleBalance"], $item["fkCurrency"]) . '</span>';
+			if (isCan('admin')) {
+				if (isset($item['userFirstName']) && $item['userFirstName']) {
+					$priColumn = '<div class="d-flex align-items-center">
+								<div class="d-flex flex-column">
+									<span 
+									   class="text-gray-600 mb-1">' . $item["userFirstName"] . ' ' . $item["userLastName"] . '</span>
+									<span class="text-gray-500">' . $item["userEmail"] . '</span>
+								</div></div>';
+				} else {
+					$priColumn = '<span class="badge badge-secondary">Yok</span>';
+				}
+			} else {
+				$priColumn = localizeDate("d M Y H:i", $item["sUpdatedAt"]);
+			}
 
 			$viewLink = isCan("view-customer") ? base_url("customers/" . $item["customerId"]) : "javascript:void(0)";
 			$customerName = $item["shortName"] ? $item["shortName"] . " - " . $item["name"] : $item["name"];
@@ -476,7 +547,7 @@ class Sale extends NP_Controller
 									<span class="text-gray-500">' . $item["email"] . '</span>
 								</div></div>',
 				convertDate($item["invoiceDate"]),
-				$showBalance,
+				$priColumn,
 				'<span class="badge badge-' . $item["stClassName"] . '">' . $item["stTitle"] . '</span>',
 				'<a href="' . base_url("sales/" . $item["saleId"]) . '"><button class="btn btn-light-primary btn-sm">İncele</button></a>
 				

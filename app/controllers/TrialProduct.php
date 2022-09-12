@@ -16,7 +16,7 @@ class TrialProduct extends NP_Controller
 		$searchableColumns = [
 			"tp.trialProductId",
 			"p.name",
-			"p.startDate"
+			"tp.startDate"
 		];
 
 		$searchVal = $this->input->post("search")["value"];
@@ -122,6 +122,12 @@ class TrialProduct extends NP_Controller
 	{
 		switch (post("action")) {
 			case "ADD":
+				if(count($_POST['products']) <= 0 || !$_POST['products']['0']['productID']){
+					return $this->response(0,"En az bir ürün seçimi yapmalısınız.");
+				}
+
+				if(!post('startDate') || !post('endDate'))
+					return $this->response(0,"Ürünlerin verildiği tarih ve tahmini geri alım tarihini girmelisiniz.");
 
 				$data = [
 					'department' => post('department'),

@@ -326,6 +326,8 @@ function reLocalizeDate($date, $format = "Y-m-d")
 		'Dec' => 'Ara',
 	]);
 
+	$arr["Agu"] = "Aug";
+
 	return date($format, strtotime(str_replace(array_keys($arr), array_values($arr), $date)));
 
 }

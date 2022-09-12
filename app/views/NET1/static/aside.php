@@ -63,8 +63,10 @@
 						<span class="menu-section text-muted text-uppercase fs-8 ls-1">Satış</span>
 					</div>
 				</div>
-
-				<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+				<?php
+				if (isCan('admin')) {
+					?>
+					<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 									<span class="menu-link">
 										<span class="menu-icon">
 											<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
@@ -74,34 +76,45 @@
 										<span class="menu-title">Müşteri Yönetimi</span>
 										<span class="menu-arrow"></span>
 									</span>
-					<div class="menu-sub menu-sub-accordion menu-active-bg">
-						<?php
+						<div class="menu-sub menu-sub-accordion menu-active-bg">
+							<?php
 
-						?>
-						<div class="menu-item">
-							<a class="menu-link" href="<?= base_url("customers") ?>">
+							?>
+							<div class="menu-item">
+								<a class="menu-link" href="<?= base_url("customers") ?>">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
-								<span class="menu-title">Müşteriler</span>
-							</a>
-						</div>
-						<?php
+									<span class="menu-title">Müşteriler</span>
+								</a>
+							</div>
 
-						?>
-						<div class="menu-item">
-							<a href="<?= base_url("customer-groups") ?>" class="menu-link">
+							<div class="menu-item">
+								<a href="<?= base_url("customer-groups") ?>" class="menu-link">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
-								<span class="menu-title">Müşteri Grupları</span>
-							</a>
+									<span class="menu-title">Müşteri Grupları</span>
+								</a>
+							</div>
+
+
 						</div>
-
-
 					</div>
-				</div>
-
+					<?php
+				} else {
+					?>
+					<div class=" menu-item">
+						<a class="menu-link" href="<?= base_url("customers") ?>">
+										<span class="menu-icon">
+					<i class="bi bi-person fs-3"></i>
+										</span>
+							<span class="menu-title">Müşteriler</span>
+						</a>
+					</div>
+					<?php
+				}
+				?>
 
 				<div class="<?= hideByPerm("admin") ?> menu-item">
 					<a class="menu-link" href="<?= base_url("duyuru-yonetimi") ?>">
@@ -209,7 +222,7 @@
 										<span class="menu-icon">
 											<i class="fa fa-folder fs-3"></i>
 										</span>
-						<span class="menu-title">Görev Yönetimi</span>
+						<span class="menu-title"><?= isCan('admin') ? 'Görev Yönetimi' : 'Görevlerim'; ?></span>
 					</a>
 				</div>
 				<div class="menu-item">
@@ -220,83 +233,25 @@
 						<span class="menu-title">Takvim</span>
 					</a>
 				</div>
-				<div class="menu-item">
-					<div class="menu-content pt-8 pb-2">
-						<span class="menu-section text-muted text-uppercase fs-8 ls-1">Yönetim</span>
+				<?php
+				if (isCan('admin')) {
+					?>
+					<div class="menu-item">
+						<div class="menu-content pt-8 pb-2">
+							<span class="menu-section text-muted text-uppercase fs-8 ls-1">Yönetim</span>
+						</div>
 					</div>
-				</div>
-
-				<div class="menu-item">
-					<a class="menu-link" href="<?= base_url("brands") ?>">
-										<span class="menu-icon">
-											<i class="fa fa-compress fs-3"></i>
-										</span>
-						<span class="menu-title">Markalar</span>
-					</a>
-				</div>
-
-				<div data-kt-menu-trigger="click" class="menu-item menu-accordion d-none">
-									<span class="menu-link">
-										<span class="menu-icon">
-											<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
-					<i class="bi bi-person-workspace fs-3"></i>
-											<!--end::Svg Icon-->
-										</span>
-										<span class="menu-title">Ekip Yönetimi</span>
-										<span class="menu-arrow"></span>
-									</span>
-					<div class="menu-sub menu-sub-accordion menu-active-bg">
-						<?php
-						if (isCanOr("add-user", "edit-user", "view-user", "delete-user")):
-							?>
-							<div class="menu-item">
-								<a class="menu-link" href="<?= base_url("users") ?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-									<span class="menu-title">Kullanıcılar</span>
-								</a>
-							</div>
-						<?php
-						endif;
-						?>
-
-
-						<?php
-						if (isCanOr("view-role", "add-role", "edit-role", "delete-role")):
-							?>
-							<div class="menu-item">
-								<a class="menu-link" href="<?= base_url("roles") ?>">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-									<span class="menu-title">Rol Yönetimi</span>
-								</a>
-							</div>
-						<?php
-						endif;
-						?>
-
-
-					</div>
-				</div>
-				<div class="menu-item">
-					<a class="menu-link" href="<?= base_url("users") ?>">
+					<div class="menu-item">
+						<a class="menu-link" href="<?= base_url("users") ?>">
 										<span class="menu-icon">
 											<i class="bi bi-person-workspace fs-3"></i>
 										</span>
-						<span class="menu-title">Ekip Yönetimi</span>
-					</a>
-				</div>
-
-				<div class="menu-item">
-					<a class="menu-link" href="<?= base_url("settings") ?>">
-										<span class="menu-icon">
-											<i class="bi bi-grid fs-3"></i>
-										</span>
-						<span class="menu-title">Sistem Ayarları</span>
-					</a>
-				</div>
+							<span class="menu-title">Ekip Yönetimi</span>
+						</a>
+					</div>
+					<?php
+				}
+				?>
 			</div>
 			<!--end::Menu-->
 		</div>

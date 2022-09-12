@@ -36,3 +36,7 @@ ERROR - 2022-09-08 18:25:18 --> Severity: Warning --> Undefined variable $produc
 ERROR - 2022-09-08 18:25:18 --> Severity: Warning --> foreach() argument must be of type array|object, null given C:\xampp\htdocs\oilsan\app\views\NET1\ProductFluidity\list\content.php 189
 ERROR - 2022-09-08 18:25:19 --> Severity: Warning --> Undefined variable $productFluidities C:\xampp\htdocs\oilsan\app\views\NET1\ProductFluidity\list\content.php 189
 ERROR - 2022-09-08 18:25:19 --> Severity: Warning --> foreach() argument must be of type array|object, null given C:\xampp\htdocs\oilsan\app\views\NET1\ProductFluidity\list\content.php 189
+ERROR - 2022-09-08 18:30:47 --> Severity: Warning --> Undefined variable $customerGroups C:\xampp\htdocs\oilsan\app\views\NET1\Sale\list\content.php 91
+ERROR - 2022-09-08 18:30:47 --> Severity: Warning --> foreach() argument must be of type array|object, null given C:\xampp\htdocs\oilsan\app\views\NET1\Sale\list\content.php 91
+ERROR - 2022-09-08 18:30:53 --> Severity: Warning --> Undefined variable $customerGroups C:\xampp\htdocs\oilsan\app\views\NET1\Sale\list\content.php 91
+ERROR - 2022-09-08 18:30:53 --> Severity: Warning --> foreach() argument must be of type array|object, null given C:\xampp\htdocs\oilsan\app\views\NET1\Sale\list\content.php 91

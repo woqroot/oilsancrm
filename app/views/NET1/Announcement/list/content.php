@@ -1,10 +1,29 @@
 <!--begin::Content-->
-<!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Toolbar-->
+	<div class="toolbar" id="kt_toolbar">
+		<!--begin::Container-->
+		<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+			<!--begin::Page title-->
+			<?= $CI->loadLayout("breadcrumb"); ?>
+			<!--end::Page title-->
+			<!--begin::Actions-->
+			<div class="d-flex align-items-center gap-2 gap-lg-3">
+
+				<!--begin::Primary button-->
+				<a href="javascript:void(0)" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+				   data-bs-target="#kt_modal_create_app">Yeni Oluştur</a>
+				<!--end::Primary button-->
+			</div>
+			<!--end::Actions-->
+		</div>
+		<!--end::Container-->
+	</div>
+	<!--end::Toolbar-->
 	<!--begin::Post-->
 	<div class="post d-flex flex-column-fluid" id="kt_post">
 		<!--begin::Container-->
-		<div id="kt_content_container" class="container">
+		<div id="kt_content_container" class="container-xxl">
 			<!--begin::Card-->
 			<div class="card">
 				<!--begin::Card header-->
@@ -13,25 +32,20 @@
 					<div class="card-title">
 						<!--begin::Search-->
 						<div class="d-flex align-items-center position-relative my-1">
-							<!--begin::Svg Icon | path: icons/duotone/General/Search.svg-->
+							<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
 							<span class="svg-icon svg-icon-1 position-absolute ms-6">
-													<svg xmlns="http://www.w3.org/2000/svg"
-														 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-														 height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none"
-														   fill-rule="evenodd">
-															<rect x="0" y="0" width="24" height="24"/>
-															<path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z"
-																  fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-															<path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z"
-																  fill="#000000" fill-rule="nonzero"/>
-														</g>
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+														 viewBox="0 0 24 24" fill="none">
+														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+															  height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+															  fill="currentColor"/>
+														<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+															  fill="currentColor"/>
 													</svg>
 												</span>
 							<!--end::Svg Icon-->
-							<input type="text" data-table-action="search"
-								   class="form-control form-control-solid w-250px ps-15"
-								   placeholder="Ara"/>
+							<input type="text"
+								   class="np-search-table form-control form-control-solid w-250px ps-14" placeholder="Tabloda Ara"/>
 						</div>
 						<!--end::Search-->
 					</div>
@@ -161,23 +175,21 @@
 								<h2 class="fw-bolder">Yeni Oluştur</h2>
 								<!--end::Modal title-->
 								<!--begin::Close-->
-								<div data-bs-dismiss="modal" id="kt_modal_add_customer_close"
-									 class="btn btn-icon btn-sm btn-active-icon-primary">
-									<!--begin::Svg Icon | path: icons/duotone/Navigation/Close.svg-->
+								<div class="btn btn-icon btn-sm btn-active-icon-primary"
+									 data-bs-dismiss="modal">
+									<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 									<span class="svg-icon svg-icon-1">
-															<svg xmlns="http://www.w3.org/2000/svg"
-																 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-																 height="24px" viewBox="0 0 24 24" version="1.1">
-																<g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
-																   fill="#000000">
-																	<rect fill="#000000" x="0" y="7" width="16"
-																		  height="2" rx="1"/>
-																	<rect fill="#000000" opacity="0.5"
-																		  transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)"
-																		  x="0" y="7" width="16" height="2" rx="1"/>
-																</g>
-															</svg>
-														</span>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
 									<!--end::Svg Icon-->
 								</div>
 								<!--end::Close-->
@@ -261,23 +273,21 @@
 								<h2 class="fw-bolder">Ürün/Hizmet Bilgilerini Düzenle</h2>
 								<!--end::Modal title-->
 								<!--begin::Close-->
-								<div data-bs-dismiss="modal" id="kt_modal_add_customer_close"
-									 class="btn btn-icon btn-sm btn-active-icon-primary">
-									<!--begin::Svg Icon | path: icons/duotone/Navigation/Close.svg-->
+								<div class="btn btn-icon btn-sm btn-active-icon-primary"
+									 data-bs-dismiss="modal">
+									<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 									<span class="svg-icon svg-icon-1">
-															<svg xmlns="http://www.w3.org/2000/svg"
-																 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-																 height="24px" viewBox="0 0 24 24" version="1.1">
-																<g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
-																   fill="#000000">
-																	<rect fill="#000000" x="0" y="7" width="16"
-																		  height="2" rx="1"/>
-																	<rect fill="#000000" opacity="0.5"
-																		  transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)"
-																		  x="0" y="7" width="16" height="2" rx="1"/>
-																</g>
-															</svg>
-														</span>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
 									<!--end::Svg Icon-->
 								</div>
 								<!--end::Close-->

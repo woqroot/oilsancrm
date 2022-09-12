@@ -139,7 +139,7 @@
 												 data-kt-scroll-offset="300px">
 												<div class="row">
 													<div class="fv-row row">
-														<div class="col-6">
+														<div class="col-6 d-none">
 															<!--begin::Option-->
 															<input type="radio" class="btn-check" name="type"
 																   value="PRODUCT"
@@ -158,7 +158,7 @@
 															</label>
 															<!--end::Option-->
 														</div>
-														<div class="col-6">
+														<div class="col-6 d-none">
 															<!--begin::Option-->
 															<input type="radio" class="btn-check" name="type"
 																   value="SERVICE" id="selectTypeSERVICE"/>
@@ -180,8 +180,7 @@
 														<!--begin::Input group-->
 														<div class="col-md-6 col-sm-12 fv-row mb-7">
 															<!--begin::Label-->
-															<label class="fw-bold fs-6 required mb-2">Ürün/Hizmet
-																Adı</label>
+															<label class="fw-bold fs-6 required mb-2">Ürün Adı</label>
 															<input type="text" required name="name"
 																   class="form-control form-control-solid">
 															<!--end::Label-->
@@ -189,12 +188,86 @@
 														<div class="col-md-6 col-sm-12 fv-row mb-7">
 															<!--begin::Label-->
 															<div class="d-flex">
-																<label class="required fw-bold d-flex fs-6 mb-2">Ürün Kodu </label>
-																<a data-code="<?=$defaultCode?>" class="ms-auto generateCode" href="javascript:void(0)"><span class="badge hoverable badge-sm badge-success">Oluştur</span></a>
+																<label class="required fw-bold d-flex fs-6 mb-2">Ürün
+																	Kodu </label>
 
-															</div><input type="text" name="productCode" required
+
+															</div>
+															<input type="text" name="productCode" required
 																   class="form-control form-control-solid">
 															<!--end::Label-->
+														</div>
+														<div class="col-md-4 col-sm-12 fv-row mb-7">
+															<!--begin::Label-->
+															<label class="fw-bold fs-6 mb-2">Ürün Tipi</label>
+															<!--end::Label-->
+															<!--begin::Input-->
+															<select name="productTypeID" id=""
+																	class="form-control form-control-solid select2Init">
+																<?php
+																foreach ($productTypes as $productType) {
+																	?>
+																	<option
+																			value="<?= $productType["productTypeId"] ?>"><?= $productType["title"] ?></option>
+																	<?php
+																}
+																?>
+															</select>
+															<!--end::Input-->
+														</div>
+														<div class="col-md-4 col-sm-12 fv-row mb-7">
+															<!--begin::Label-->
+															<label class="fw-bold fs-6 mb-2">Marka</label>
+															<!--end::Label-->
+															<!--begin::Input-->
+															<select name="brandID" id=""
+																	class="form-control form-control-solid select2Init">
+																<?php
+																foreach ($brands as $brand) {
+																	?>
+																	<option
+																			value="<?= $brand["brandId"] ?>"><?= $brand["title"] ?></option>
+																	<?php
+																}
+																?>
+															</select>
+															<!--end::Input-->
+														</div>
+														<div class="col-md-4 col-sm-12 fv-row mb-7">
+															<!--begin::Label-->
+															<label class="fw-bold fs-6 mb-2">Ambalaj Tipi</label>
+															<!--end::Label-->
+															<!--begin::Input-->
+															<select name="productPackID" id=""
+																	class="form-control form-control-solid select2Init">
+																<?php
+																foreach ($productPacks as $productPack) {
+																	?>
+																	<option
+																			value="<?= $productPack["productPackId"] ?>"><?= $productPack["title"] ?></option>
+																	<?php
+																}
+																?>
+															</select>
+															<!--end::Input-->
+														</div>
+														<div class="col-md-4 col-sm-12 fv-row mb-7">
+															<!--begin::Label-->
+															<label class="fw-bold fs-6 mb-2">Akışkanlık Derecesi</label>
+															<!--end::Label-->
+															<!--begin::Input-->
+															<select name="productFluidityID" id=""
+																	class="form-control form-control-solid select2Init">
+																<?php
+																foreach ($productFluidities as $productFluidity) {
+																	?>
+																	<option
+																			value="<?= $productFluidity["productFluidityId"] ?>"><?= $productFluidity["title"] ?></option>
+																	<?php
+																}
+																?>
+															</select>
+															<!--end::Input-->
 														</div>
 														<!--begin::Input group-->
 														<div class="col-md-4 col-sm-12 fv-row mb-7">
@@ -217,7 +290,7 @@
 																				<a class="dropdown-item changeCurrency text-center fw-bold fs-5"
 																				   href="#"
 																				   data-symbol="<?= $currency["symbol"] ?>"
-																				   data-id="<?=$currency["currencyId"]?>"><?= $currency["symbol"] ?></a>
+																				   data-id="<?= $currency["currencyId"] ?>"><?= $currency["symbol"] ?></a>
 																			</li>
 																			<?php
 
@@ -225,7 +298,8 @@
 																		?>
 																	</ul>
 																</div>
-																<input required maxlength="13" name="unitPrice" type="text"
+																<input required maxlength="13" name="unitPrice"
+																	   type="text"
 																	   placeholder="0,00" data-input-type="decimal"
 																	   class="form-control form-control-solid">
 															</div>
@@ -236,7 +310,7 @@
 															<label class="fw-bold required fs-6 mb-2">KDV Oranı</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<select  name="vatPercent" id=""
+															<select name="vatPercent" id=""
 																	class="form-control form-control-solid selectVat">
 																<?php
 																foreach (getVats() as $vat) {
@@ -251,7 +325,8 @@
 														</div>
 														<div class="d-none col-md-4 col-sm-12 fv-row mb-7">
 															<!--begin::Label-->
-															<label class="fw-bold required fs-6 mb-2">KDV Dahil Tutar </label>
+															<label class="fw-bold required fs-6 mb-2">KDV Dahil
+																Tutar </label>
 															<!--end::Label-->
 															<div class="input-group input-group-solid">
 																<div class="dropdown">
@@ -261,12 +336,12 @@
 																		  class="input-group-text currentCurrency bg-light-primary ">₺</span>
 
 																</div>
-																<input  maxlength="13" name="totalPrice" type="text"
+																<input maxlength="13" name="totalPrice" type="text"
 																	   placeholder="0,00" data-input-type="decimal"
 																	   class="form-control form-control-solid">
 															</div>
 														</div>
-														<div class="col-md-6 col-sm-12 fv-row mb-7">
+														<div class="col-md-4 col-sm-12 fv-row mb-7">
 															<!--begin::Label-->
 															<label class="fw-bold required fs-6 mb-2">Birim</label>
 															<!--end::Label-->
@@ -285,25 +360,32 @@
 															<!--end::Input-->
 														</div>
 														<!--end::Input group-->
-														<div class="d-none col-md-6 col-sm-12 fv-row mb-7" data-np-type="PRODUCT">
+														<div class="d-none col-md-6 col-sm-12 fv-row mb-7"
+															 data-np-type="PRODUCT">
 															<label class="d-flex align-items-center fs-5 fw-bold mb-2">
 																<span class="required">Stok Takibi</span>
 															</label>
 															<!--begin::Radio group-->
-															<div class="btn-group w-100" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+															<div class="btn-group w-100" data-kt-buttons="true"
+																 data-kt-buttons-target="[data-kt-button]">
 																<!--begin::Radio-->
-																<label class="stockActiveLabel btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success" data-kt-button="true">
+																<label class="stockActiveLabel btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success"
+																	   data-kt-button="true">
 																	<!--begin::Input-->
-																	<input class="btn-check" id="stockActive" type="radio" name="stockActive" value="1"/>
+																	<input class="btn-check" id="stockActive"
+																		   type="radio" name="stockActive" value="1"/>
 																	<!--end::Input-->
 																	Aktif
 																</label>
 																<!--end::Radio-->
 
 																<!--begin::Radio-->
-																<label class="stockPassiveLabel btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success active" data-kt-button="true">
+																<label class="stockPassiveLabel btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success active"
+																	   data-kt-button="true">
 																	<!--begin::Input-->
-																	<input class="btn-check" id="stockPassive" type="radio" name="stockActive" checked="checked" value="2"/>
+																	<input class="btn-check" id="stockPassive"
+																		   type="radio" name="stockActive"
+																		   checked="checked" value="2"/>
 																	<!--end::Input-->
 																	Pasif
 																</label>
@@ -312,10 +394,13 @@
 															<!--end::Radio group-->
 														</div>
 														<!--end::Input group-->
-														<div data-edit-hidden='true' class="col-md-6 col-sm-12 fv-row mb-7" style="display: none"
+														<div data-edit-hidden='true'
+															 class="col-md-6 col-sm-12 fv-row mb-7"
+															 style="display: none"
 															 data-np-type="STOCK_ACTIVE">
 															<!--begin::Label-->
-															<label class="required fw-bold fs-6 mb-2">Açılış Stok Miktarı</label>
+															<label class="required fw-bold fs-6 mb-2">Açılış Stok
+																Miktarı</label>
 															<input type="number" name="initialStock" value="0"
 																   class="form-control form-control-solid">
 															<!--end::Label-->
@@ -383,12 +468,14 @@
 						$counter = 1;
 						foreach ($products as $product) {
 							?>
-							<tr data-id="<?=$product["productId"]?>">
-								<td><?=++$counter;?></td>
-								<td><div class="badge badge-light-primary">#<?=$product["productCode"]?></div></td>
-								<td> <?=$product["name"]?></td>
-								<td class="d-none"><?=$product["stock"]?> <?=Main::unit($product["fkUnit"])?> </td>
-								<td><?=$product["totalPrice"]?> <?=currency($product["fkCurrency"])?></td>
+							<tr data-id="<?= $product["productId"] ?>">
+								<td><?= ++$counter; ?></td>
+								<td>
+									<div class="badge badge-light-primary">#<?= $product["productCode"] ?></div>
+								</td>
+								<td><?= $product["brand"] ? '<span class="badge badge-sm badge-info">' . $product["brand"]["title"] .'</span> ' : ''; ?><?= $product["name"] ?></td>
+								<td class="d-none"><?= $product["stock"] ?> <?= Main::unit($product["fkUnit"]) ?> </td>
+								<td><?= $product["totalPrice"] ?> <?= currency($product["fkCurrency"]) ?></td>
 								<td>
 									<a href="#" class="btn btn-light btn-active-light-primary btn-sm"
 									   data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">İşlemler
@@ -407,11 +494,11 @@
 										<!--begin::Menu item-->
 										<div class="menu-item px-3">
 											<a href="javascript:void(0)"
-											   class="np-edit menu-link px-3">Düzenle</a>
+											   class="np-edit menu-link px-3"><?=isCan('admin') ? 'Düzenle' : 'Detay'?></a>
 										</div>
 										<!--end::Menu item-->
 										<!--begin::Menu item-->
-										<div class="menu-item px-3">
+										<div class="<?=hideByPerm('admin')?> menu-item px-3">
 											<a href="javascript:void(0)" class="np-delete menu-link px-3">Sil</a>
 										</div>
 										<!--end::Menu item-->
