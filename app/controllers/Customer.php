@@ -14,6 +14,7 @@ class Customer extends NP_Controller
 		$this->load->model("CustomerGroupModel");
 		$this->load->model("TrialProductModel");
 		$this->load->model("ProductModel");
+		$this->load->model("DocumentModel");
 	}
 
 	public function list()
@@ -32,7 +33,7 @@ class Customer extends NP_Controller
 	{
 		switch ($this->input->post("action")) {
 			case "ADD":
-				if(!post("name")) return $this->response(0,"Devam etmek için müşteri adı girmelisiniz...");
+				if (!post("name")) return $this->response(0, "Devam etmek için müşteri adı girmelisiniz...");
 				$data = [
 					"type" => post("customerType") ? post("customerType") : "INDIVIDUAL",
 					"name" => post("name"),
@@ -43,8 +44,8 @@ class Customer extends NP_Controller
 					"taxOffice" => post("taxOffice") ?: null,
 					"notes" => post("notes") ?: null,
 					"fkCountry" => post("fkCountry") ? post("fkCountry") : 1,
-					"fkCity" =>  post("fkCountry") == 1 ? post("fkCity") : null,
-					"fkDistrict" =>  post("fkCountry") == 1 ? post("fkDistrict") : null,
+					"fkCity" => post("fkCountry") == 1 ? post("fkCity") : null,
+					"fkDistrict" => post("fkCountry") == 1 ? post("fkDistrict") : null,
 					"address" => post("address") ?: null,
 					"phone" => post("phone") ? phoneMask(post("phone")) : null,
 					"secondPhone" => post("secondPhone") ? phoneMask(post("secondPhone")) : null
@@ -53,7 +54,7 @@ class Customer extends NP_Controller
 				$insert = $this->CustomerModel->insert($data);
 
 				if (!$insert) return $this->response();
-				return $this->response(1, "Müşteri kaydı başarıyla oluşturuldu. ", ["redirectUrl" => base_url("customers/" . $insert["customerId"]),"name" => $insert["name"],"id" => $insert["customerId"]]);
+				return $this->response(1, "Müşteri kaydı başarıyla oluşturuldu. ", ["redirectUrl" => base_url("customers/" . $insert["customerId"]), "name" => $insert["name"], "id" => $insert["customerId"]]);
 
 				break;
 			case "FIND":
@@ -94,7 +95,7 @@ class Customer extends NP_Controller
 				$customerID = post("customerID");
 
 				$data = [
-					"type" => post("customerType") ? post("customerType") : "INDIVIDUAL",
+					"type" => post("type") ? post("type") : "INDIVIDUAL",
 					"name" => post("name"),
 					"shortName" => post("shortName"),
 					"email" => post("email"),
@@ -103,11 +104,13 @@ class Customer extends NP_Controller
 					"taxOffice" => post("taxOffice"),
 					"notes" => post("notes"),
 					"fkCountry" => post("fkCountry") ? post("fkCountry") : 1,
-					"fkCity" =>  post("fkCountry") == 1 ? post("fkCity") : null,
-					"fkDistrict" =>  post("fkCountry") == 1 ? post("fkDistrict") : null,
+					"fkCity" => post("fkCountry") == 1 ? post("fkCity") : null,
+					"fkDistrict" => post("fkCountry") == 1 ? post("fkDistrict") : null,
 					"address" => post("address"),
 					"phone" => post("phone") ? phoneMask(post("phone")) : null,
-					"secondPhone" => post("secondPhone") ? phoneMask(post("secondPhone")) : null
+					"secondPhone" => post("secondPhone") ? phoneMask(post("secondPhone")) : null,
+
+
 				];
 
 				$insert = $this->CustomerModel->update($data, $customerID);
@@ -146,7 +149,33 @@ class Customer extends NP_Controller
 					"taxInformation" => $newData["taxNumber"] . " / " . $newData["taxOffice"]
 				];
 
-				return $this->response(1, "Değişiklikler başarıyla kaydedildi!", ["redirectUrl" => base_url("customers/" . $customerID),"id" => $customerID,"name" => $data["name"],"data" => $result]);
+				return $this->response(1, "Değişiklikler başarıyla kaydedildi!", ["redirectUrl" => base_url("customers/" . $customerID), "id" => $customerID, "name" => $data["name"], "data" => $result]);
+
+				break;
+			case "ADD_CONTACT":
+
+				$this->load->model('CustomerContactModel');
+
+				$customerID = post('customerID');
+
+				$customer = $this->CustomerModel->first($customerID);
+				if (!$customer)
+					return $this->response();
+
+				$data = [
+					'name' => post('name'),
+					'phone' => post('phone') ? phoneMask(post('phone')) : null,
+					'email' => post('email'),
+					'department' => post('department'),
+					'fkCustomer' => $customerID
+				];
+
+				$success = $this->CustomerContactModel->insert($data);
+
+				if ($success)
+					return $this->response(1, "Değişiklikler başarıyla kaydedildi.");
+
+				return $this->response();
 
 				break;
 		}
@@ -165,15 +194,29 @@ class Customer extends NP_Controller
 			$trialproducts[] = $item;
 		}
 
+
+		$documents = [];
+
+		foreach ($this->DocumentModel->all(['fkCustomer' => $customerID], 'updatedAt ASC') as $item) {
+			$item["sale"] = $this->SaleModel->first($item['fkSale']);
+			$item["user"] = $this->UserModel->first($item['createdBy']);
+			if ($item["sale"] && $item["user"]) {
+				$documents[] = $item;
+			}
+		}
+		$this->load->model("CustomerContactModel");
 		$data = [
 			"data" => $customer,
 			"cities" => $this->CityModel->all([], "title ASC"),
 			"districts" => $this->DistrictModel->all(["fkCity" => $customer["fkCity"]]),
 			"customerGroups" => $this->CustomerGroupModel->all([], "title ASC"),
-			"sales" => $this->SaleModel->all(['fkCustomer' => $customerID],'fkStatus ASC, invoiceDate ASC'),
+			"sales" => $this->SaleModel->all(['fkCustomer' => $customerID], 'fkStatus ASC, invoiceDate ASC'),
+			"documents" => $documents,
 			"trialProducts" => $trialproducts,
-			"statistics" => $this->CustomerModel->getStatistics($customerID)
-
+			"statistics" => $this->CustomerModel->getStatistics($customerID),
+			"sortedProducts" => $this->ProductModel->all([], "name ASC"),
+			"units" => $this->UnitModel->all([], "name ASC"),
+			"contacts" => $this->CustomerContactModel->all(['fkCustomer' => $customerID])
 		];
 
 		$this->setBreadcrumb(["Müşteri Detay", $customer["name"]]);
@@ -244,9 +287,9 @@ class Customer extends NP_Controller
 										</div>';
 			}
 
-			if($item["isActive"] == 1){
+			if ($item["isActive"] == 1) {
 				$isActiveHTML = '<span class="badge badge-success">Aktif</span>';
-			}else{
+			} else {
 				$isActiveHTML = '<span class="badge badge-danger">Pasif</span>';
 			}
 

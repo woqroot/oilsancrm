@@ -14,6 +14,88 @@ $(document).ready(function(){
 
 	$("#sales-table,#trialproducts-table").DataTable();
 
+	$(document).on("click", ".editTrialProductButton", function () {
+		var trialProductID = $(this).data('id');
+		$.ajax({
+			type: "POST",
+			url: hostUrl + "trial-products",
+			dataType: "json",
+			data: {
+				id: trialProductID,
+				action: "FIND"
+			},
+			success: function (res) {
+				if (res.status == 1) {
+					$('#editTrialProductForm [name="trialProductID"]').val(res.data.trialProductId);
+					$('#editTrialProductForm [name="department"]').val(res.data.department);
+					$('#editTrialProductForm [name="author"]').val(res.data.author);
+					$('#editTrialProductForm [name="equipment"]').val(res.data.equipment);
+					$('#editTrialProductForm [name="expectedPerformance"]').val(res.data.expectedPerformance);
+					$('#editTrialProductForm [name="resultPerformance"]').val(res.data.resultPerformance);
+					$('#editTrialProductForm [name="startDate"]').flatpickr().setDate(res.data.startDate);
+					$('#editTrialProductForm [name="endDate"]').flatpickr().setDate(res.data.endDate);
+					$('#editTrialProductForm [name="amount"]').val(res.data.amount);
+					$('#editTrialProductForm [name="notes"]').val(res.data.notes);
+					$('#editTrialProductForm [name="tpStatus"]').val(res.data.tpStatus);
+					$('#editTrialProductForm [name="unitID"]').val(res.data.fkUnit);
+					$('#editTrialProductForm [name="productID"]').val(res.data.fkProduct).trigger("change");
+					$('.goToSale').attr('href',hostUrl + 'sales/' + res.data.fkSale)
+				}
+			}
+		})
+
+		$("#editTrialProductModal").modal("show");
+	})
+
+	$(document).on("submit","#addContactForm",function (e) {
+		e.preventDefault();
+
+		$.ajax({
+			type: "POST",
+			url: hostUrl + "customers",
+			dataType: "json",
+			data: new FormData(this),
+			contentType: false,
+			processData: false,
+			cache: false,
+			beforeSend: function () {
+				// $("button").prop("disabled", true);
+			},
+			success: function (res) {
+
+				if (res.status === 1) {
+
+					Swal.fire({
+						icon: 'success',
+						text: res.message,
+						showConfirmButton: !1,
+						cancelButtonText: "Kapat",
+						showCancelButton: !0,
+						allowOutsideClick: !1
+					}).then((result) => {
+						window.location.reload();
+					});
+
+				} else {
+					Swal.fire({
+						icon: 'error',
+						text: res.message,
+						showConfirmButton: !1,
+						cancelButtonText: "Kapat",
+						showCancelButton: !1,
+						allowOutsideClick: !1
+					}).then(r => {
+						window.location.reload();
+					})
+				}
+
+				$("button").prop("disabled", false);
+
+			}
+		})
+
+	})
+
 	let selectCustomerGroup = $(".selectCustomerGroup").select2({
 		dropdownParent: "#kt_modal_edit_user",
 		placeholder: "Seçim Yok",
