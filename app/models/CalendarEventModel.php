@@ -8,10 +8,10 @@ class CalendarEventModel extends NP_Model
 		$this->setTableName("calendarEvent");
 	}
 
-	public function findByDateRange($startDate, $endDate)
+	public function findByDateRange($userID,$startDate, $endDate)
 	{
 
-		return $this->db->query("SELECT * FROM {$this->tableName} WHERE startDate >= '{$startDate}' AND endDate <= '{$endDate}'")->result_array();
+		return $this->db->query("SELECT * FROM {$this->tableName} WHERE fkUser = '{$userID}' AND startDate >= '{$startDate}' AND endDate <= '{$endDate}'")->result_array();
 
 	}
 }

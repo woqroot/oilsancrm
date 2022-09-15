@@ -3,46 +3,7 @@
 	<div class="toolbar" id="kt_toolbar">
 		<!--begin::Container-->
 		<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
-			<!--begin::Page title-->
-			<div data-kt-swapper="true"
-				 data-kt-swapper-mode="prepend"
-				 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
-				 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
-				<!--begin::Title-->
-
-				<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1"><?= end($_breadcrumb["map"]) ?>
-					<!--begin::Separator-->
-					<span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
-					<!--end::Separator-->
-					<!--begin::explanation-->
-					<ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-						<!--begin::Item-->
-						<li class="breadcrumb-item text-muted">
-							<a href="<?= base_url() ?>"
-							   class="text-muted text-hover-primary">NetCRM v1.0</a>
-						</li>
-						<!--end::Item-->
-						<?php
-						foreach ($_breadcrumb["map"] as $index => $item) {
-							?>
-							<!--begin::Item-->
-							<li class="breadcrumb-item">
-								<span class="bullet bg-gray-200 w-5px h-2px"></span>
-							</li>
-							<!--end::Item-->
-							<!--begin::Item-->
-							<li class="breadcrumb-item text-<?= array_key_last($_breadcrumb["map"]) == $index ? "dark" : "muted"; ?>"><?= $item ?></li>
-							<!--end::Item-->
-							<?php
-
-						}
-						?>
-
-					</ul>
-					<!--end::explanation--></h1>
-				<!--end::Title-->
-			</div>
-			<!--end::Page title-->
+			<?= $CI->loadLayout('breadcrumb') ?>
 			<!--begin::Actions-->
 			<div class="d-flex align-items-center gap-2 gap-lg-3">
 				<!--begin::Filter menu-->
@@ -167,10 +128,82 @@
 		<div id="kt_content_container" class="container-xxl">
 			<!--begin::Card-->
 			<div class="card">
+				<input type="hidden" name="xUserID" id="xUserID" value="<?= $user['userId'] ?>">
 				<!--begin::Card header-->
 				<div class="card-header">
-					<h2 class="card-title fw-bolder">Takvim</h2>
+					<h2 class="card-title fw-bolder">Takvim - <?= $user['firstName'] . ' ' . $user['lastName'] ?></h2>
 					<div class="card-toolbar">
+						<?php
+						if (isCan('admin')) {
+							?>
+							<div class="symbol-group symbol-hover mb-3 me-5">
+								<!--begin::User-->
+								<?php
+								if ($user['image'] && is_file(uploads_dir($user['image']))) {
+									?>
+									<!--begin::User-->
+									<div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+										 data-bs-original-title="<?= $user['firstName'] . ' ' . $user['lastName'] ?>">
+										<img alt="" src="<?= uploads_url($user['image']) ?>">
+									</div>
+									<!--end::User-->
+									<?php
+								} else {
+									?>
+									<!--begin::User-->
+									<div class=" symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+										 data-bs-original-title="<?= $user['firstName'] . ' ' . $user['lastName'] ?>">
+										<span class="symbol-label bg-primary text-inverse-info fw-bolder"><?= mb_substr($user["firstName"], 0, 1, 'UTF-8') . mb_substr($user["lastName"], 0, 1, 'UTF-8') ?></span>
+									</div>
+									<!--end::User-->
+									<?php
+								}
+								?>
+								<!--end::User-->
+							</div>
+							<div class="symbol-group symbol-hover mb-3 me-5">
+								<?php
+								$currentUser = $user;
+								foreach ($users as $user) {
+									if ($currentUser != $user) {
+										?>
+										<a href="<?= base_url('calendar/' . $user['userId']) ?>">
+											<?php
+											if ($user['image'] && is_file(uploads_dir($user['image']))) {
+												?>
+												<!--begin::User-->
+												<div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip"
+													 title=""
+													 data-bs-original-title="<?= $user['firstName'] . ' ' . $user['lastName'] ?>">
+													<img alt="" src="<?= uploads_url($user['image']) ?>">
+												</div>
+												<!--end::User-->
+												<?php
+											} else {
+												?>
+												<!--begin::User-->
+												<div class=" symbol symbol-35px symbol-circle" data-bs-toggle="tooltip"
+													 title=""
+													 data-bs-original-title="<?= $user['firstName'] . ' ' . $user['lastName'] ?>">
+													<span class="symbol-label bg-primary text-inverse-info fw-bolder"><?= mb_substr($user["firstName"], 0, 1, 'UTF-8') . mb_substr($user["lastName"], 0, 1, 'UTF-8') ?></span>
+												</div>
+												<!--end::User-->
+												<?php
+											}
+											?>
+										</a>
+
+										<?php
+									}
+
+								}
+								?>
+
+
+							</div>
+							<?php
+						}
+						?>
 						<button class="btn btn-flex btn-primary" data-kt-calendar="add">
 							<!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
 							<span class="svg-icon svg-icon-2">
@@ -259,7 +292,7 @@
 											<?php
 											foreach ($eventCategories as $eventCategory) {
 												?>
-												<option value="<?= $eventCategory["eventCategoryId"] ?>"><?=$eventCategory["title"]?></option>
+												<option value="<?= $eventCategory["eventCategoryId"] ?>"><?= $eventCategory["title"] ?></option>
 												<?php
 											}
 											?>

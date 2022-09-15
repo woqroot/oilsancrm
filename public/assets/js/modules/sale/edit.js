@@ -657,6 +657,7 @@ var KTAppInvoicesCreate = function () {
 
 				$("#editNoteModal").modal("show");
 			})
+
 			$(document).on("click", ".editCustomer", function () {
 
 				$.ajax({

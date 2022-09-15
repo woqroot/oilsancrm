@@ -153,6 +153,7 @@ $route["missions/(:num)"]["GET"] = "Mission/edit/$1";
 /* Mission:END */
 
 /* Calendar:START */
-$route["calendar"]["GET"] = "Calendar/index";
+$route["calendar"]["GET"] = "Calendar/redirect";
+$route["calendar/(:num)"]["GET"] = "Calendar/index/$1";
 $route["calendar"]["POST"] = "Calendar/action";
 /* Calendar:END */

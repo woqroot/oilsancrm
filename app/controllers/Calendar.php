@@ -9,10 +9,26 @@ class Calendar extends NP_Controller
 		$this->load->model("EventCategoryModel");
 	}
 
-	public function index()
+	public function redirect()
 	{
+		redirect(base_url('calendar/' . Auth::get('userId')));
+	}
+
+	public function index($userID)
+	{
+		if (!isCan('admin') && $userID != Auth::get('userId'))
+			$this->redirect();
+
+
+		$user = $this->UserModel->first($userID);
+		if (!$user)
+			$this->redirect();
+
+		$this->setBreadcrumb(['Takvim - ' . $user['firstName'] . ' ' . $user['lastName']]);
 		$data = [
-			'eventCategories' => $this->EventCategoryModel->all()
+			'eventCategories' => $this->EventCategoryModel->all(),
+			'user' => $user,
+			'users' => $this->UserModel->all()
 		];
 		$this->render($data);
 	}
@@ -22,8 +38,12 @@ class Calendar extends NP_Controller
 
 		$start = clearDateTime($_GET["start"]);
 		$end = convertDateTime($_GET["end"]);
+		$userID = $_GET['userID'];
 
-		$events = $this->CalendarEventModel->findByDateRange($start, $end);
+		if (!isCan('admin') && $userID != Auth::get('userId'))
+			$this->redirect();
+
+		$events = $this->CalendarEventModel->findByDateRange($userID,$start, $end);
 
 		$result = [];
 
@@ -40,7 +60,7 @@ class Calendar extends NP_Controller
 
 			$className = 'border-0 ';
 			$category = $this->EventCategoryModel->first($event['fkEventCategory']);
-			if($category)
+			if ($category)
 
 				$className .= $category['className'];
 			$result[] = [
@@ -74,6 +94,10 @@ class Calendar extends NP_Controller
 	{
 		switch (post("action")) {
 			case "ADD":
+
+				if (!isCan('admin') && Auth::get('userId') != $_GET['userID'])
+					return $this->response();
+
 				$event = $_POST["event"];
 
 				$startDate = str_replace("T", " ", $event["start"]);
@@ -85,7 +109,8 @@ class Calendar extends NP_Controller
 					'explanation' => $event["explanation"],
 					'startDate' => $startDate,
 					'endDate' => $endDate,
-					'fkEventCategory' => $event['fkEventCategory']
+					'fkEventCategory' => $event['fkEventCategory'],
+					'fkUser' => $_GET['userID']
 				];
 
 				$success = $this->CalendarEventModel->insert($data);
@@ -116,10 +141,10 @@ class Calendar extends NP_Controller
 					'fkEventCategory' => $event['fkEventCategory']
 				];
 
-				$success = $this->CalendarEventModel->update($data,$eventData['calendarEventId']);
+				$success = $this->CalendarEventModel->update($data, $eventData['calendarEventId']);
 
-				if($success){
-					return $this->response(1,"Değişiklikler başarıyla kaydedildi!");
+				if ($success) {
+					return $this->response(1, "Değişiklikler başarıyla kaydedildi!");
 				}
 				return $this->response();
 				break;

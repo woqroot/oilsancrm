@@ -452,3 +452,44 @@ function commaToDot($value)
 {
 	return str_replace(",", ".", str_replace(".", "", $value));
 }
+function generateEmailBody($user, $message)
+{
+
+	return '  <div style="background-color:#ffffff; padding: 45px 0 34px 0; border-radius: 24px; margin:40px auto; max-width: 600px;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" height="auto"
+               style="border-collapse:collapse">
+            <tbody>
+            <tr>
+                <td align="center" valign="center" style="text-align:center; padding-bottom: 10px">
+                    <!--begin:Email content-->
+                    <div style="text-align:center; margin:0 15px 34px 15px">
+                        <!--begin:Logo-->
+                        <div style="margin-bottom: 10px">
+                            <a href="<?= base_url() ?>" rel="noopener" target="_blank">
+                                <img alt="Logo" src="'.public_url().'assets/media/logos/logo-dark.svg"
+                                     style="height: 125px">
+                            </a>
+                        </div>
+                        <!--end:Logo-->
+                        <!--begin:Text-->
+                        <div style="font-size: 14px; font-weight: 500; margin-bottom: 27px; font-family:Arial,Helvetica,sans-serif;">
+                            <p style="margin-bottom:9px; color:#181C32; font-size: 22px; font-weight:700">Merhaba '.$user["firstName"].',
+                                OilsanCRM\'den mesaj var!</p>
+                            <p style="margin-bottom:2px; color:#7E8299">'.$message.'</p>
+                        </div>
+                        <!--end:Text-->
+                        <!--begin:Action-->
+                        <a href="'.base_url().'"
+                           style="background-color:#50CD89; border-radius:6px;display:inline-block; padding:11px 19px; color: #FFFFFF; font-size: 14px; font-weight:500;">
+                            Giriş Yap
+                        </a>
+                        <!--begin:Action-->
+                    </div>
+                    <!--end:Email content-->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>';
+
+}

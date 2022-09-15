@@ -353,7 +353,7 @@ KTUtil.onDOMContentLoaded(function () {
 						allowOutsideClick: false
 					});
 					setTimeout(function (){
-						// window.location.href = hostUrl + "users/" + res.userID;
+						window.location.reload();
 					},3000)
 				} else {
 					Swal.fire({

@@ -12,6 +12,129 @@ $(document).ready(function(){
 		allowClear: true
 	});
 
+	$(document).on("click", ".editContactButton", function (e) {
+		e.preventDefault();
+		var contactID = $(this).data('id');
+		$.ajax({
+			type: "POST",
+			url: hostUrl + "customers",
+			dataType: "json",
+			data: {
+				id: contactID,
+				action: "GET_CONTACT"
+			},
+			success: function (res) {
+				if (res.success == 1) {
+					$('#editContactForm [name="contactID"]').val(res.data.customerContactId);
+
+					$('#editContactForm [name="name"]').val(res.data.name).trigger("change");
+					$('#editContactForm [name="department"]').val(res.data.department).trigger("change");
+					$('#editContactForm [name="phone"]').val(res.data.phone).trigger("change");
+					$('#editContactForm [name="email"]').val(res.data.email).trigger("change");
+
+				}
+			}
+		})
+
+		$("#editContact").modal("show");
+	})
+
+	$(document).on("click", ".deleteContactButton", function (e) {
+		var contactID = $(this).data('id');
+		Swal.fire({
+			icon: 'warning',
+			title: 'Yetkili bilgilerini kalıcı olarak silmek istediğinize emin misiniz?',
+			showConfirmButton: !0,
+			showCancelButton: !0,
+			cancelButtonText: "Vazgeç",
+			confirmButtonText: "Sil",
+		}).then((result) => {
+			if (result.isConfirmed === true) {
+				$.ajax({
+					type: "POST",
+					url: hostUrl + "customers",
+					dataType: "json",
+					data: {
+						action: "DELETE_CONTACT",
+						id: contactID
+					},
+					beforeSend: function () {
+						$("button").prop("disabled", true);
+					},
+					success: function (res) {
+						$("button").prop("disabled", false);
+
+						if (res.status == 1) {
+
+							// reloadPage();
+							Swal.fire({
+								icon: 'success',
+								text: res.message,
+								showConfirmButton: !1,
+								cancelButtonText: "Kapat",
+								showCancelButton: !0,
+								allowOutsideClick: !1
+							}).then(r => {
+								window.location.reload();
+							});
+						}
+					}
+				})
+			}
+		})
+	})
+
+	$(document).on("submit","#editContactForm",function (e) {
+		e.preventDefault();
+
+		$.ajax({
+			type: "POST",
+			url: hostUrl + "customers",
+			dataType: "json",
+			data: new FormData(this),
+			contentType: false,
+			processData: false,
+			cache: false,
+			beforeSend: function () {
+				// $("button").prop("disabled", true);
+			},
+			success: function (res) {
+
+				if (res.status === 1) {
+
+					Swal.fire({
+						icon: 'success',
+						text: res.message,
+						showConfirmButton: !1,
+						cancelButtonText: "Kapat",
+						showCancelButton: !0,
+						allowOutsideClick: !1
+					}).then((result) => {
+						window.location.reload();
+					});
+
+				} else {
+					Swal.fire({
+						icon: 'error',
+						text: res.message,
+						showConfirmButton: !1,
+						cancelButtonText: "Kapat",
+						showCancelButton: !1,
+						allowOutsideClick: !1
+					}).then(r => {
+						window.location.reload();
+					})
+				}
+
+				$("button").prop("disabled", false);
+
+			}
+		})
+
+	})
+
+
+
 	$("#sales-table,#trialproducts-table").DataTable();
 
 	$(document).on("click", ".editTrialProductButton", function () {

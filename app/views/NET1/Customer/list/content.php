@@ -159,9 +159,9 @@
 							<th class="text-start w-50px pe-2">
 								#
 							</th>
-							<th class="min-w-125px">Müşteri Unvanı</th>
+							<th class="min-w-125px">Durum</th>
+							<th class="min-w-125px">Müşterİ Unvanı</th>
 							<th class="min-w-125px">Telefon Numarası</th>
-							<th class="min-w-125px">Bakiye</th>
 							<th class="min-w-125px">Müşteri Grubu</th>
 							<th class="text- min-w-100px">İşlem</th>
 						</tr>

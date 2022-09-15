@@ -1,5 +1,6 @@
 "use strict";
 var KTAppCalendar = function () {
+	let xUserID = $('#xUserID').val();
 	let localeFlatpickr = {
 		firstDayOfWeek: 1,
 		weekdays: {
@@ -160,7 +161,7 @@ var KTAppCalendar = function () {
 				}
 				$.ajax({
 					type: "POST",
-					url: hostUrl + "calendar",
+					url: hostUrl + "calendar?userID=" + xUserID,
 					dataType: 'json',
 					data: {
 						action: $("#actionType").val(),
@@ -318,7 +319,7 @@ var KTAppCalendar = function () {
 				editable: !0,
 				dayMaxEvents: !0,
 				events: {
-					url: hostUrl + 'calendar/getEvents',
+					url: hostUrl + 'calendar/getEvents?userID=' + xUserID,
 					failure: function () {
 
 					}

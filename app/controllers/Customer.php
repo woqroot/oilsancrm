@@ -178,6 +178,55 @@ class Customer extends NP_Controller
 				return $this->response();
 
 				break;
+
+			case "GET_CONTACT":
+
+				$this->load->model("CustomerContactModel");
+				$id = post('id');
+
+				$data = $this->CustomerContactModel->first($id);
+				$data["phone"] = phoneMask($data['phone']);
+				return $this->toJson(['success' => 1, 'data' => $data]);
+				break;
+
+			case "EDIT_CONTACT":
+				$this->load->model("CustomerContactModel");
+				$id = post('contactID');
+
+				$customerContact = $this->CustomerContactModel->first($id);
+
+				if (!$customerContact)
+					return $this->response(0, "Kayıt bulunamadı.");
+
+				$data = [
+					'name' => post('name'),
+					'phone' => post('phone') ? phoneMask(post('phone')) : null,
+					'email' => post('email'),
+					'department' => post('department')
+				];
+
+				$success = $this->CustomerContactModel->update($data, $customerContact['customerContactId']);
+
+				if ($success)
+					return $this->response(1, "Değişiklikler başarıyla kaydedildi.");
+				return $this->response();
+
+				break;
+
+			case "DELETE_CONTACT":
+
+				$this->load->model("CustomerContactModel");
+				$id = post('id');
+
+				$data = $this->CustomerContactModel->first($id);
+				if (!$data)
+					return $this->response(0, "Kayıt bulunamadı.");
+
+				if ($this->CustomerContactModel->delete($id))
+					return $this->response(1, "Kayıt başarıyla silindi.");
+
+				return $this->response();
+				break;
 		}
 	}
 
@@ -281,10 +330,8 @@ class Customer extends NP_Controller
 			if (!$item["phone"]) {
 				$item["phone"] = "";
 			}
-			if (isCan("delete-customer")) {
-				$deleteLink = '<div class="menu-item px-3">
-											<a href="javascript:;" class="menu-link px-3 deleteButton">Sil</a>
-										</div>';
+			if (isCan("admin")) {
+				$deleteLink = '';
 			}
 
 			if ($item["isActive"] == 1) {
@@ -312,27 +359,7 @@ class Customer extends NP_Controller
 				$drawPhone,
 				'<span class="badge badge-success">' . $item["cgTitle"] . '</span>',
 				'
-				<a href="javascript:void(0)" class="btn btn-light btn-active-light-primary btn-sm"
-									   data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">İşlemler
-										<span class="svg-icon svg-icon-5 m-0">
-															<svg xmlns="http://www.w3.org/2000/svg" width="24"
-																 height="24" viewBox="0 0 24 24" fill="none">
-																<path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
-																	  fill="black"></path>
-															</svg>
-														</span></a>
-									<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
-										 data-kt-menu="true" style="">
-										<!--begin::Menu item-->
-										<div class="menu-item px-3">
-											<a href="' . $customerViewLink . '" class="menu-link px-3 ">Görüntüle</a>
-										</div>
-										<!--end::Menu item-->
-										<!--begin::Menu item-->
-										' . $deleteLink . '
-										
-										<!--end::Menu item-->
-									</div>
+				<a href="' . $customerViewLink . '" class="btn btn-light-primary btn-sm">Görüntüle</a>
 									'
 			];
 		}
