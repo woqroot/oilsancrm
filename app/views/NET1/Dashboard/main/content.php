@@ -15,7 +15,7 @@
 				if (isCan('admin')) {
 					?>
 					<!--begin::Primary button-->
-					<a href="<?=base_url('missions/add')?>" class="btn btn-sm btn-success" >Yeni Görev</a>
+					<a href="<?= base_url('missions/add') ?>" class="btn btn-sm btn-success">Yeni Görev</a>
 					<!--end::Primary button-->
 					<?php
 				}
@@ -110,45 +110,103 @@
 					</a>
 					<!--end::Statistics Widget 5-->
 				</div>
-				<!--begin::Col-->
-				<div class="col-xl-4">
-					<!--begin::Mixed Widget 2-->
-					<div class="card card-xl-stretch">
-						<!--begin::Header-->
-						<div class="card-header border-0 bg-primary py-5">
-							<h3 class="card-title fw-bolder text-white">Aylık Hedef</h3>
-
-						</div>
-						<!--end::Header-->
-						<!--begin::Body-->
-						<div class="card-body p-0">
-
-							<!--begin::Chart-->
-							<div class="d-flex flex-center w-100">
-								<div id="goalHedefChart" class="" data-kt-chart-color="primary"
-									 style="height: 300px"></div>
-							</div>
-							<!--end::Chart-->
-							<!--begin::Content-->
-							<div class="text-center w-100 position-relative z-index-1" style="margin-top: -130px">
-								<!--begin::Text-->
-								<p class="fw-bold fs-4 text-gray-400 mt-8">
-									Güncel Hedef
-								</p>
-								<!--end::Text-->
-								<!--begin::Action-->
-								<div class="mb-9 mb-xxl-1">
-									<a href='javascript:void(0)' class="btn btn-success fw-bold" id="currentGoal"></a>
+				<?php
+				if (isCan('admin')) {
+					?>
+					<!--begin::Col-->
+					<div class="col-xl-4">
+						<!--begin::Mixed Widget 7-->
+						<div class="card card-xl-stretch-50 mb-5 mb-xl-8">
+							<!--begin::Body-->
+							<div class="card-body d-flex flex-column p-0">
+								<!--begin::Stats-->
+								<div class="flex-grow-1 card-p pb-0">
+									<div class="d-flex flex-stack flex-wrap">
+										<div class="me-2">
+											<a href="#" class="text-dark text-hover-primary fw-bolder fs-3">Generate
+												Reports</a>
+											<div class="text-muted fs-7 fw-bold">Finance and accounting reports</div>
+										</div>
+										<div class="fw-bolder fs-3 text-primary">$24,500</div>
+									</div>
 								</div>
-								<!--ed::Action-->
+								<!--end::Stats-->
+								<!--begin::Chart-->
+									<div id="currentSalesStatuses" class="" data-kt-chart-color="primary"
+										 style="height: 300px"></div>
+								<!--end::Chart-->
 							</div>
-							<!--end::Content-->
-
+							<!--end::Body-->
 						</div>
-						<!--end::Body-->
+						<!--end::Mixed Widget 7-->
+						<!--begin::Mixed Widget 10-->
+						<div class="card card-xl-stretch-50 mb-5 mb-xl-8">
+							<!--begin::Body-->
+							<div class="card-body p-0 d-flex justify-content-between flex-column overflow-hidden">
+								<!--begin::Hidden-->
+								<div class="d-flex flex-stack flex-wrap flex-grow-1 px-9 pb-3">
+									<div class="me-2">
+										<span class="fw-bolder text-gray-800 d-block fs-3">Satış Sonuçlanma Durumları</span>
+										<span class="text-gray-400 fw-bold"><?=localizeDate("M Y",date("Y-m-d H:i:s",strtotime('-6 month')))?> - <?=localizeDate("M Y",date("Y-m-d H:i:s"))?></span>
+									</div>
+									<div class="fw-bolder fs-3 text-primary totalResultedRegs"></div>
+								</div>
+								<!--end::Hidden-->
+								<!--begin::Chart-->
+								<div class="customChart" data-kt-color="primary" style="height: 175px"></div>
+								<!--end::Chart-->
+							</div>
+						</div>
+						<!--end::Mixed Widget 10-->
 					</div>
-					<!--end::Mixed Widget 2-->
-				</div>
+					<!--end::Col-->
+					<?php
+				} else {
+					?>
+					<div class="col-xl-4">
+						<!--begin::Mixed Widget 2-->
+						<div class="card card-xl-stretch">
+							<!--begin::Header-->
+							<div class="card-header border-0 bg-primary py-5">
+								<h3 class="card-title fw-bolder text-white">Aylık Hedef</h3>
+
+							</div>
+							<!--end::Header-->
+							<!--begin::Body-->
+							<div class="card-body p-0">
+
+								<!--begin::Chart-->
+								<div class="d-flex flex-center w-100">
+									<div id="goalHedefChart" class="" data-kt-chart-color="primary"
+										 style="height: 300px"></div>
+								</div>
+								<!--end::Chart-->
+								<!--begin::Content-->
+								<div class="text-center w-100 position-relative z-index-1" style="margin-top: -130px">
+									<!--begin::Text-->
+									<p class="fw-bold fs-4 text-gray-400 mt-8">
+										Güncel Hedef
+									</p>
+									<!--end::Text-->
+									<!--begin::Action-->
+									<div class="mb-9 mb-xxl-1">
+										<a href='javascript:void(0)' class="btn btn-success fw-bold"
+										   id="currentGoal"></a>
+									</div>
+									<!--ed::Action-->
+								</div>
+								<!--end::Content-->
+
+							</div>
+							<!--end::Body-->
+						</div>
+						<!--end::Mixed Widget 2-->
+					</div>
+					<?php
+				}
+				?>
+				<!--begin::Col-->
+
 				<!--end::Col-->
 				<!--begin::Col-->
 				<div class="col-xl-8 ">
@@ -168,10 +226,10 @@
 								<!--begin::Tap pane-->
 								<div class="tab-pane fade show active" id="kt_table_widget_5_tab_1">
 									<?php
-									if(count($announcements) == 0){
-?>
-									<div class="alert alert-warning">Duyuru içeriği bulunamadı.</div>
-									<?php
+									if (count($announcements) == 0) {
+										?>
+										<div class="alert alert-warning">Duyuru içeriği bulunamadı.</div>
+										<?php
 									}
 									?>
 									<!--begin::Table container-->

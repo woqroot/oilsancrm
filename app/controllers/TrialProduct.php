@@ -223,7 +223,7 @@ class TrialProduct extends NP_Controller
 				$endDate,
 				$userText
 			];
-			if(!isCan('admin')){
+			if (!isCan('admin')) {
 				unset($_data[5]);
 				$_data[5] = '<div class="d-flex">
 					<div class="ms-2" data-kt-filemanger-table="copy_link">
@@ -239,7 +239,7 @@ class TrialProduct extends NP_Controller
 					</div>
 					' . $deleteLink . '
 				</div>';
-			}else{
+			} else {
 				$_data[6] = '<div class="d-flex">
 					<div class="ms-2" data-kt-filemanger-table="copy_link">
 					
@@ -307,7 +307,7 @@ class TrialProduct extends NP_Controller
 					$this->TrialProductModel->insert($data);
 
 				}
-
+				$this->SaleModel->update(['fkStatus' => 3, 'approvedAt' => null], post('saleID'));
 				return $this->response(1, "Deneme süreci başarıyla oluşturuldu!");
 
 				break;
@@ -321,7 +321,10 @@ class TrialProduct extends NP_Controller
 			case "EDIT":
 
 				$trialProductID = post('trialProductID');
-
+				$tp = $this->TrialProductModel->first($trialProductID);
+				if (!$tp) {
+					return $this->response();
+				}
 				$data = [
 					'department' => post('department'),
 					'equipment' => post('equipment'),
@@ -336,6 +339,9 @@ class TrialProduct extends NP_Controller
 					'fkUnit' => post('unitID')
 				];
 
+				if ($data['tpStatus'] == 0) {
+					$this->SaleModel->update(['fkStatus' => 3, 'approvedAt' => null], $tp['fkSale']);
+				}
 
 				$success = $this->TrialProductModel->update($data, $trialProductID);
 

@@ -177,7 +177,7 @@
 							if ($sale['fkStatus'] == 4) {
 								?>
 								<div class="fv-row mb-7">
-									<label class=" fw-bold  fs-6 mb-2">Satış Tarihi</label>
+									<label class=" fw-bold  fs-6 mb-2">Sonuçlanma Tarihi</label>
 									<div class="text-gray-600 "><?= $sale["approvedAt"] ? localizeDate("d M Y", $sale["approvedAt"]) : "-" ?></div>
 								</div>
 								<?php
@@ -187,29 +187,30 @@
 								<label class=" fw-bold  fs-6 mb-2">Son İşlem Tarihi</label>
 								<div class="text-gray-600 "><?= showDate($sale["updatedAt"]) ?></div>
 							</div>
-							<?php
-							if ($user) {
-								?>
+
 								<div class="fv-row">
 									<label class=" fw-bold  fs-6 mb-2">Satış Sorumlusu</label>
 									<div class=" text-gray-600 text-center">
 										<div class="<?= isCan('admin') ? 'changeFkUser' : ''; ?> align-items-center">
 											<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
 												<a class=" cursor-pointer" href="javascript:void(0)">
-
+													<?php
+													if ($user) {
+													?>
 													<div class="symbol"><?= getAvatar($user) ?></div>
+														<?php
+													}
+													?>
 												</a>
 											</div>
 											<div class="d-flex flex-column">
 												<a href="javascript:void(0)"
-												   class="fw-bold text-gray-500 cursor-pointer mb-1"><?= $user["firstName"] ?> <?= $user["lastName"] ?></a>
+												   class="fw-bold text-gray-500 cursor-pointer mb-1"><?= $user ? $user["firstName"]." ".$user["lastName"] : 'Belirtilmemiş'; ?></a>
 											</div>
 										</div>
 									</div>
 								</div>
-								<?php
-							}
-							?>
+
 
 						</div>
 					</div>
@@ -1489,7 +1490,7 @@ if (isCan('admin')) {
 												<?php
 												foreach ($users as $_user) {
 													?>
-													<option <?= $_user['userId'] == $user['userId'] ? 'selected' : ''; ?>
+													<option <?= $user && $_user['userId'] == $user['userId'] ? 'selected' : ''; ?>
 															value="<?= $_user["userId"] ?>"><?= $_user["firstName"] ?></option>
 													<?php
 												}

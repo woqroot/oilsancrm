@@ -172,7 +172,7 @@
 									?>
 									<!--begin::Details item-->
 									<div class="fw-bolder mt-5">Son İşlem Tarihi</div>
-									<div class="text-gray-600"><?= localizeDate("d M Y l H:i",$data['updatedAt']) ?></div>
+									<div class="text-gray-600"><?= localizeDate("d M Y l H:i", $data['updatedAt']) ?></div>
 									<!--begin::Details item-->
 									<!--begin::Details item-->
 									<div class="fw-bolder mt-5">Adres</div>
@@ -368,7 +368,7 @@
 													</th>
 													<th>Durum
 													</th>
-													<th>Tutar
+													<th>Satış Temsilcisi
 													</th>
 													<th>Tarih
 													</th>
@@ -399,7 +399,11 @@
 														</td>
 														<!--end::Status=-->
 														<!--begin::Amount=-->
-														<td><?= showBalance($sale["balance"], $sale["fkCurrency"]) ?></td>
+														<?php
+														$user = getUser($sale['fkUser']);
+
+														?>
+														<td><?=$user ? $user["firstName"]." ".$user["lastName"] : 'Belirtilmemiş';?></td>
 														<!--end::Amount=-->
 														<!--begin::Date=-->
 														<td data-order="2020-12-14T20:43:00+03:00"><?= localizeDate("d M Y", $sale["invoiceDate"]) ?>
@@ -802,16 +806,10 @@
 														<!--end::Date=-->
 														<!--begin::Action=-->
 														<td class="pe-0 text-ensd">
-															<a download href="<?= uploads_url($document['document']) ?>"
+															<a download href="<?= base_url("documents/download/".$document['uuid']."/".$document["documentId"]) ?>"
 															   class="">
 
-																<button class="btn btn-light-success btn-sm">İndir
-																</button>
-															</a>
-															<a target="_blank"
-															   href="<?= uploads_url($document['document']) ?>"
-															   class="">
-																<button class="btn btn-light-primary btn-sm">Görüntüle
+																<button class="btn btn-light-success btn-sm text-center"><i class="fa fa-download fs-5"></i>
 																</button>
 															</a>
 														</td>
@@ -2109,7 +2107,7 @@
 														<!--end::Input-->
 													</div>
 													<?php
-													if (isCan('admin')) {
+													if (false) {
 														?>
 														<div class="col-md-12 col-sm-12 fv-row mt-3">
 															<!--begin::Label-->
@@ -2120,7 +2118,8 @@
 																<?php
 																foreach ($staffs as $staff) {
 																	?>
-																	<option <?=$staff['userId'] == $data['fkUser'] ? 'selected' : ''?> value="<?= $staff['userId'] ?>"><?= $staff['firstName'] . ' ' . $staff['lastName'] ?></option>
+																	<option <?= $staff['userId'] == $data['fkUser'] ? 'selected' : '' ?>
+																			value="<?= $staff['userId'] ?>"><?= $staff['firstName'] . ' ' . $staff['lastName'] ?></option>
 																	<?php
 																}
 																?>

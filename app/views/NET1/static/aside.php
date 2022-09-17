@@ -261,9 +261,59 @@
 				<?php
 				if (isCan('admin')) {
 					?>
+
 					<div class="menu-item">
 						<div class="menu-content pt-8 pb-2">
 							<span class="menu-section text-muted text-uppercase fs-8 ls-1">Yönetim</span>
+						</div>
+					</div>
+					<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+									<span class="menu-link">
+										<span class="menu-icon">
+											<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm007.svg-->
+					<i class="bi-calculator bi fs-3"></i>
+											<!--end::Svg Icon-->
+										</span>
+										<span class="menu-title">Raporlar</span>
+										<span class="menu-arrow"></span>
+									</span>
+						<div class="menu-sub menu-sub-accordion menu-active-bg">
+							<?php
+
+							?>
+							<div class="menu-item">
+								<a class="menu-link" href="<?= base_url("reports/byProduct") ?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Genel Raporlar</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a class="menu-link" href="<?= base_url("reports/byProduct") ?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Ürün Raporları</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a class="menu-link" href="<?= base_url("reports/byProduct") ?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Personel Raporları</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a class="menu-link" href="<?= base_url("reports/byProduct") ?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Satış Raporları</span>
+								</a>
+							</div>
+
 						</div>
 					</div>
 					<div class="menu-item">

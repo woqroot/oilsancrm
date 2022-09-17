@@ -8,7 +8,8 @@ $route['translate_uri_dashes'] = FALSE;
 
 /* Ajax:START */
 $route["ajax/announcement"] = "Announcement/view";
-$route["ajax"] = "Ajax/dashReports";
+$route["ajax/dashReportOne"] = "Ajax/dashReportsOne";
+$route["ajax/dashReportTwo"] = "Ajax/dashReportsTwo";
 /* Ajax:END */
 
 /* User:START */

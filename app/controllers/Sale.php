@@ -441,13 +441,13 @@ class Sale extends NP_Controller
 				if (!$findSale)
 					return $this->response();
 
-				if ($findSale['fkStatus'] == 4) {
+				if ($findSale['fkStatus'] == 4 || $findSale['fkStatus'] == 5) {
 
 					$data = [
 						'fkStatus' => $statusID
 					];
 
-					if ($statusID != 4)
+					if ($statusID < 4)
 						$data['approvedAt'] = null;
 
 					$success = $this->SaleModel->update($data, $saleID);
@@ -455,7 +455,7 @@ class Sale extends NP_Controller
 					$data = [
 						'fkStatus' => $statusID
 					];
-					if ($statusID == 4)
+					if ($statusID == 4 || $statusID == 5)
 						$data['approvedAt'] = date('Y-m-d');
 
 					$success = $this->SaleModel->update($data, $saleID);

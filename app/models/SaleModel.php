@@ -54,14 +54,14 @@ class SaleModel extends NP_Model
 
 
 		return [
-			'total' => $this->collectToCurrency($sales,$toCurrencyID),
+			'total' => $this->collectToCurrency($sales, $toCurrencyID),
 			'currency' => $currency,
 			'count' => count($sales)
 		];
 
 	}
 
-	public function collectToCurrency($sales,$toCurrencyID)
+	public function collectToCurrency($sales, $toCurrencyID)
 	{
 		$total = 0.00;
 		foreach ($sales as $sale) {
@@ -70,5 +70,38 @@ class SaleModel extends NP_Model
 			$total += $res;
 		}
 		return $total;
+	}
+
+	public function getLastSixMonthResults()
+	{
+
+		$result = [];
+
+		$dates = [];
+
+		for ($i = 0; $i <= 6; $i++) {
+
+			$dates[] = [
+				'year' => date("Y",strtotime('-'.$i.' month')),
+				'month' => date("m",strtotime('-'.$i.' month')),
+			];
+		}
+
+		foreach ($dates as $date) {
+
+			$countSuccess = $this->db->query("SELECT * FROM sale WHERE MONTH(approvedAt) = '{$date["month"]}' AND YEAR(approvedAt) = '{$date["year"]}' AND fkStatus = 4 AND deletedAt IS NULL")->num_rows();
+			$countDenies = $this->db->query("SELECT * FROM sale WHERE MONTH(approvedAt) = '{$date["month"]}' AND YEAR(approvedAt) = '{$date["year"]}' AND fkStatus = 5 AND deletedAt IS NULL")->num_rows();
+
+			$result["labels"][] = localizeDate("M",date("Y-m-d",strtotime($date['year'].'-'.$date['month'])));
+			$result["series"]["success"][] = $countSuccess;
+			$result["series"]["denies"][] = $countDenies;
+		}
+
+		$result["series"]["success"] = array_reverse($result["series"]["success"]);
+		$result["series"]["denies"] = array_reverse($result["series"]["denies"]);
+		$result["labels"] = array_reverse($result["labels"]);
+
+		$result["totalResultedRegs"] = $this->db->query("SELECT * FROM sale WHERE approvedAt IS NOT NULL AND fkStatus >= 4 AND deletedAt IS NULL")->num_rows();
+		return $result;
 	}
 }
