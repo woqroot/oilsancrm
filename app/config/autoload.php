@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array("url", "general");
+$autoload['helper'] = array("download","url", "general");
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array("ConfigModel","CountryModel","CityModel","DistrictModel","CurrencyModel","BankModel","AccountModel");
+$autoload['model'] = array("ExchangeRateModel","ConfigModel","CountryModel","CityModel","DistrictModel","CurrencyModel","BankModel","AccountModel");

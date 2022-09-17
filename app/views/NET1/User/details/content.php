@@ -1,3 +1,5 @@
+<?php
+?>
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 	<!--begin::Toolbar-->
@@ -194,27 +196,8 @@
 								<!--end::User-->
 								<!--begin::Actions-->
 								<div class="d-flex my-4">
-									<a href="#" class="btn btn-sm btn-light me-2" id="kt_user_follow_button">
-										<!--begin::Svg Icon | path: icons/duotune/arrows/arr012.svg-->
-										<span class="svg-icon svg-icon-3 d-none">
-																<svg xmlns="http://www.w3.org/2000/svg" width="24"
-																	 height="24" viewBox="0 0 24 24" fill="none">
-																	<path opacity="0.3"
-																		  d="M10 18C9.7 18 9.5 17.9 9.3 17.7L2.3 10.7C1.9 10.3 1.9 9.7 2.3 9.3C2.7 8.9 3.29999 8.9 3.69999 9.3L10.7 16.3C11.1 16.7 11.1 17.3 10.7 17.7C10.5 17.9 10.3 18 10 18Z"
-																		  fill="currentColor"/>
-																	<path d="M10 18C9.7 18 9.5 17.9 9.3 17.7C8.9 17.3 8.9 16.7 9.3 16.3L20.3 5.3C20.7 4.9 21.3 4.9 21.7 5.3C22.1 5.7 22.1 6.30002 21.7 6.70002L10.7 17.7C10.5 17.9 10.3 18 10 18Z"
-																		  fill="currentColor"/>
-																</svg>
-															</span>
-										<!--end::Svg Icon-->
-										<!--begin::Indicator-->
-										<span class="indicator-label">Follow</span>
-										<span class="indicator-progress">Please wait...
-															<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-										<!--end::Indicator-->
-									</a>
 									<a href="#" class="btn btn-sm btn-primary me-2" data-bs-toggle="modal"
-									   data-bs-target="#kt_modal_offer_a_deal">Hire Me</a>
+									   data-bs-target="#kt_modal_offer_a_deal">Aylık Hedef Değiştir</a>
 									<!--begin::Menu-->
 									<div class="me-0">
 										<button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
@@ -408,12 +391,12 @@
 								<!--begin::Progress-->
 								<div class="d-flex align-items-center w-200px w-sm-300px flex-column mt-3">
 									<div class="d-flex justify-content-between w-100 mt-auto mb-2">
-										<span class="fw-bold fs-6 text-gray-400">Profile Compleation</span>
-										<span class="fw-bolder fs-6">50%</span>
+										<span class="fw-bold fs-6 text-gray-400">Aylık Hedef - %<?=$goal["percent"]?></span>
+										<span class="fw-bolder fs-6"><?=$goal["currentSales"]?>/<?=$goal["total"]?></span>
 									</div>
 									<div class="h-5px mx-3 w-100 bg-light mb-3">
-										<div class="bg-success rounded h-5px" role="progressbar" style="width: 50%;"
-											 aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+										<div class="bg-success rounded h-5px" role="progressbar" style="width: <?=$goal["percent"]?>%;"
+											 aria-valuenow="<?=$goal["percent"]?>" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 								</div>
 								<!--end::Progress-->
@@ -437,6 +420,11 @@
 							   class="nav-link text-active-primary ms-0 me-10 py-5">Ayarlar</a>
 						</li>
 						<!--end::Nav item-->
+						<!--begin::Nav item-->
+						<li class="nav-item mt-2">
+							<a data-bs-target="#documents" data-bs-toggle="tab" href="#documents"
+							   class="nav-link xyz text-active-primary ms-0 me-10 py-5">Doküman/Evraklar</a>
+						</li>
 						<!--end::Nav item-->
 					</ul>
 					<!--begin::Navs-->
@@ -507,40 +495,7 @@
 								<!--end::Col-->
 							</div>
 							<!--end::Input group-->
-							<!--begin::Notice-->
-							<div class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6">
-								<!--begin::Icon-->
-								<!--begin::Svg Icon | path: icons/duotune/general/gen044.svg-->
-								<span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
-												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-													 viewBox="0 0 24 24" fill="none">
-													<rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10"
-														  fill="currentColor"/>
-													<rect x="11" y="14" width="7" height="2" rx="1"
-														  transform="rotate(-90 11 14)" fill="currentColor"/>
-													<rect x="11" y="17" width="2" height="2" rx="1"
-														  transform="rotate(-90 11 17)" fill="currentColor"/>
-												</svg>
-											</span>
-								<!--end::Svg Icon-->
-								<!--end::Icon-->
-								<!--begin::Wrapper-->
-								<div class="d-flex flex-stack flex-grow-1">
-									<!--begin::Content-->
-									<div class="fw-bold">
-										<h4 class="text-gray-900 fw-bolder">We need your attention!</h4>
-										<div class="fs-6 text-gray-700">Your payment was declined. To start using tools,
-											please
-											<a class="fw-bolder" href="../../demo1/dist/account/billing.html">Add
-												Payment
-												Method</a>.
-										</div>
-									</div>
-									<!--end::Content-->
-								</div>
-								<!--end::Wrapper-->
-							</div>
-							<!--end::Notice-->
+
 						</div>
 						<!--end::Card body-->
 					</div>
@@ -553,206 +508,326 @@
 					<div class="card mb-5 mb-xl-10">
 						<!--begin::Basic info-->
 						<div class="card mb-5 mb-xl-10">
-							<!--begin::Card header-->
-							<div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
-								 data-bs-target="#kt_account_profile_details" aria-expanded="true"
-								 aria-controls="kt_account_profile_details">
-								<!--begin::Card title-->
-								<div class="card-title m-0">
-									<h3 class="fw-bolder m-0">Temel Bilgiler</h3>
+							<form class="autoForm" action="">
+								<input type="hidden" name="action" value="EDIT">
+								<input id="userID" type="hidden" name="userID" value="<?=$user['userId']?>">
+								<!--begin::Card header-->
+								<div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
+									 data-bs-target="#kt_account_profile_details" aria-expanded="true"
+									 aria-controls="kt_account_profile_details">
+									<!--begin::Card title-->
+									<div class="card-title m-0">
+										<h3 class="fw-bolder m-0">Temel Bilgiler</h3>
+									</div>
+									<!--end::Card title-->
 								</div>
-								<!--end::Card title-->
-							</div>
-							<!--begin::Card header-->
-							<div class="card-body border-top p-9">
-								<!--begin::Input group-->
-								<div class="row mb-6">
-									<!--begin::Label-->
-									<label class="col-lg-4 col-form-label required fw-bold fs-6">Ad-Soyad</label>
-									<!--end::Label-->
-									<!--begin::Col-->
-									<div class="col-lg-8">
-										<!--begin::Row-->
-										<div class="row">
-											<!--begin::Col-->
-											<div class="col-lg-6 fv-row">
-												<input type="text" required name="firstName"
-													   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-													   placeholder="" value="<?=$user["firstName"]?>"/>
+								<!--begin::Card header-->
+								<div class="card-body border-top p-9">
+									<!--begin::Input group-->
+									<div class="row mb-6">
+										<!--begin::Label-->
+										<label class="col-lg-4 col-form-label required fw-bold fs-6">Ad-Soyad</label>
+										<!--end::Label-->
+										<!--begin::Col-->
+										<div class="col-lg-8">
+											<!--begin::Row-->
+											<div class="row">
+												<!--begin::Col-->
+												<div class="col-lg-6 fv-row">
+													<input type="text" required name="firstName"
+														   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+														   placeholder="" value="<?=$user["firstName"]?>"/>
+												</div>
+												<!--end::Col-->
+												<!--begin::Col-->
+												<div class="col-lg-6 fv-row">
+													<input type="text" required name="lastName"
+														   class="form-control form-control-lg form-control-solid"
+														   placeholder="" value="<?=$user["lastName"]?>"/>
+												</div>
+												<!--end::Col-->
 											</div>
-											<!--end::Col-->
-											<!--begin::Col-->
-											<div class="col-lg-6 fv-row">
-												<input type="text" required name="lastName"
-													   class="form-control form-control-lg form-control-solid"
-													   placeholder="" value="<?=$user["lastName"]?>"/>
-											</div>
-											<!--end::Col-->
+											<!--end::Row-->
 										</div>
-										<!--end::Row-->
+										<!--end::Col-->
 									</div>
-									<!--end::Col-->
-								</div>
-								<!--end::Input group-->
-								<!--begin::Input group-->
-								<div class="row mb-6">
-									<!--begin::Label-->
-									<label class="col-lg-4 col-form-label  fw-bold fs-6">Telefon Numarası</label>
-									<!--end::Label-->
-									<!--begin::Col-->
-									<div class="col-lg-8 fv-row">
-										<input type="text" name="phone"
-											   class="form-control form-control-lg maskPhone form-control-solid"
-											   placeholder="Telefon Numarası"  value="<?=phoneMask($user["phone"])?>"/>
+									<!--end::Input group-->
+									<!--begin::Input group-->
+									<div class="row mb-6">
+										<!--begin::Label-->
+										<label class="col-lg-4 col-form-label  fw-bold fs-6">Telefon Numarası</label>
+										<!--end::Label-->
+										<!--begin::Col-->
+										<div class="col-lg-8 fv-row">
+											<input type="text" name="phone"
+												   class="form-control form-control-lg maskPhone form-control-solid"
+												   placeholder="Telefon Numarası"  value="<?=phoneMask($user["phone"])?>"/>
+										</div>
+										<!--end::Col-->
 									</div>
-									<!--end::Col-->
-								</div>
-								<!--end::Input group-->
+									<!--end::Input group-->
+									<!--begin::Input group-->
+									<div class="row mb-6">
+										<!--begin::Label-->
+										<label class="col-lg-4 col-form-label  fw-bold fs-6">E-posta Adresi</label>
+										<!--end::Label-->
+										<!--begin::Col-->
+										<div class="col-lg-8 fv-row">
+											<input type="email" name="email"
+												   class="form-control form-control-lg maskPhone form-control-solid"
+												   placeholder="E-posta Adresi"  value="<?=$user["email"]?>"/>
+										</div>
+										<!--end::Col-->
+									</div>
+									<!--end::Input group-->
 
-								<!--begin::Input group-->
-								<div class="row mb-6">
-									<!--begin::Label-->
-									<label class="col-lg-4 col-form-label  fw-bold fs-6">Doğum Tarihi</label>
-									<!--end::Label-->
-									<!--begin::Col-->
-									<div class="col-lg-8 fv-row">
-										<input type="text" name="phone"
-											   class="dateInput form-control form-control-lg  form-control-solid"
-											   placeholder="Doğum Tarihi"  value="<?=convertDate($user["birthDate"])?>"/>
+									<!--begin::Input group-->
+									<div class="row mb-6">
+										<!--begin::Label-->
+										<label class="col-lg-4 col-form-label  fw-bold fs-6">Doğum Tarihi</label>
+										<!--end::Label-->
+										<!--begin::Col-->
+										<div class="col-lg-8 fv-row">
+											<input type="text" name="birthDate"
+												   class="dateInput form-control form-control-lg  form-control-solid"
+												   placeholder="Doğum Tarihi"  value="<?=convertDate($user["birthDate"])?>"/>
+										</div>
+										<!--end::Col-->
 									</div>
-									<!--end::Col-->
+									<!--end::Input group-->
+									<!--begin::Input group-->
+									<div class="row mb-6">
+										<!--begin::Label-->
+										<label class="col-lg-4 col-form-label  fw-bold fs-6">Parola Sıfırla</label>
+										<!--end::Label-->
+										<!--begin::Col-->
+										<div class="col-lg-8 fv-row">
+											<input type="password" name="password" minlength="8" maxlength="32"
+												   class="form-control form-control-lg  form-control-solid"
+												   placeholder="Sıfırlamak istediğiniz parolayı girin."  value=""/>
+										</div>
+										<!--end::Col-->
+									</div>
+									<!--end::Input group-->
 								</div>
-								<!--end::Input group-->
-							</div>
 
-							<!--end::Card body-->
-							<!--begin::Actions-->
-							<div class="card-footer d-flex justify-content-end py-6 px-9">
-								<button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">
-									Değişiklikleri Kaydet
-								</button>
-							</div>
-							<!--end::Actions-->
+								<!--end::Card body-->
+								<!--begin::Actions-->
+								<div class="card-footer d-flex justify-content-end py-6 px-9">
+									<button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">
+										Değişiklikleri Kaydet
+									</button>
+								</div>
+								<!--end::Actions-->
+							</form>
 
 						</div>
 						<!--end::Basic info-->
 					</div>
 					<!--end::details View-->
-					<!--begin::Sign-in Method-->
-					<div class="card mb-5 mb-xl-10">
-						<!--begin::Card header-->
-						<div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
-							<div class="card-title m-0">
-								<h3 class="fw-bolder m-0">Güvenlik Ayarları</h3>
+
+				</div>
+				<div class="tab-pane fade " id="documents" role="tabpanel">
+					<!--begin::Content-->
+					<div class="flex-lg-row-fluid mb-10 mb-lg-0">
+						<!--begin::Card-->
+						<div class="card">
+
+							<div class="card-header border-0 pt-6">
+								<!--begin::Card title-->
+								<div class="card-title">
+
+									<!--begin::Search-->
+									<div class="d-flex align-items-center position-relative my-1">
+										<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+										<span class="svg-icon svg-icon-1 position-absolute ms-6">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+														 viewBox="0 0 24 24" fill="none">
+														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+															  height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+															  fill="currentColor"></rect>
+														<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+															  fill="currentColor"></path>
+													</svg>
+												</span>
+										<!--end::Svg Icon-->
+										<input type="text" data-kt-filter="searchDocumentInput"
+											   class="form-control form-control-solid w-250px ps-15"
+											   placeholder="Tabloda ara">
+									</div>
+									<!--end::Search-->
+								</div>
+								<div id="kt_datatable_example_1_export" class="d-none"></div>
+								<!--begin::Card title-->
+								<!--begin::Card toolbar-->
+								<div class="card-toolbar">
+									<!--begin::Export dropdown-->
+
+									<!--end::Export dropdown-->
+									<!--begin::Toolbar-->
+									<div class="d-flex justify-content-end ms-4"
+										 data-kt-customer-table-toolbar="base">
+										<!--begin::Add customer-->
+										<button class="btn btn-primary"
+												data-bs-target="#addDocumentModal"
+												data-bs-toggle="modal">
+											<i class="fa fa-upload"></i> Dosya Yükle
+										</button>
+										<!--end::Add customer-->
+									</div>
+									<!--end::Toolbar-->
+									<!--begin::Group actions-->
+									<div class="d-flex justify-content-end align-items-center d-none"
+										 data-kt-customer-table-toolbar="selected">
+										<div class="fw-bolder me-5">
+												<span class="me-2"
+													  data-kt-customer-table-select="selected_count"></span>Selected
+										</div>
+										<button type="button" class="btn btn-danger"
+												data-kt-customer-table-select="delete_selected">Delete Selected
+										</button>
+									</div>
+									<!--end::Group actions-->
+								</div>
+								<!--end::Card toolbar-->
 							</div>
-						</div>
-						<!--end::Card header-->
-						<!--begin::Content-->
-						<div id="kt_account_settings_signin_method" class="collapse show">
 							<!--begin::Card body-->
-							<div class="card-body border-top p-9">
-								<!--begin::Email Address-->
-								<div class="d-flex flex-wrap align-items-center">
-									<!--begin::Label-->
-									<div id="kt_signin_email">
-										<div class="fs-6 fw-bolder mb-1">E-Posta Adresi</div>
-										<div class="fw-bold text-gray-600"><?=$user["email"]?></div>
-									</div>
-									<!--end::Label-->
-									<!--begin::Edit-->
-									<div id="kt_signin_email_edit" class="flex-row-fluid d-none">
-										<!--begin::Form-->
-										<form id="kt_signin_change_email" class="form" novalidate="novalidate">
-											<div class="row mb-6">
-												<div class="col-lg-6 mb-4 mb-lg-0">
-													<div class="fv-row mb-0">
-														<label for="emailaddress" class="form-label fs-6 fw-bolder mb-3">Yeni E-Posta Adresi</label>
-														<input type="email" class="form-control form-control-lg form-control-solid" id="emailaddress" placeholder="E-posta Adresi" name="email" value="" />
-													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="fv-row mb-0">
-														<label for="confirmemailpassword" class="form-label fs-6 fw-bolder mb-3">Hesap Parolanız</label>
-														<input type="password" class="form-control form-control-lg form-control-solid" name="confirmPassword" id="confirmemailpassword" />
-													</div>
-												</div>
-											</div>
-											<div class="d-flex">
-												<button id="kt_signin_submit" type="button" class="btn btn-primary me-2 px-6">Kaydet</button>
-												<button id="kt_signin_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">Vazgeç</button>
-											</div>
-										</form>
-										<!--end::Form-->
-									</div>
-									<!--end::Edit-->
-									<!--begin::Action-->
-									<div id="kt_signin_email_button" class="ms-auto">
-										<button class="btn btn-light btn-active-light-primary">Değiştir</button>
-									</div>
-									<!--end::Action-->
+							<div class="card-body p-12">
+								<div class="d-flex flex-column align-items-start flex-xxl-row">
+									<table style="width: 100% !important;" class="table align-middle table-row-dashed fs-6 gy-5 documents-datatable">
+										<!--begin::Table head-->
+										<thead>
+										<!--begin::Table row-->
+										<tr class="table-hover  text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+
+											<th class="min-w-50px">#</th>
+											<th class="min-w-125px">Doküman Adı</th>
+											<th class="min-w-125px">Yükleme Tarihi</th>
+											<th class="min-w-125px">Yükleyen</th>
+											<th class="min-w-">İşlem</th>
+										</tr>
+										<!--end::Table row-->
+										</thead>
+										<!--end::Table head-->
+										<!--begin::Table body-->
+										<tbody class="text-gray-600 fw-bold cursor-pointer">
+
+
+										</tbody>
+									</table>
 								</div>
-								<!--end::Email Address-->
-								<!--begin::Separator-->
-								<div class="separator separator-dashed my-6"></div>
-								<!--end::Separator-->
-								<!--begin::Password-->
-								<div class="d-flex flex-wrap align-items-center mb-10">
-									<!--begin::Label-->
-									<div id="kt_signin_password">
-										<div class="fs-6 fw-bolder mb-1">Parola</div>
-										<div class="fw-bold text-gray-600">************</div>
-									</div>
-									<!--end::Label-->
-									<!--begin::Edit-->
-									<div id="kt_signin_password_edit" class="flex-row-fluid d-none">
-										<!--begin::Form-->
-										<form id="kt_signin_change_password" class="form" novalidate="novalidate">
-											<div class="row mb-1">
-												<div class="col-lg-4">
-													<div class="fv-row mb-0">
-														<label for="currentpassword" class="form-label fs-6 fw-bolder mb-3">Eski Parola</label>
-														<input type="password" class="form-control form-control-lg form-control-solid" name="currentpassword" id="currentpassword" />
-													</div>
-												</div>
-												<div class="col-lg-4">
-													<div class="fv-row mb-0">
-														<label for="newpassword" class="form-label fs-6 fw-bolder mb-3">Yeni Parola</label>
-														<input type="password" class="form-control form-control-lg form-control-solid" name="newpassword" id="newpassword" />
-													</div>
-												</div>
-												<div class="col-lg-4">
-													<div class="fv-row mb-0">
-														<label for="confirmpassword" class="form-label fs-6 fw-bolder mb-3">Yeni Parola (tekrar)</label>
-														<input type="password" class="form-control form-control-lg form-control-solid" name="confirmpassword" id="confirmpassword" />
-													</div>
-												</div>
-											</div>
-											<div class="form-text mb-5">En az 8 karakter uzunluğunda yeni şifrenizi belirleyebilirsiniz.</div>
-											<div class="d-flex">
-												<button id="kt_password_submit" type="button" class="btn btn-primary me-2 px-6">Kaydet</button>
-												<button id="kt_password_cancel" type="button" class="btn btn-color-gray-400 btn-active-light-primary px-6">Vazgeç</button>
-											</div>
-										</form>
-										<!--end::Form-->
-									</div>
-									<!--end::Edit-->
-									<!--begin::Action-->
-									<div id="kt_signin_password_button" class="ms-auto">
-										<button class="btn btn-light btn-active-light-primary">Şifre Sıfırla</button>
-									</div>
-									<!--end::Action-->
-								</div>
-								<!--end::Password-->
 							</div>
 							<!--end::Card body-->
 						</div>
-						<!--end::Content-->
+						<!--end::Card-->
 					</div>
-					<!--end::Sign-in Method-->
+					<!--end::Content-->
 				</div>
+
 			</div>
 
+			<div class="modal fade" id="addDocumentModal" data-bs-backdrop="static"
+				 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+				<!--begin::Modal dialog-->
+				<div class="modal-dialog modal-dialog-centered mw-550px">
+					<!--begin::Modal content-->
+					<div class="modal-content">
+						<!--begin::Modal header-->
+						<div class="modal-header" id="kt_modal_add_user_header">
+							<!--begin::Modal title-->
+							<h2 class="fw-bolder formTitle">Doküman Yükle </h2>
+							<!--end::Modal title-->
+							<!--begin::Close-->
+							<div class="btn btn-icon btn-sm btn-active-icon-primary"
+								 data-bs-dismiss="modal">
+								<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+								<span class="svg-icon svg-icon-1">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
+								<!--end::Svg Icon-->
+							</div>
+							<!--end::Close-->
+						</div>
+						<!--end::Modal header-->
+						<!--begin::Modal body-->
+						<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+							<!--begin::Form-->
+							<form id="addDocumentForm" enctype="multipart/form-data" class="form"
+								  action="#">
+								<input type="hidden" name="action" value="ADD">
+								<input type="hidden" name="fkUser" value="<?= $user["userId"] ?>">
+								<!--begin::Scroll-->
+								<div class="d-flex flex-column scroll-y me-n7 pe-7"
+									 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+									 data-kt-scroll-activate="{default: false, lg: true}"
+									 data-kt-scroll-max-height="auto"
+									 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+									 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+									 data-kt-scroll-offset="300px">
+									<!--begin::Input group-->
+									<!--end::Input group-->
+									<div class="row">
 
+										<div class="col-lg-12">
+
+											<div class="fv-row mb-5 ">
+												<div class="col-md-12 col-sm-12 fv-row mb-7">
+													<!--begin::Label-->
+													<label for="xyz" class="required form-label fw-bolder fs-6 text-gray-700">Doküman
+														Adı</label>
+													<!--end::Label-->
+													<!--begin::Select-->
+													<input type="text" class="form-control form-control-solid" name="name">
+													<!--end::Select-->
+												</div>
+												<div class="col-md-12 col-sm-12 fv-row ">
+													<!--begin::Label-->
+													<label for="xyz" class="required form-label fw-bolder fs-6 text-gray-700">Dosya
+														Seçimi</label>
+													<!--end::Label-->
+													<!--begin::Select-->
+													<input type="file" class="form-control form-control-solid" name="document">
+													<!--end::Select-->
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+								</div>
+								<!--end::Scroll-->
+								<!--begin::Actions-->
+								<div class="text-center pt-15">
+									<button type="reset" class="btn btn-light me-3"
+											data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
+										Kapat
+									</button>
+									<button type="submit" class="btn btn-primary"
+											data-kt-users-modal-action="submit">
+										<span class="indicator-label">Kaydet</span>
+										<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+									</button>
+								</div>
+								<!--end::Actions-->
+							</form>
+							<!--end::Form-->
+						</div>
+						<!--end::Modal body-->
+					</div>
+					<!--end::Modal content-->
+				</div>
+				<!--end::Modal dialog-->
+			</div>
 		</div>
 		<!--end::Container-->
 	</div>

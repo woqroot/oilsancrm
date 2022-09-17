@@ -75,6 +75,11 @@
 			border-radius: 50%;
 			background: white;
 		}
+
+		@media print {
+			@page { margin: 0; }
+			body { margin: 1.6cm; }
+		}
 	</style>
 </head>
 
@@ -89,36 +94,11 @@ $CI->loadContent();
 <script>
 
 	$(document).ready(function () {
-		let hostUrl = "<?=base_url()?>";
-		let invoiceNumber = $("#invoiceNumber").html();
-
-		$("#paymentButton").on("click", function () {
-			$.ajax({
-				type: "POST",
-				url: hostUrl + "/invoice-detail/" + invoiceNumber + "/paymentDetails",
-				dataType: "json",
-				data: {
-					invoiceNumber: invoiceNumber
-				},
-				success: function (res) {
-					if (res.status === 1) {
-						$(".paymentButton").hide();
-						$(".printInvoiceButton").hide();
-						$(".cancelPaymentButton").show();
-						$(".selectPaymentMethods").css("display","grid");
-
-					}
-				}
-			})
+		$(".printInvoiceButton").on("click",function () {
+			print();
 		})
 
-		$(document).on("click", ".cancelPaymentButton", function () {
-			$(".cancelPaymentButton").hide();
-			$(".selectPaymentMethods").hide();
-			$(".paymentButton").show();
-			$(".printInvoiceButton").show();
 
-		})
 	})
 </script>
 </body>

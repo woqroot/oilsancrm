@@ -1,5 +1,8 @@
 <?php
 
+function defaultCurrency(){
+	return "EUR";
+}
 
 function isLogin()
 {
@@ -218,16 +221,18 @@ function timeAgo($timestamp)
 	return $timemsg;
 }
 
+function writeDisableByPerm($slugs)
+{
+
+	return isCan($slugs) ? "" : "disabled";
+}
+
+
 function isCan(...$slugs)
 {
 	return Auth::isCan(...$slugs);
 }
 
-function writeDisableByPerm(...$slugs)
-{
-	return "";
-	return Auth::isCan(...$slugs) ? "" : "disabled";
-}
 
 function hideByPerm(...$slugs)
 {
@@ -438,7 +443,7 @@ function generateInvoiceNumber($id = 1): string
 	return date("Y") . "00" . $id;
 }
 
-function includeVat($decimal, $vatPercent = 18)
+function includeVat($decimal, $vatPercent = 0)
 {
 	return $decimal + ($decimal * $vatPercent / 100);
 }
@@ -492,4 +497,18 @@ function generateEmailBody($user, $message)
         </table>
     </div>';
 
+}
+
+
+function triggerUpdateSale($saleID){
+	$ci =& get_instance();
+	$ci->load->model('SaleModel');
+	$ci->load->model('CustomerModel');
+
+	$sale = $ci->SaleModel->first($saleID);
+	if(!$sale)
+		return false;
+
+	$ci->SaleModel->update(['updatedAt' => date('Y-m-d H:i:s')],$sale['saleId']);
+	$ci->CustomerModel->update(['updatedAt' => date('Y-m-d H:i:s')],$sale['fkCustomer']);
 }

@@ -29,6 +29,7 @@ $(document).ready(function () {
 			"url": hostUrl + "customers/ajax",
 			"data": function(d){
 				d.customerGroupID = $("#filterCustomerGroup").val();
+				d.filterByIsActive = $("#filterByIsActive").val();
 			},
 			"type": "POST",
 
@@ -65,6 +66,17 @@ $(document).ready(function () {
 	var selectCountry = $(".selectCountry").select2({
 		dropdownParent: "#kt_modal_add_user",
 		placeholder: "Ülke Seçimi",
+		allowClear: true
+	});
+	$("#selectSource").select2({
+		dropdownParent: "#kt_modal_add_user",
+		placeholder: "Seçim Yok",
+		allowClear: true
+	});
+
+	$("#selectSector").select2({
+		dropdownParent: "#kt_modal_add_user",
+		placeholder: "Seçim Yok",
 		allowClear: true
 	});
 

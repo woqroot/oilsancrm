@@ -24,7 +24,7 @@ class Sale extends NP_Controller
 		$this->load->model("ProductTypeModel");
 		$this->load->model("ProductPackModel");
 		$this->load->model("ProductFluidityModel");
-
+		$this->load->library('NPMailer');
 
 	}
 
@@ -64,6 +64,7 @@ class Sale extends NP_Controller
 	public function edit($id)
 	{
 
+
 		$sale = $this->SaleModel->first($id);
 		if (!$sale) redirect("sales");
 		$data = [
@@ -92,6 +93,7 @@ class Sale extends NP_Controller
 		$data["currencies"] = $this->CurrencyModel->all();
 		$data["sortedProducts"] = $this->ProductModel->all([], "name ASC");
 		$data["user"] = $this->UserModel->first($sale["fkUser"]);
+		$data["users"] = $this->UserModel->all(['fkRole' => 2]);
 
 		$this->setBreadcrumb("Satış Detay");
 
@@ -112,7 +114,7 @@ class Sale extends NP_Controller
 		switch (post("action")) {
 			case "ADD":
 
-				if (isCan("change-sale-user")) {
+				if (isCan("admin")) {
 					$fkUser = post("fkUser");
 				} else {
 					$fkUser = Auth::get('userId');
@@ -135,6 +137,8 @@ class Sale extends NP_Controller
 					"fkUser" => $fkUser,
 					"fkStatus" => post("fkStatus") ?: 1
 				];
+				if (post("fkStatus") == 4)
+					$saleData['approvedAt'] = date('Y-m-d');
 
 
 				$saleData["totalPrice"] = 0;
@@ -265,6 +269,7 @@ class Sale extends NP_Controller
 						$this->DocumentModel->insert($data);
 					}
 
+					$this->CustomerModel->update(['isActive' => 1], $saleData['fkCustomer']);
 
 				}
 				if ($this->db->trans_status() == FALSE) {
@@ -432,14 +437,58 @@ class Sale extends NP_Controller
 				$saleID = post('saleID');
 				$statusID = post('statusID');
 
-				$data = [
-					'fkStatus' => $statusID
-				];
+				$findSale = $this->SaleModel->first($saleID);
+				if (!$findSale)
+					return $this->response();
 
-				$success = $this->SaleModel->update($data, $saleID);
+				if ($findSale['fkStatus'] == 4) {
+
+					$data = [
+						'fkStatus' => $statusID
+					];
+
+					if ($statusID != 4)
+						$data['approvedAt'] = null;
+
+					$success = $this->SaleModel->update($data, $saleID);
+				} else {
+					$data = [
+						'fkStatus' => $statusID
+					];
+					if ($statusID == 4)
+						$data['approvedAt'] = date('Y-m-d');
+
+					$success = $this->SaleModel->update($data, $saleID);
+				}
 
 				if ($success)
 					return $this->response(1, "Değişiklikler başarıyla kaydedildi!");
+
+				return $this->response();
+				break;
+			case "CHANGE_USER":
+
+				checkPerms('admin');
+
+				$saleID = post('saleID');
+				$userID = post('userID');
+				$sale = $this->SaleModel->first($saleID);
+				$customer = $this->CustomerModel->first($sale['fkCustomer']);
+				$user = $this->UserModel->first($userID);
+				if (!$user || !$sale || !$customer)
+					return false;
+
+				$success = $this->SaleModel->update(['fkUser' => $userID], $saleID);
+
+				if ($success) {
+					$message = '<b>' . $customer["name"] . '</b> isimli müşteriye ait bir satış sürecine görevli olarak atandınız. <br><b>Satış Numarası: </b>#' . $sale["invoiceNumber"] . '<br>
+Sisteme giriş yaparak görüntülemek için <a href="' . base_url('sales/' . $saleID) . '">buraya</a> tıklayabilirsiniz.';
+
+					if ($userID != $sale['fkUser']) {
+						$this->npmailer->send($user['email'], 'OilsanCRM - Bilgilendirme', generateEmailBody($user, $message));
+					}
+					return $this->response(1, "Satış sorumlusu başarıyla güncellendi.");
+				}
 
 				return $this->response();
 				break;
@@ -454,7 +503,7 @@ class Sale extends NP_Controller
 			"c.name",
 			"s.invoiceDate",
 			"s.balance",
-			"c.email",
+			"s.fkStatus",
 			"c.phone"
 		];
 
@@ -632,5 +681,98 @@ class Sale extends NP_Controller
 
 
 		return $this->toJson(["status" => 1, "data" => $data]);
+	}
+
+	public function madeOffer($saleID)
+	{
+		$sale = $this->SaleModel->first($saleID);
+		$customer = $this->CustomerModel->first($saleID);
+
+		if (!$sale || !$customer)
+			redirect(base_url());
+
+		if (!isCan('admin') && $sale['fkUser'] != Auth::get('userId')) {
+			redirect(base_url());
+		}
+		$companyInformation = json_decode(config('companyInformation'), true);
+
+		$data = [
+			'sale' => $sale,
+			'customer' => $customer,
+			'companyInformation' => $companyInformation
+		];
+		$data["products"] = $this->SaleProductModel->all(["fkSale" => $sale["saleId"]], "saleProductId ASC");
+		foreach ($data["products"] as $index => $item) {
+			$findProduct = $this->ProductModel->first($item["fkProduct"]);
+			$data["products"][$index]["item"] = $findProduct;
+		}
+
+		$this->render($data);
+	}
+
+	public function sendOffer($saleID)
+	{
+
+		$to = post('to');
+
+
+		$sale = $this->SaleModel->first($saleID);
+		$customer = $this->CustomerModel->first(@$sale['fkCustomer']);
+
+		if (!$sale || !$customer)
+			redirect(base_url());
+
+
+		if (!isCan('admin') && $sale['fkUser'] != Auth::get('userId')) {
+			redirect(base_url());
+		}
+
+		$emails = [];
+		$bodyText = "Teklif dokümanı ektedir.";
+		if ($to == 'self') {
+			$emails = [Auth::get('email')];
+			$bodyText = generateEmailBody(Auth::get(), "<b>#" . $sale['invoiceNumber'] . "</b> numaralı satışa ait güncel teklif dokümanı ekte yer alıyor.");
+		} else if ($to == 'admin') {
+			$users = $this->UserModel->all(['fkRole' => 1]);
+			foreach ($users as $user) {
+				$emails[] = $user['email'];
+			}
+			$bodyText = generateEmailBody(Auth::get(), "<b>#" . $sale['invoiceNumber'] . "</b> numaralı satışa ait güncel teklif dokümanı, <b>" . Auth::get('firstName') . " " . Auth::get('lastName') . "</b> tarafından gönderildi. Ekten ulaşabilirsiniz.");
+
+		} else if ($to == 'staff') {
+			$user = $this->UserModel->first($sale['fkUser']);
+			$emails = [$user['email']];
+
+			$bodyText = generateEmailBody(Auth::get(), "<b>#" . $sale['invoiceNumber'] . "</b> numaralı satışa ait güncel teklif dokümanı, <b>" . Auth::get('firstName') . " " . Auth::get('lastName') . "</b> tarafından gönderildi. Ekten ulaşabilirsiniz.");
+
+		} else if ($to == 'customer') {
+			$customer = $this->CustomerModel->first($sale['fkCustomer']);
+			$emails = [$customer['email']];
+
+			$bodyText = "Merhaba, ilgili teklif dokümanı ektedir.<br><br>Sevgiler.";
+
+		}
+
+
+		$companyInformation = json_decode(config('companyInformation'), true);
+
+		$data = [
+			'sale' => $sale,
+			'customer' => $customer,
+			'companyInformation' => $companyInformation,
+			'sendToMails' => $emails,
+			'bodyText' => $bodyText,
+			'npmailer' => $this->npmailer,
+			'subjectText' => 'Teklif Dokümanı'
+		];
+
+		$data["products"] = $this->SaleProductModel->all(["fkSale" => $sale["saleId"]], "saleProductId ASC");
+
+		foreach ($data["products"] as $index => $item) {
+			$findProduct = $this->ProductModel->first($item["fkProduct"]);
+			$data["products"][$index]["item"] = $findProduct;
+		}
+
+		$this->render($data);
 	}
 }

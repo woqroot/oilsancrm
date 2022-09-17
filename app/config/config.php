@@ -23,7 +23,7 @@ date_default_timezone_set('Europe/Istanbul');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://cakmak.works/oilsan';
+$config['base_url'] = 'http://192.168.1.109';
 
 /*
 |--------------------------------------------------------------------------
@@ -136,7 +136,7 @@ $config['subclass_prefix'] = 'NP_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = 'vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------

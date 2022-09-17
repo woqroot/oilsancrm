@@ -13,6 +13,11 @@
 	  class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed"
 	  style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
 <?= $CI->loadLayout("header") ?>
+<style>
+	.dataTables_wrapper{
+		width: 100% !important;
+	}
+</style>
 <?= $CI->loadContent(); ?>
 <?= $CI->loadLayout("footer") ?>
 
@@ -27,7 +32,7 @@
 <script src="<?=public_url()?>assets/js/custom/utilities/modals/upgrade-plan.js"></script>
 <script src="<?=public_url()?>assets/js/custom/utilities/modals/create-app.js"></script>
 <script src="<?=public_url()?>assets/js/custom/utilities/modals/users-search.js"></script>
-<script src="<?=public_url()?>assets/js/custom/apps/user-management/users/view/view.js"></script>
+<!--<script src="--><?//=public_url()?><!--assets/js/custom/apps/user-management/users/view/view.js"></script>-->
 <script src="<?=public_url()?>assets/js/custom/apps/user-management/users/view/update-details.js"></script>
 <script src="<?=public_url()?>assets/js/custom/apps/user-management/users/view/add-schedule.js"></script>
 <script src="<?=public_url()?>assets/js/custom/apps/user-management/users/view/add-task.js"></script>

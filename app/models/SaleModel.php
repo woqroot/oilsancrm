@@ -36,4 +36,39 @@ class SaleModel extends NP_Model
 	{
 		return $this->db->query("UPDATE sale SET balance = balance-{$amount} WHERE saleId = {$saleId}");
 	}
+
+	public function getSuccessfulSalesTotalOfThisMonth($userID = null, $toCurrency = 'USD')
+	{
+		$againText = "";
+		if ($userID)
+			$againText = "AND fkUser = '" . $userID . "'";
+
+		$date1 = date("Y-m-d", strtotime('first day of this month'));
+		$date2 = date("Y-m-d", strtotime('last day of this month'));
+
+		$sales = $this->db->query("SELECT * FROM sale WHERE approvedAt BETWEEN '{$date1}' AND '{$date2}' AND fkStatus = 4 {$againText}")->result_array();
+
+
+		$toCurrencyID = Helper::getCurrencyID($toCurrency);
+		$currency = Helper::currency($toCurrencyID);
+
+
+		return [
+			'total' => $this->collectToCurrency($sales,$toCurrencyID),
+			'currency' => $currency,
+			'count' => count($sales)
+		];
+
+	}
+
+	public function collectToCurrency($sales,$toCurrencyID)
+	{
+		$total = 0.00;
+		foreach ($sales as $sale) {
+
+			$res = Main::convertCurrency($sale['fkCurrency'], $toCurrencyID, $sale['totalPriceWithVat']);
+			$total += $res;
+		}
+		return $total;
+	}
 }

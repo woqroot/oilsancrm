@@ -604,6 +604,10 @@ var KTAppInvoicesCreate = function () {
 				}
 			});
 
+			$(document).on("click", ".changeFkUser", function (e) {
+				e.preventDefault();
+				$("#changeUserModal").modal("show");
+			})
 
 			$(document).on("click", ".editTrialProductButton", function () {
 				var trialProductID = $(this).data('id');
@@ -656,6 +660,29 @@ var KTAppInvoicesCreate = function () {
 				})
 
 				$("#editNoteModal").modal("show");
+			})
+
+			$(document).on("click", ".editSaleExpenseButton", function () {
+				var saleExpenseID = $(this).data('id');
+				$.ajax({
+					type: "POST",
+					url: hostUrl + "saleExpenses",
+					dataType: "json",
+					data: {
+						id: saleExpenseID,
+						action: "FIND"
+					},
+					success: function (res) {
+						if (res.status == 1) {
+							$('#editSaleExpenseForm [name="saleExpenseID"]').val(res.data.saleExpenseId);
+							$('#editSaleExpenseForm [name="title"]').val(res.data.title);
+							$('#editSaleExpenseForm [name="explanation"]').val(res.data.explanation);
+							$('#editSaleExpenseForm [name="totalPrice"]').val(res.data.totalPrice);
+						}
+					}
+				})
+
+				$("#editSaleExpenseModal").modal("show");
 			})
 
 			$(document).on("click", ".editCustomer", function () {
@@ -1107,7 +1134,6 @@ var KTAppInvoicesCreate = function () {
 				});
 
 
-
 			}
 
 			exportButtons();
@@ -1172,6 +1198,40 @@ var KTAppInvoicesCreate = function () {
 				"serverSide": true,
 				"ajax": {
 					"url": hostUrl + "notes/ajax",
+					"data": function (d) {
+						d.fkSale = $(".currentSaleID").html();
+					},
+					"type": "POST",
+
+				}
+			}).on("draw", function () {
+				KTMenu.createInstances();
+			});
+
+			let saleExpenses = $(".saleExpenses-datatable").DataTable({
+				info: !0,
+				order: [],
+				columnDefs: [
+					{
+						orderable: !0, targets: 0
+					},
+					{
+						orderable: !0, targets: 1
+					},
+					{
+						orderable: !0, targets: 2
+					},
+					{
+						orderable: !0, targets: 3
+					},
+					{
+						orderable: !0, targets: 4
+					}
+				],
+				"processing": true,
+				"serverSide": true,
+				"ajax": {
+					"url": hostUrl + "saleExpenses/ajax",
 					"data": function (d) {
 						d.fkSale = $(".currentSaleID").html();
 					},
@@ -1267,6 +1327,116 @@ var KTAppInvoicesCreate = function () {
 					}
 				})
 			});
+
+			$(document).on("click", ".sendOfferTo", function (e) {
+				e.preventDefault();
+				var attrTo = $(this).data("sendto");
+				var toMessage;
+				if (attrTo == 'self') {
+					toMessage = 'Güncel bilgiler ile oluşturulan teklif dokümanını kendi e-posta adresinize göndermek istediğinize emin misiniz'
+				} else if (attrTo == 'admin') {
+					toMessage = 'Güncel bilgiler ile oluşturulan teklif dokümanını yöneticilere ait e-posta adreslerine göndermek istediğinize emin misiniz'
+				} else if (attrTo == 'staff') {
+					toMessage = 'Güncel bilgiler ile oluşturulan teklif dokümanını satış sorumlusuna ait e-posta adresine göndermek istediğinize emin misiniz'
+				} else if (attrTo == 'customer') {
+					toMessage = 'Güncel bilgiler ile oluşturulan teklif dokümanını müşteriye ait e-posta adresine göndermek istediğinize emin misiniz?'
+				}
+
+				Swal.fire({
+					icon: 'warning',
+					text: toMessage,
+					showConfirmButton: !0,
+					confirmButtonText: "Gönder",
+					cancelButtonText: "Kapat",
+					showCancelButton: !0,
+					allowOutsideClick: !1
+				}).then(r => {
+					if (r.isConfirmed) {
+
+						$.ajax({
+							type: "POST",
+							url: hostUrl + "sales/" + $(".currentSaleID").html() + "/sendOffer",
+							dataType: 'json',
+							data: {
+								to: attrTo
+							},
+							beforeSend: function () {
+								Swal.fire('Lütfen Bekleyin', 'İşlem sürüyor', 'warning');
+								Swal.showLoading();
+
+							},
+							success: function (res) {
+								if (res.status === 1) {
+
+									Swal.hideLoading();
+									Swal.fire('Başarılı!', res.message, 'success');
+								}
+
+							}
+						})
+					}
+				});
+
+
+			})
+
+			$(document).on("submit", "#changeUserForm", function (e) {
+				e.preventDefault();
+				const formData = new FormData(this);
+
+				$.ajax({
+					type: "POST",
+					url: hostUrl + "sales",
+					dataType: "json",
+					data: formData,
+					contentType: false,
+					processData: false,
+					cache: false,
+					beforeSend: function () {
+						$("button").prop("disabled", true);
+					},
+					success: function (res) {
+						if (res.status === 1) {
+							$("#changeUserModal").modal("hide");
+							Swal.fire({
+								icon: 'success',
+								text: res.message,
+								showConfirmButton: !1,
+								cancelButtonText: "Kapat",
+								showCancelButton: !0,
+								allowOutsideClick: !1
+							}).then(r => {
+								window.location.reload();
+							});
+
+
+						} else {
+							Swal.fire({
+								icon: 'error',
+								text: res.message,
+								showConfirmButton: !1,
+								cancelButtonText: "Kapat",
+								showCancelButton: !0,
+								allowOutsideClick: !1
+							})
+						}
+						$("button").prop("disabled", false);
+
+					},
+					error: function (r) {
+						Swal.fire({
+							icon: 'error',
+							text: "Hata meydana geldi!",
+							showConfirmButton: !1,
+							cancelButtonText: "Kapat",
+							showCancelButton: !0,
+							allowOutsideClick: !1
+						})
+						$("button").prop("disabled", false);
+
+					}
+				})
+			})
 
 			$(document).on("submit", "#addDocumentForm", function (e) {
 				e.preventDefault();
@@ -1389,7 +1559,66 @@ var KTAppInvoicesCreate = function () {
 				})
 			})
 
+			$(document).on("submit", "#addSaleExpenseForm,#editSaleExpenseForm", function (e) {
+				e.preventDefault();
+				const formData = new FormData(this);
 
+				$.ajax({
+					type: "POST",
+					url: hostUrl + "saleExpenses",
+					dataType: "json",
+					data: formData,
+					contentType: false,
+					processData: false,
+					cache: false,
+					beforeSend: function () {
+						$("button").prop("disabled", true);
+					},
+					success: function (res) {
+						if (res.status === 1) {
+							$(".modal").modal("hide");
+							Swal.fire({
+								icon: 'success',
+								text: res.message,
+								showConfirmButton: !1,
+								cancelButtonText: "Kapat",
+								showCancelButton: !0,
+								allowOutsideClick: !1
+							});
+
+							$("#addSaleExpenseForm input[type!=hidden][name!=collectDate]").val("");
+							$("#addSaleExpenseForm select[type!=hidden]").val("");
+							$("#addSaleExpenseForm textarea[type!=hidden]").val("");
+
+							saleExpenses.draw();
+
+						} else {
+							Swal.fire({
+								icon: 'error',
+								text: res.message,
+								showConfirmButton: !1,
+								cancelButtonText: "Kapat",
+								showCancelButton: !0,
+								allowOutsideClick: !1
+							})
+						}
+						$("button").prop("disabled", false);
+
+					},
+					error: function (r) {
+						Swal.fire({
+							icon: 'error',
+							text: "Hata meydana geldi!",
+							showConfirmButton: !1,
+							cancelButtonText: "Kapat",
+							showCancelButton: !0,
+							allowOutsideClick: !1
+						})
+						$("button").prop("disabled", false);
+
+					}
+				})
+			})
 			$(document).on("submit", "#changeSaleStatusForm", function (e) {
 				e.preventDefault();
 				const formData = new FormData(this);
@@ -1876,6 +2105,50 @@ var KTAppInvoicesCreate = function () {
 					}
 				})
 			})
+			$(document).on("click", ".deleteSaleExpense", function (e) {
+				var saleExpenseID = $(this).data('id');
+				Swal.fire({
+					icon: 'warning',
+					title: 'Masraf kaydını kalıcı olarak silmek istediğinize emin misiniz?',
+					showConfirmButton: !0,
+					showCancelButton: !0,
+					cancelButtonText: "Vazgeç",
+					confirmButtonText: "Sil",
+				}).then((result) => {
+					if (result.isConfirmed === true) {
+						$.ajax({
+							type: "POST",
+							url: hostUrl + "saleExpenses",
+							dataType: "json",
+							data: {
+								action: "DELETE",
+								id: saleExpenseID
+							},
+							beforeSend: function () {
+								$("button").prop("disabled", true);
+							},
+							success: function (res) {
+								$("button").prop("disabled", false);
+
+								if (res.status == 1) {
+
+									// reloadPage();
+									Swal.fire({
+										icon: 'success',
+										text: res.message,
+										showConfirmButton: !1,
+										cancelButtonText: "Kapat",
+										showCancelButton: !0,
+										allowOutsideClick: !1
+									});
+									saleExpenses.draw(false);
+								}
+							}
+						})
+					}
+				})
+			})
+
 			$(document).on("click", ".deleteTrialProduct", function (e) {
 				var trialProductID = $(this).data('id');
 				Swal.fire({

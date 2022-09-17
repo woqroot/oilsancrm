@@ -26,6 +26,7 @@
 		<!--begin::Container-->
 		<div id="kt_content_container" class="container-xxl">
 			<!--begin::Card-->
+			<input type="hidden" id="checkerAu" value="<?= isCan('admin') ? '1' : '0' ?>">
 			<div class="card">
 				<!--begin::Card header-->
 				<div class="card-header border-0 pt-6">
@@ -181,8 +182,10 @@
 														<div class="col-md-6 col-sm-12 fv-row mb-7">
 															<!--begin::Label-->
 															<label class="fw-bold fs-6 required mb-2">Ürün Adı</label>
-															<input type="text" required name="name"
-																   class="form-control form-control-solid">
+															<input <?= writeDisableByPerm("admin") ?> type="text"
+																									  required
+																									  name="name"
+																									  class="form-control form-control-solid">
 															<!--end::Label-->
 														</div>
 														<div class="col-md-6 col-sm-12 fv-row mb-7">
@@ -193,8 +196,10 @@
 
 
 															</div>
-															<input type="text" name="productCode" required
-																   class="form-control form-control-solid">
+															<input <?= writeDisableByPerm("admin") ?> type="text"
+																									  name="productCode"
+																									  required
+																									  class="form-control form-control-solid">
 															<!--end::Label-->
 														</div>
 														<div class="col-md-4 col-sm-12 fv-row mb-7">
@@ -202,7 +207,8 @@
 															<label class="fw-bold fs-6 mb-2">Ürün Tipi</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<select name="productTypeID" id=""
+															<select <?= writeDisableByPerm("admin") ?>
+																	name="productTypeID" id=""
 																	class="form-control form-control-solid select2Init">
 																<?php
 																foreach ($productTypes as $productType) {
@@ -220,8 +226,9 @@
 															<label class="fw-bold fs-6 mb-2">Marka</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<select name="brandID" id=""
-																	class="form-control form-control-solid select2Init">
+															<select <?= writeDisableByPerm("admin") ?> name="brandID"
+																									   id=""
+																									   class="form-control form-control-solid select2Init">
 																<?php
 																foreach ($brands as $brand) {
 																	?>
@@ -238,7 +245,8 @@
 															<label class="fw-bold fs-6 mb-2">Ambalaj Tipi</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<select name="productPackID" id=""
+															<select <?= writeDisableByPerm("admin") ?>
+																	name="productPackID" id=""
 																	class="form-control form-control-solid select2Init">
 																<?php
 																foreach ($productPacks as $productPack) {
@@ -256,7 +264,8 @@
 															<label class="fw-bold fs-6 mb-2">Akışkanlık Derecesi</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<select name="productFluidityID" id=""
+															<select <?= writeDisableByPerm("admin") ?>
+																	name="productFluidityID" id=""
 																	class="form-control form-control-solid select2Init">
 																<?php
 																foreach ($productFluidities as $productFluidity) {
@@ -280,28 +289,37 @@
 																		  data-bs-toggle="dropdown"
 																		  aria-expanded="false"
 																		  class="input-group-text currentCurrency dropdown-toggle bg-light-primary hoverable">₺</span>
-																	<ul class="dropdown-menu "
-																		aria-labelledby="dropdownMenuButton1"
-																		style="min-width: unset;width: 100%">
-																		<?php
-																		foreach ($currencies as $currency) {
-																			?>
-																			<li>
-																				<a class="dropdown-item changeCurrency text-center fw-bold fs-5"
-																				   href="#"
-																				   data-symbol="<?= $currency["symbol"] ?>"
-																				   data-id="<?= $currency["currencyId"] ?>"><?= $currency["symbol"] ?></a>
-																			</li>
-																			<?php
-
-																		}
+																	<?php
+																	if (isCan('admin')) {
 																		?>
-																	</ul>
+																		<ul class="dropdown-menu "
+																			aria-labelledby="dropdownMenuButton1"
+																			style="min-width: unset;width: 100%">
+																			<?php
+																			foreach ($currencies as $currency) {
+																				?>
+																				<li>
+																					<a class="dropdown-item changeCurrency text-center fw-bold fs-5"
+																					   href="#"
+																					   data-symbol="<?= $currency["symbol"] ?>"
+																					   data-id="<?= $currency["currencyId"] ?>"><?= $currency["symbol"] ?></a>
+																				</li>
+																				<?php
+
+																			}
+																			?>
+																		</ul>
+																		<?php
+																	}
+																	?>
 																</div>
-																<input required maxlength="13" name="unitPrice"
-																	   type="text"
-																	   placeholder="0,00" data-input-type="decimal"
-																	   class="form-control form-control-solid">
+																<input <?= writeDisableByPerm("admin") ?> required
+																										  maxlength="13"
+																										  name="unitPrice"
+																										  type="text"
+																										  placeholder="0,00"
+																										  data-input-type="decimal"
+																										  class="form-control form-control-solid">
 															</div>
 														</div>
 
@@ -310,12 +328,13 @@
 															<label class="fw-bold required fs-6 mb-2">KDV Oranı</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<select name="vatPercent" id=""
-																	class="form-control form-control-solid selectVat">
+															<select <?= writeDisableByPerm("admin") ?> name="vatPercent"
+																									   id=""
+																									   class="form-control form-control-solid selectVat">
 																<?php
 																foreach (getVats() as $vat) {
 																	?>
-																	<option <?= $vat == "18" ? "selected" : ""; ?>
+																	<option <?= $vat == "0" ? "selected" : ""; ?>
 																			value="<?= $vat ?>">%<?= $vat ?></option>
 																	<?php
 																}
@@ -336,9 +355,12 @@
 																		  class="input-group-text currentCurrency bg-light-primary ">₺</span>
 
 																</div>
-																<input maxlength="13" name="totalPrice" type="text"
-																	   placeholder="0,00" data-input-type="decimal"
-																	   class="form-control form-control-solid">
+																<input <?= writeDisableByPerm("admin") ?> maxlength="13"
+																										  name="totalPrice"
+																										  type="text"
+																										  placeholder="0,00"
+																										  data-input-type="decimal"
+																										  class="form-control form-control-solid">
 															</div>
 														</div>
 														<div class="col-md-4 col-sm-12 fv-row mb-7">
@@ -346,8 +368,10 @@
 															<label class="fw-bold required fs-6 mb-2">Birim</label>
 															<!--end::Label-->
 															<!--begin::Input-->
-															<select required name="unitID" id=""
-																	class="form-control form-control-solid selectUnit">
+															<select <?= writeDisableByPerm("admin") ?> required
+																									   name="unitID"
+																									   id=""
+																									   class="form-control form-control-solid selectUnit">
 																<?php
 																foreach ($units as $unit) {
 																	?>
@@ -358,6 +382,50 @@
 																?>
 															</select>
 															<!--end::Input-->
+														</div>
+														<div class="col-md-4 col-sm-12 fv-row mb-7">
+															<!--begin::Label-->
+															<label class="fw-bold required fs-6 mb-2">Birim
+																Maliyeti</label>
+															<!--end::Label-->
+															<div class="input-group input-group-solid">
+																<div class="dropdown">
+																	<span id="dropdownMenuButton1"
+																		  data-bs-toggle="dropdown"
+																		  aria-expanded="false"
+																		  class="input-group-text currentCurrency dropdown-toggle bg-light-primary hoverable">₺</span>
+																	<?php
+																	if (isCan('admin')) {
+																		?>
+																		<ul class="dropdown-menu "
+																			aria-labelledby="dropdownMenuButton1"
+																			style="min-width: unset;width: 100%">
+																			<?php
+																			foreach ($currencies as $currency) {
+																				?>
+																				<li>
+																					<a class="dropdown-item changeCurrency text-center fw-bold fs-5"
+																					   href="#"
+																					   data-symbol="<?= $currency["symbol"] ?>"
+																					   data-id="<?= $currency["currencyId"] ?>"><?= $currency["symbol"] ?></a>
+																				</li>
+																				<?php
+
+																			}
+																			?>
+																		</ul>
+																		<?php
+																	}
+																	?>
+																</div>
+																<input <?= writeDisableByPerm("admin") ?> required
+																										  maxlength="13"
+																										  name="costPrice"
+																										  type="text"
+																										  placeholder="0,00"
+																										  data-input-type="decimal"
+																										  class="form-control form-control-solid">
+															</div>
 														</div>
 														<!--end::Input group-->
 														<div class="d-none col-md-6 col-sm-12 fv-row mb-7"
@@ -401,8 +469,10 @@
 															<!--begin::Label-->
 															<label class="required fw-bold fs-6 mb-2">Açılış Stok
 																Miktarı</label>
-															<input type="number" name="initialStock" value="0"
-																   class="form-control form-control-solid">
+															<input <?= writeDisableByPerm("admin") ?> type="number"
+																									  name="initialStock"
+																									  value="0"
+																									  class="form-control form-control-solid">
 															<!--end::Label-->
 														</div>
 
@@ -420,12 +490,18 @@
 												<button type="reset" class="btn btn-light me-3"
 														data-bs-dismiss="modal">Kapat
 												</button>
-												<button type="submit" class="btn btn-primary"
-														data-kt-users-modal-action="submit">
-													<span class="indicator-label">Kaydet</span>
-													<span class="indicator-progress">Please wait...
+												<?php
+												if (isCan('admin')) {
+													?>
+													<button type="submit" class="btn btn-primary"
+															data-kt-users-modal-action="submit">
+														<span class="indicator-label">Kaydet</span>
+														<span class="indicator-progress">Please wait...
 																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-												</button>
+													</button>
+													<?php
+												}
+												?>
 											</div>
 											<!--end::Actions-->
 										</form>
@@ -473,7 +549,7 @@
 								<td>
 									<div class="badge badge-light-primary">#<?= $product["productCode"] ?></div>
 								</td>
-								<td><?= $product["brand"] ? '<span class="badge badge-sm badge-info">' . $product["brand"]["title"] .'</span> ' : ''; ?><?= $product["name"] ?></td>
+								<td><?= $product["brand"] ? '<span class="badge badge-sm badge-info">' . $product["brand"]["title"] . '</span> ' : ''; ?><?= $product["name"] ?></td>
 								<td class="d-none"><?= $product["stock"] ?> <?= Main::unit($product["fkUnit"]) ?> </td>
 								<td><?= $product["totalPrice"] ?> <?= currency($product["fkCurrency"]) ?></td>
 								<td>
@@ -494,11 +570,11 @@
 										<!--begin::Menu item-->
 										<div class="menu-item px-3">
 											<a href="javascript:void(0)"
-											   class="np-edit menu-link px-3"><?=isCan('admin') ? 'Düzenle' : 'Detay'?></a>
+											   class="np-edit menu-link px-3"><?= isCan('admin') ? 'Düzenle' : 'Detay' ?></a>
 										</div>
 										<!--end::Menu item-->
 										<!--begin::Menu item-->
-										<div class="<?=hideByPerm('admin')?> menu-item px-3">
+										<div class="<?= hideByPerm('admin') ?> menu-item px-3">
 											<a href="javascript:void(0)" class="np-delete menu-link px-3">Sil</a>
 										</div>
 										<!--end::Menu item-->

@@ -475,6 +475,7 @@ var KTAppInvoicesCreate = function () {
 				formData.append("isCollected", $(".isCollected").is(":checked") ? 1 : 0);
 				formData.append("fkAccount", $(".selectAccount").val());
 				formData.append("collectDate", $(".collectDate").val());
+				formData.append("fkUser", $("[name='fkUser']").val());
 				formData.append("invoiceDocument", $("[name='invoiceDocument']")[0].files[0]);
 				$.ajax({
 					type: "POST",

@@ -44,9 +44,19 @@ class Main
 		return isset(self::$units[$unitID]) ? self::$units[$unitID] : false;
 	}
 
-	public static function convertCurrency($from, $to)
+	public static function convertCurrency($from, $to, $decimal)
 	{
 
+		if (is_numeric($from) && is_numeric($to)) {
+			$find = self::$instance->ExchangeRateModel->first(['fkFromCurrency' => $from,'fkToCurrency' => $to]);
+		} else {
+			$find = self::$instance->ExchangeRateModel->first(['fromCurrency' => $from,'toCurrency' => $to]);
+		}
+
+		if(!$find)
+			return 0;
+
+		return $find['rate']*$decimal;
 	}
 
 	public static function getStatus($statusId)

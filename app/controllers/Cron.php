@@ -18,6 +18,8 @@ class Cron extends NP_Controller
 	public function trialProducts()
 	{
 		$trialProductReminder = $this->CronModel->trialProductReminder();
+//		print_r($trialProductReminder);
+//		exit;
 		foreach ($trialProductReminder as $item) {
 			$customer = $this->CustomerModel->first($item['fkCustomer']);
 			$sale = $this->SaleModel->first($item['fkSale']);
@@ -41,5 +43,58 @@ class Cron extends NP_Controller
 
 		}
 
+	}
+
+	public function updateExchangeRates()
+	{
+		if (!function_exists('simplexml_load_string') || !function_exists('curl_init')) {
+			return 'Simplexml extension missing.';
+		}
+
+		try {
+			$tcmbMirror = 'https://www.tcmb.gov.tr/kurlar/today.xml';
+			$curl = curl_init($tcmbMirror);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_URL, $tcmbMirror);
+
+			$dataFromtcmb = curl_exec($curl);
+		} catch (Exception $e) {
+			echo 'Unhandled exception, maybe from cURL' . $e->getMessage();
+			return 0;
+		}
+
+		$Currencies = simplexml_load_string($dataFromtcmb);
+//		print_r($Currencies);
+
+		$rates = [];
+
+		foreach ($Currencies->Currency as $Currency) {
+			$rates[(string)$Currency->attributes()->CurrencyCode[0]] = (string)$Currency->BanknoteSelling;
+		}
+		$rates["TRY"] = 1;
+
+		$this->load->model('ExchangeRateModel');
+		$modelRates = $this->ExchangeRateModel->all();
+
+		foreach ($modelRates as $modelRate) {
+			if($rates[$modelRate['fromCurrency']] && $rates[$modelRate['toCurrency']]){
+				$result = $rates[$modelRate['fromCurrency']]/$rates[$modelRate['toCurrency']];
+
+				$update = $this->ExchangeRateModel->update(['rate' => $result],$modelRate['exchangeRateId']);
+
+				echo $modelRate['fromCurrency'] . " to -> " . $modelRate['toCurrency'] . ' ==> ' . $result . '<br>';
+			}
+
+		}
+	}
+
+	public function checkPassiveCustomers()
+	{
+		$this->CustomerModel->checkPassiveCustomers();
+	}
+
+	public function checkPassiveCustomersThreeMonthAgo()
+	{
+		$this->CustomerModel->checkPassiveCustomers();
 	}
 }

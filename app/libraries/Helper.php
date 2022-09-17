@@ -32,4 +32,15 @@ class Helper
 		return $symbol ? self::$currencies[$idOrName]["symbol"] : self::$currencies[$idOrName];
 	}
 
+	public static function getCurrencyID($code)
+	{
+		$sun = self::$ci->db->query("SELECT * FROM currency WHERE code = '{$code}'")->row_array();
+
+		if($sun)
+			return $sun['currencyId'];
+
+		return 0;
+	}
+
+
 }

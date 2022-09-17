@@ -129,6 +129,7 @@ class Note extends NP_Controller
 				];
 
 				if ($this->NoteModel->insert($data)) {
+					triggerUpdateSale(post('saleID'));
 					return $this->response(1, "Notunuz başarıyla kaydedildi!");
 				}
 				return $this->response();
@@ -141,6 +142,7 @@ class Note extends NP_Controller
 				if ($this->NoteModel->update(['explanation' => post('explanation')],$id)){
 					return $this->response(1,"Değişiklikler başarıyla kaydedildi.");
 				}
+				triggerUpdateSale(post('saleID'));
 				return $this->response();
 					break;
 			case "FIND":
@@ -157,7 +159,7 @@ class Note extends NP_Controller
 				break;
 			case "DELETE":
 				$id = post("id");
-
+				triggerUpdateSale(post('saleID'));
 				$delete = $this->NoteModel->delete($id);
 				if ($delete) return $this->response(1, "Not başarıyla silindi!");
 				return $this->response();

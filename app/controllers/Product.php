@@ -78,7 +78,8 @@ class Product extends NP_Controller
 					"fkProductPack" => post('productPackID'),
 					"fkCurrency" => post("currencyID"),
 					"vatPercent" => intval(post("vatPercent")),
-					"totalPrice" => includeVat(clearDecimal(post("unitPrice")), intval(post("vatPercent")))
+					"totalPrice" => includeVat(clearDecimal(post("unitPrice")), intval(post("vatPercent"))),
+					"costPrice" => clearDecimal(post('costPrice'))
 				];
 
 				if (post("productType") == "PRODUCT") {
@@ -135,7 +136,8 @@ class Product extends NP_Controller
 					"fkProductPack" => post('productPackID'),
 					"fkCurrency" => post("currencyID"),
 					"vatPercent" => intval(post("vatPercent")),
-					"totalPrice" => includeVat(clearDecimal(post("unitPrice")))
+					"totalPrice" => includeVat(clearDecimal(post("unitPrice"))),
+					"costPrice" => clearDecimal(post('costPrice'))
 				];
 
 
@@ -150,6 +152,7 @@ class Product extends NP_Controller
 				$data = $this->ProductModel->findById($id);
 				if ($data) {
 					$data["unitPrice"] = number_format($data["unitPrice"], 2, ",", ".");
+					$data["costPrice"] = number_format($data["costPrice"], 2, ",", ".");
 					$data["currencySymbol"] = currency($data["fkCurrency"]);
 					return $this->toJson(["status" => 1, "data" => $data]);
 				}

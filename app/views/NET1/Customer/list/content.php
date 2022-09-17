@@ -81,19 +81,35 @@
 								<!--begin::Content-->
 								<div class="px-7 py-5" data-kt-user-table-filter="form">
 									<!--begin::Input group-->
-									<div class="mb-10">
+									<div class="mb-5">
 										<label class="form-label fs-6 fw-bold">Müşteri Grubu:</label>
 										<select class="form-select form-select-solid fw-bolder" data-kt-select2="true"
-												data-placeholder="Seçim Yapın" data-allow-clear="true"
-												data-kt-user-table-filter="role" id="filterCustomerGroup" data-hide-search="true">
+												data-placeholder="Tümü" data-allow-clear="true"
+												data-kt-user-table-filter="role" id="filterCustomerGroup"
+												data-hide-search="true">
 											<option value=""></option>
 											<?php
 											foreach ($customerGroups as $customerGroup) {
 												?>
-												<option value="<?= $customerGroup["customerGroupId"] ?>"><?=$customerGroup["title"]?></option>
-											<?php
-												}
+												<option value="<?= $customerGroup["customerGroupId"] ?>"><?= $customerGroup["title"] ?></option>
+												<?php
+											}
 											?>
+										</select>
+									</div>
+									<!--end::Input group-->
+									<!--begin::Input group-->
+									<div class="mb-10">
+										<label class="form-label fs-6 fw-bold">Durum:</label>
+										<select class="form-select form-select-solid fw-bolder" data-kt-select2="true"
+												data-placeholder="Tümü" data-allow-clear="true"
+												data-kt-user-table-filter="role" id="filterByIsActive"
+												data-hide-search="true">
+											<option value="">Tümü</option>
+
+											<option value="1">Aktif Müşteri</option>
+											<option value="0">Pasif Müşteri</option>
+
 										</select>
 									</div>
 									<!--end::Input group-->
@@ -184,24 +200,24 @@
 </div>
 <?php
 
-	?>
+?>
 
-	<div class="modal fade" id="kt_modal_add_user" data-bs-backdrop="static"
-		 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-		<!--begin::Modal dialog-->
-		<div class="modal-dialog modal-dialog-centered modal-xl">
-			<!--begin::Modal content-->
-			<div class="modal-content">
-				<!--begin::Modal header-->
-				<div class="modal-header" id="kt_modal_add_user_header">
-					<!--begin::Modal title-->
-					<h2 class="fw-bolder">Yeni Oluştur</h2>
-					<!--end::Modal title-->
-					<!--begin::Close-->
-					<div class="btn btn-icon btn-sm btn-active-icon-primary"
-						 data-bs-dismiss="modal">
-						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-						<span class="svg-icon svg-icon-1">
+<div class="modal fade" id="kt_modal_add_user" data-bs-backdrop="static"
+	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+	<!--begin::Modal dialog-->
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+		<!--begin::Modal content-->
+		<div class="modal-content">
+			<!--begin::Modal header-->
+			<div class="modal-header" id="kt_modal_add_user_header">
+				<!--begin::Modal title-->
+				<h2 class="fw-bolder">Yeni Oluştur</h2>
+				<!--end::Modal title-->
+				<!--begin::Close-->
+				<div class="btn btn-icon btn-sm btn-active-icon-primary"
+					 data-bs-dismiss="modal">
+					<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+					<span class="svg-icon svg-icon-1">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
 																		 height="24" viewBox="0 0 24 24" fill="none">
 																		<rect opacity="0.5" x="6" y="17.3137" width="16"
@@ -213,405 +229,441 @@
 																			  fill="currentColor"/>
 																	</svg>
 																</span>
-						<!--end::Svg Icon-->
-					</div>
-					<!--end::Close-->
+					<!--end::Svg Icon-->
 				</div>
-				<!--end::Modal header-->
-				<!--begin::Modal body-->
-				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-					<!--begin::Form-->
-					<form id="addCustomerForm" enctype="multipart/form-data" class="form"
-						  action="#">
-						<input type="hidden" name="customerType" value="INDIVIDUAL">
+				<!--end::Close-->
+			</div>
+			<!--end::Modal header-->
+			<!--begin::Modal body-->
+			<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+				<!--begin::Form-->
+				<form id="addCustomerForm" enctype="multipart/form-data" class="form"
+					  action="#">
+					<input type="hidden" name="customerType" value="INDIVIDUAL">
 
-						<input type="hidden" name="action" value="ADD">
-						<!--begin::Scroll-->
-						<div class="d-flex flex-column scroll-y me-n7 pe-7"
-							 id="kt_modal_add_user_scroll" data-kt-scroll="true"
-							 data-kt-scroll-activate="{default: false, lg: true}"
-							 data-kt-scroll-max-height="auto"
-							 data-kt-scroll-dependencies="#kt_modal_add_user_header"
-							 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-							 data-kt-scroll-offset="300px">
+					<input type="hidden" name="action" value="ADD">
+					<!--begin::Scroll-->
+					<div class="d-flex flex-column scroll-y me-n7 pe-7"
+						 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+						 data-kt-scroll-activate="{default: false, lg: true}"
+						 data-kt-scroll-max-height="auto"
+						 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+						 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+						 data-kt-scroll-offset="300px">
+						<!--begin::Input group-->
+						<!--end::Input group-->
+						<div class="row">
+							<div class="fv-row mb-7 text-center">
+								<!--begin::Radio group-->
+								<div class="btn-group w-100 w-lg-50 " data-kt-buttons="true"
+									 data-kt-buttons-target="[data-kt-button]">
+									<!--begin::Radio-->
+									<label class="select-individual btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success active"
+										   data-kt-button="true">
+										<!--begin::Input-->
+										<input class="btn-check" checked type="radio"
+											   name="type"
+											   value="INDIVIDUAL"/>
+										<!--end::Input-->
+										Bireysel
+									</label>
+									<!--end::Radio-->
+									<!--begin::Radio-->
+									<label class="select-corporate btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success "
+										   data-kt-button="true">
+										<!--begin::Input-->
+										<input class="btn-check" type="radio" name="type"
+											   value="CORPORATE"/>
+										<!--end::Input-->
+										Kurumsal
+									</label>
+									<!--end::Radio-->
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<h4 class="mb-7">Temel Bilgiler </h4>
+
+									<div class="fv-row row mb-5">
+										<!--begin::Input group-->
+										<div
+												class="col-md-12 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label data-np-type="CORPORATE"
+												   class="required fw-bold fs-6 mb-2">Firma
+												Adı</label>
+											<label data-np-type="INDIVIDUAL"
+												   class="required fw-bold fs-6 mb-2">Ad-Soyad</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text"
+												   name="name"
+												   class="form-control form-control-lg form-control-solid">
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+									</div>
+									<div class="fv-row row mb-5">
+										<div class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Kısa İsim <i
+														class="fa fa-info-circle"
+														data-bs-toggle="tooltip"
+														title="Kısa isim, müşteriyi tanımlamak amacıyla yalnızca ekip üyelerine gösterilir."></i></label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text"
+												   name="shortName"
+												   class="form-control form-control-lg form-control-solid">
+											<!--end::Input-->
+										</div>
+										<div class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2 d-flex">Müşteri
+												Grubu
+												<?php
+												if (isCanOr("admin")) {
+													?>
+													<a href="javascript:void(0)"
+													   onclick="$('#addCustomerGroupModal').modal('show')"><span
+																class="ms-1 badge badge-light-primary">Yeni Ekle</span></a>
+													<?php
+												}
+												?>
+											</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select type="text"
+													name="fkCustomerGroup"
+													class="form-control form-control-lg form-control-solid selectCustomerGroup">
+												<option value="">Seçim Yok</option>
+												<?php
+												foreach ($customerGroups as $customerGroup) {
+													?>
+													<option value="<?= $customerGroup["customerGroupId"] ?>"><?= $customerGroup["title"] ?></option>
+													<?php
+												}
+												?>
+											</select>
+											<!--end::Input-->
+										</div>
+									</div>
+									<div class="fv-row row mb-5">
+										<!--begin::Input group-->
+										<div data-np-type="INDIVIDUAL"
+											 class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">TC Kimlik
+												Numarası</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text"
+												   pattern="(\d)+"
+												   name="identityNumber"
+												   minlength="11"
+												   maxlength="11"
+												   class="form-control form-control-lg form-control-solid">
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div data-np-type="CORPORATE"
+											 class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Vergi
+												Numarası</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text"
+												   name="taxNumber"
+												   class="form-control form-control-lg form-control-solid">
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Vergi
+												Dairesi</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text"
+												   name="taxOffice"
+												   class="form-control form-control-lg form-control-solid">
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+									</div>
+									<div class="fv-row row mb-5">
+										<div style="margin-top: -7px;"
+											 class="col-md-12 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Müşteri
+												Notları</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<textarea name="notes" rows="3"
+													  class="resize-none form-control form-control-solid"></textarea>
+											<!--end::Input-->
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<h4 class="mb-7">İletişim Bilgileri</h4>
+									<div class="fv-row row mb-5">
+										<div class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">E-Posta
+												Adresi</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="email"
+												   name="email"
+												   class="form-control form-control-lg form-control-solid">
+											<!--end::Input-->
+										</div>
+										<div class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Referans/Kaynak</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="fkSource" id="selectSource"
+													class="form-control-solid form-control">
+												<option value="">Seçim Yok</option>
+												<?php
+												foreach ($customerSources as $customerSource) {
+													?>
+													<option value="<?= $customerSource['customerSourceId'] ?>"><?= $customerSource['title'] ?></option>
+													<?php
+												}
+												?>
+											</select>
+											<!--end::Input-->
+										</div>
+									</div>
+									<div class="fv-row row mb-5">
+										<div class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Ülke</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="fkCountry" required id=""
+													class="form-control form-control-solid selectCountry">
+												<?php
+												foreach (getCountries() as $country) {
+													?>
+													<option <?= $country["countryId"] == 1 ? 'selected' : ''; ?>
+															value="<?= $country["countryId"] ?>"><?= $country["title"] ?></option>
+													<?php
+												}
+												?>
+											</select>
+											<!--end::Input-->
+
+										</div>
+										<div class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Sektör</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="fkSector" id="selectSector"
+													class="form-control-solid form-control">
+												<option value="">Seçim Yok</option>
+												<?php
+												foreach ($sectors as $sector) {
+													?>
+													<option value="<?= $sector['sectorId'] ?>"><?= $sector['title'] ?></option>
+													<?php
+												}
+												?>
+											</select>
+											<!--end::Input-->
+										</div>
+									</div>
+									<div class="fv-row row mb-5">
+										<div class="col-md-6 col-sm-12 fv-row">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Şehir</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="fkCity" id=""
+													class="form-control form-control-solid selectCity">
+												<option value="">Şehir Seçimi</option>
+												<?php
+												foreach ($cities as $city) {
+													?>
+													<option value="<?= $city["cityId"] ?>"><?= $city["title"] ?></option>
+													<?php
+												}
+												?>
+											</select>
+											<!--end::Input-->
+
+										</div>
+
+										<div class="col-md-6 col-sm-12 fv-row ">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">İlçe</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="fkDistrict" id=""
+													class="form-control form-control-solid selectDistrict">
+												<option value="">İlçe Seçimi</option>
+											</select>
+											<!--end::Input-->
+										</div>
+
+									</div>
+									<div class="fv-row row mb-5">
+										<div class="col-md-12 col-sm-12 fv-row mb-7">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Adres</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<textarea name="address"
+													  class="form-control form-control-lg form-control-solid resize-none"></textarea>
+											<!--end::Input-->
+										</div>
+									</div>
+									<div class="fv-row row mb-5">
+										<div class="col-md-6 col-sm-12 fv-row mb-7">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Telefon
+												Numarası</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text"
+												   name="phone"
+												   class="form-control phoneMask form-control-lg form-control-solid">
+											<!--end::Input-->
+										</div>
+
+										<div class="col-md-6 col-sm-12 fv-row mb-7">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Telefon
+												Numarası - 2</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text"
+												   name="secondPhone"
+												   class="form-control phoneMask form-control-lg form-control-solid">
+											<!--end::Input-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--end::Scroll-->
+					<!--begin::Actions-->
+					<div class="text-center pt-15">
+						<button type="reset" class="btn btn-light me-3"
+								data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
+							Kapat
+						</button>
+						<button type="submit" class="btn btn-primary"
+								data-kt-users-modal-action="submit">
+							<span class="indicator-label">Kaydet</span>
+							<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+						</button>
+					</div>
+					<!--end::Actions-->
+				</form>
+				<!--end::Form-->
+			</div>
+			<!--end::Modal body-->
+		</div>
+		<!--end::Modal content-->
+	</div>
+	<!--end::Modal dialog-->
+</div>
+
+<?php
+?>
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="addCustomerGroupModal" tabindex="-1"
+	 aria-hidden="true">
+	<!--begin::Modal dialog-->
+	<div class="modal-dialog modal-dialog-centered mw-650px">
+		<!--begin::Modal content-->
+		<div class="modal-content">
+			<!--begin::Modal header-->
+			<div class="modal-header" id="kt_modal_add_user_header">
+				<!--begin::Modal title-->
+				<h2 class="fw-bolder modal-title">Yeni Müşteri Grubu Oluştur</h2>
+				<!--end::Modal title-->
+				<!--begin::Close-->
+				<div class="btn btn-icon btn-sm btn-active-icon-primary"
+					 data-bs-dismiss="modal">
+					<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+					<span class="svg-icon svg-icon-1">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
+					<!--end::Svg Icon-->
+				</div>
+				<!--end::Close-->
+			</div>
+			<!--end::Modal header-->
+			<!--begin::Modal body-->
+			<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+				<!--begin::Form-->
+				<form id="addCustomerGroupForm" enctype="multipart/form-data" class="form" action="#">
+					<input type="hidden" name="action" value="ADD">
+					<!--begin::Scroll-->
+					<div class="d-flex flex-column scroll-y me-n7 pe-7"
+						 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+						 data-kt-scroll-activate="{default: false, lg: true}"
+						 data-kt-scroll-max-height="auto"
+						 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+						 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+						 data-kt-scroll-offset="300px">
+						<div class="row">
 							<!--begin::Input group-->
-							<!--end::Input group-->
-							<div class="row">
-								<div class="fv-row mb-7 text-center">
-									<!--begin::Radio group-->
-									<div class="btn-group w-100 w-lg-50 " data-kt-buttons="true"
-										 data-kt-buttons-target="[data-kt-button]">
-										<!--begin::Radio-->
-										<label class="select-individual btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success active"
-											   data-kt-button="true">
-											<!--begin::Input-->
-											<input class="btn-check" checked type="radio"
-												   name="type"
-												   value="INDIVIDUAL"/>
-											<!--end::Input-->
-											Bireysel
-										</label>
-										<!--end::Radio-->
-										<!--begin::Radio-->
-										<label class="select-corporate btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success "
-											   data-kt-button="true">
-											<!--begin::Input-->
-											<input class="btn-check" type="radio" name="type"
-												   value="CORPORATE"/>
-											<!--end::Input-->
-											Kurumsal
-										</label>
-										<!--end::Radio-->
-									</div>
+							<div class="fv-row mb-7">
+								<!--begin::Label-->
+								<label class="fw-bold fs-6 mb-2">Başlık</label>
+								<!--end::Label-->
+								<!--begin::Input-->
+								<div class="position-relative mb-3">
+									<input class="form-control form-control-lg form-control-solid"
+										   type="text" name="title">
 								</div>
-								<div class="row">
-									<div class="col-lg-6">
-										<h4 class="mb-7">Temel Bilgiler </h4>
-
-										<div class="fv-row row mb-5">
-											<!--begin::Input group-->
-											<div
-													class="col-md-12 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label data-np-type="CORPORATE"
-													   class="required fw-bold fs-6 mb-2">Firma
-													Adı</label>
-												<label data-np-type="INDIVIDUAL"
-													   class="required fw-bold fs-6 mb-2">Ad-Soyad</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<input type="text"
-													   name="name"
-													   class="form-control form-control-lg form-control-solid">
-												<!--end::Input-->
-											</div>
-											<!--end::Input group-->
-										</div>
-										<div class="fv-row row mb-5">
-											<div class="col-md-6 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Kısa İsim <i
-															class="fa fa-info-circle"
-															data-bs-toggle="tooltip"
-															title="Kısa isim, müşteriyi tanımlamak amacıyla yalnızca ekip üyelerine gösterilir."></i></label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<input type="text"
-													   name="shortName"
-													   class="form-control form-control-lg form-control-solid">
-												<!--end::Input-->
-											</div>
-											<div class="col-md-6 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2 d-flex">Müşteri
-													Grubu
-													<?php
-													if (isCanOr("admin")) {
-														?>
-														<a href="javascript:void(0)"
-														   onclick="$('#addCustomerGroupModal').modal('show')"><span
-																	class="ms-1 badge badge-light-primary">Yeni Ekle</span></a>
-														<?php
-													}
-													?>
-												</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<select type="text"
-														name="fkCustomerGroup"
-														class="form-control form-control-lg form-control-solid selectCustomerGroup">
-													<option value="">Seçim Yok</option>
-													<?php
-													foreach ($customerGroups as $customerGroup) {
-														?>
-														<option value="<?= $customerGroup["customerGroupId"] ?>"><?= $customerGroup["title"] ?></option>
-														<?php
-													}
-													?>
-												</select>
-												<!--end::Input-->
-											</div>
-										</div>
-										<div class="fv-row row mb-5">
-											<!--begin::Input group-->
-											<div data-np-type="INDIVIDUAL"
-												 class="col-md-6 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">TC Kimlik
-													Numarası</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<input type="text"
-													   pattern="(\d)+"
-													   name="identityNumber"
-													   minlength="11"
-													   maxlength="11"
-													   class="form-control form-control-lg form-control-solid">
-												<!--end::Input-->
-											</div>
-											<!--end::Input group-->
-											<!--begin::Input group-->
-											<div data-np-type="CORPORATE"
-												 class="col-md-6 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Vergi
-													Numarası</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<input type="text"
-													   name="taxNumber"
-													   class="form-control form-control-lg form-control-solid">
-												<!--end::Input-->
-											</div>
-											<!--end::Input group-->
-											<!--begin::Input group-->
-											<div class="col-md-6 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Vergi
-													Dairesi</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<input type="text"
-													   name="taxOffice"
-													   class="form-control form-control-lg form-control-solid">
-												<!--end::Input-->
-											</div>
-											<!--end::Input group-->
-										</div>
-										<div class="fv-row row mb-5">
-											<div style="margin-top: -7px;"
-												 class="col-md-12 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Müşteri
-													Notları</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<textarea name="notes" rows="3"
-														  class="resize-none form-control form-control-solid"></textarea>
-												<!--end::Input-->
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<h4 class="mb-7">İletişim Bilgileri</h4>
-										<div class="fv-row row mb-5">
-											<div class="col-md-12 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">E-Posta
-													Adresi</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<input type="email"
-													   name="email"
-													   class="form-control form-control-lg form-control-solid">
-												<!--end::Input-->
-											</div>
-										</div>
-										<div class="fv-row row mb-5">
-											<div class="col-md-12 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Ülke</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<select name="fkCountry" required id=""
-														class="form-control form-control-solid selectCountry">
-													<?php
-													foreach (getCountries() as $country) {
-														?>
-														<option <?= $country["countryId"] == 1 ? 'selected' : ''; ?>
-																value="<?= $country["countryId"] ?>"><?= $country["title"] ?></option>
-														<?php
-													}
-													?>
-												</select>
-												<!--end::Input-->
-
-											</div>
-										</div>
-										<div class="fv-row row mb-5">
-											<div class="col-md-6 col-sm-12 fv-row">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Şehir</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<select name="fkCity" id=""
-														class="form-control form-control-solid selectCity">
-													<option value="">Şehir Seçimi</option>
-													<?php
-													foreach ($cities as $city) {
-														?>
-														<option value="<?= $city["cityId"] ?>"><?= $city["title"] ?></option>
-														<?php
-													}
-													?>
-												</select>
-												<!--end::Input-->
-
-											</div>
-
-											<div class="col-md-6 col-sm-12 fv-row ">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">İlçe</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<select name="fkDistrict" id=""
-														class="form-control form-control-solid selectDistrict">
-													<option value="">İlçe Seçimi</option>
-												</select>
-												<!--end::Input-->
-											</div>
-
-										</div>
-										<div class="fv-row row mb-5">
-											<div class="col-md-12 col-sm-12 fv-row mb-7">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Adres</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<textarea name="address"
-														  class="form-control form-control-lg form-control-solid resize-none"></textarea>
-												<!--end::Input-->
-											</div>
-										</div>
-										<div class="fv-row row mb-5">
-											<div class="col-md-6 col-sm-12 fv-row mb-7">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Telefon
-													Numarası</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<input type="text"
-													   name="phone"
-													   class="form-control phoneMask form-control-lg form-control-solid">
-												<!--end::Input-->
-											</div>
-
-											<div class="col-md-6 col-sm-12 fv-row mb-7">
-												<!--begin::Label-->
-												<label class="fw-bold fs-6 mb-2">Telefon
-													Numarası - 2</label>
-												<!--end::Label-->
-												<!--begin::Input-->
-												<input type="text"
-													   name="secondPhone"
-													   class="form-control phoneMask form-control-lg form-control-solid">
-												<!--end::Input-->
-											</div>
-										</div>
-									</div>
-								</div>
+								<!--end::Input-->
 							</div>
 						</div>
-						<!--end::Scroll-->
-						<!--begin::Actions-->
-						<div class="text-center pt-15">
-							<button type="reset" class="btn btn-light me-3"
-									data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
-								Kapat
-							</button>
-							<button type="submit" class="btn btn-primary"
-									data-kt-users-modal-action="submit">
-								<span class="indicator-label">Kaydet</span>
-								<span class="indicator-progress">Please wait...
-																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-							</button>
-						</div>
-						<!--end::Actions-->
-					</form>
-					<!--end::Form-->
-				</div>
-				<!--end::Modal body-->
-			</div>
-			<!--end::Modal content-->
-		</div>
-		<!--end::Modal dialog-->
-	</div>
-
-	<?php
-	?>
-	<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="addCustomerGroupModal" tabindex="-1"
-		 aria-hidden="true">
-		<!--begin::Modal dialog-->
-		<div class="modal-dialog modal-dialog-centered mw-650px">
-			<!--begin::Modal content-->
-			<div class="modal-content">
-				<!--begin::Modal header-->
-				<div class="modal-header" id="kt_modal_add_user_header">
-					<!--begin::Modal title-->
-					<h2 class="fw-bolder modal-title">Yeni Müşteri Grubu Oluştur</h2>
-					<!--end::Modal title-->
-					<!--begin::Close-->
-					<div class="btn btn-icon btn-sm btn-active-icon-primary"
-						 data-bs-dismiss="modal">
-						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-						<span class="svg-icon svg-icon-1">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
-																		 height="24" viewBox="0 0 24 24" fill="none">
-																		<rect opacity="0.5" x="6" y="17.3137" width="16"
-																			  height="2" rx="1"
-																			  transform="rotate(-45 6 17.3137)"
-																			  fill="currentColor"/>
-																		<rect x="7.41422" y="6" width="16" height="2"
-																			  rx="1" transform="rotate(45 7.41422 6)"
-																			  fill="currentColor"/>
-																	</svg>
-																</span>
-						<!--end::Svg Icon-->
 					</div>
-					<!--end::Close-->
-				</div>
-				<!--end::Modal header-->
-				<!--begin::Modal body-->
-				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-					<!--begin::Form-->
-					<form id="addCustomerGroupForm" enctype="multipart/form-data" class="form" action="#">
-						<input type="hidden" name="action" value="ADD">
-						<!--begin::Scroll-->
-						<div class="d-flex flex-column scroll-y me-n7 pe-7"
-							 id="kt_modal_add_user_scroll" data-kt-scroll="true"
-							 data-kt-scroll-activate="{default: false, lg: true}"
-							 data-kt-scroll-max-height="auto"
-							 data-kt-scroll-dependencies="#kt_modal_add_user_header"
-							 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-							 data-kt-scroll-offset="300px">
-							<div class="row">
-								<!--begin::Input group-->
-								<div class="fv-row mb-7">
-									<!--begin::Label-->
-									<label class="fw-bold fs-6 mb-2">Başlık</label>
-									<!--end::Label-->
-									<!--begin::Input-->
-									<div class="position-relative mb-3">
-										<input class="form-control form-control-lg form-control-solid"
-											   type="text" name="title">
-									</div>
-									<!--end::Input-->
-								</div>
-							</div>
-						</div>
-						<!--end::Scroll-->
-						<!--begin::Actions-->
-						<div class="text-center pt-15">
-							<button type="reset" class="btn btn-light me-3"
-									data-bs-dismiss="modal">Kapat
-							</button>
-							<button type="submit" class="btn btn-primary"
-									data-kt-users-modal-action="submit">
-								<span class="indicator-label">Kaydet</span>
-								<span class="indicator-progress">Please wait...
+					<!--end::Scroll-->
+					<!--begin::Actions-->
+					<div class="text-center pt-15">
+						<button type="reset" class="btn btn-light me-3"
+								data-bs-dismiss="modal">Kapat
+						</button>
+						<button type="submit" class="btn btn-primary"
+								data-kt-users-modal-action="submit">
+							<span class="indicator-label">Kaydet</span>
+							<span class="indicator-progress">Please wait...
 																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-							</button>
-						</div>
-						<!--end::Actions-->
-					</form>
-					<!--end::Form-->
-				</div>
-				<!--end::Modal body-->
+						</button>
+					</div>
+					<!--end::Actions-->
+				</form>
+				<!--end::Form-->
 			</div>
-			<!--end::Modal content-->
+			<!--end::Modal body-->
 		</div>
-		<!--end::Modal dialog-->
+		<!--end::Modal content-->
 	</div>
-	<?php
+	<!--end::Modal dialog-->
+</div>
+<?php
 
 ?>

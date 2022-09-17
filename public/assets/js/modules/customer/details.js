@@ -225,6 +225,11 @@ $(document).ready(function(){
 		tags: false,
 		allowClear: true
 	});
+	$("#selectSector").select2({
+		dropdownParent: "#kt_modal_edit_user",
+		placeholder: "Seçim Yok",
+		allowClear: true
+	});
 
 	$(".selectCity").on("change", function () {
 		$(".selectDistrict").val(null).trigger("change");

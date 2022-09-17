@@ -1,5 +1,12 @@
 $(document).ready(function () {
 
+	function isCan() {
+		if ($("#checkerAu").val() == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	checkInputs();
 	$(".selectUnit").select2({
@@ -74,9 +81,10 @@ $(document).ready(function () {
 
 		e.preventDefault();
 
-		$("#primaryForm").find("input[type='radio']").prop("disabled", false);
-		$("#primaryForm").find("input,select").prop("disabled", false);
-
+		if (isCan()) {
+			$("#primaryForm").find("input[type='radio']").prop("disabled", false);
+			$("#primaryForm").find("input,select").prop("disabled", false);
+		}
 
 		$("#primaryModal").modal("show");
 
@@ -192,35 +200,37 @@ $(document).ready(function () {
 
 	})
 	let n = wNumb({mark: ',', decimals: 2, thousand: "."});
-	$(document).on("keyup","[name='unitPrice']",function (e){
+	$(document).on("keyup", "[name='unitPrice']", function (e) {
 		e.preventDefault();
 		var unit = n.from($(this).val());
 		var vat = parseInt($("[name='vatPercent']").val());
 
-		$("[name='totalPrice']").val(n.to(unit+(unit*vat/100)));
+		$("[name='totalPrice']").val(n.to(unit + (unit * vat / 100)));
 	})
 
-	$(document).on("change","[name='vatPercent']",function (e){
+	$(document).on("change", "[name='vatPercent']", function (e) {
 		e.preventDefault();
 		var unit = n.from($("[name='unitPrice']").val());
 		var vat = parseInt($("[name='vatPercent']").val());
 
-		$("[name='totalPrice']").val(n.to(unit+(unit*vat/100)));
+		$("[name='totalPrice']").val(n.to(unit + (unit * vat / 100)));
 	})
 
-	$(document).on("keyup","[name='totalPrice']",function (e){
+	$(document).on("keyup", "[name='totalPrice']", function (e) {
 		e.preventDefault();
 		var total = n.from($(this).val());
 		var vat = parseInt($("[name='vatPercent']").val());
 
-		$("[name='unitPrice']").val(n.to(total/(100+vat)*100));
+		$("[name='unitPrice']").val(n.to(total / (100 + vat) * 100));
 	})
 
 	$(document).on("click", ".np-edit", function (e) {
 
 		$("[data-edit-hidden='true']").addClass("d-none");
 		e.preventDefault();
-		$("#primaryForm").find("input,select").prop("disabled", false);
+		if (isCan()) {
+			$("#primaryForm").find("input,select").prop("disabled", false);
+		}
 		var rowid = $(this).closest("tr").data("id");
 
 		$("#primaryModal").modal("show");
@@ -244,10 +254,11 @@ $(document).ready(function () {
 
 					var inputID = "selectType" + res.data.type;
 					$("#primaryForm").find("#" + inputID).click();
-				
-					$("[name=\"type\"]").prop("disabled",true);
+
+					$("[name=\"type\"]").prop("disabled", true);
 					$("#primaryForm").find("[name='name']").val(res.data.name);
 					$("#primaryForm").find("[name='unitPrice']").val(res.data.unitPrice);
+					$("#primaryForm").find("[name='costPrice']").val(res.data.costPrice);
 					$("#primaryForm").find("[name='productCode']").val(res.data.productCode);
 					$("#primaryForm").find("[name='currencyID']").val(res.data.fkCurrency).trigger("change");
 					$("#primaryForm").find("[name='vatPercent']").val(res.data.vatPercent).trigger("change");
@@ -262,14 +273,14 @@ $(document).ready(function () {
 					var unit = n.from($("[name='unitPrice']").val());
 					var vat = parseInt($("[name='vatPercent']").val());
 
-					$("[name='totalPrice']").val(n.to(unit+(unit*vat/100)));
+					$("[name='totalPrice']").val(n.to(unit + (unit * vat / 100)));
 
 					// $("#primaryForm").find("[name='currencyID']").val(res.data.fkCurrency).trigger("change").prop("disabled", true);
-					if(res.data.stockTracking == "ACTIVE"){
+					if (res.data.stockTracking == "ACTIVE") {
 						$("#stockPassive").prop("checked", false);
 						$("#stockActive").prop("checked", true);
 						$("#primaryForm").find(".stockActiveLabel").click();
-					}else{
+					} else {
 						$("#stockActive").prop("checked", false);
 						$("#stockPassive").prop("checked", true);
 						$("#primaryForm").find(".stockPassiveLabel").click();

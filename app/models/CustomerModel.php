@@ -82,4 +82,17 @@ class CustomerModel extends NP_Model
 			]
 		];
 	}
+
+	public function checkPassiveCustomers()
+	{
+
+		$sixMonthAgo = date('Y-m-d',strtotime('-6 month'));
+
+		$query = "SELECT customerId FROM customer WHERE customerId NOT IN(SELECT fkCustomer FROM sale WHERE sale.invoiceDate > '$sixMonthAgo' AND isActive = '1')";
+		$data = $this->db->query($query)->result_array();
+
+		foreach ($data as $item) {
+			$update = $this->update(['isActive' => 0],$item['customerId']);
+		}
+	}
 }

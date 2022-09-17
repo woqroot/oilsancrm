@@ -128,7 +128,7 @@
 		<span class="currentCustomer d-none"><?= $sale["fkCustomer"] ?></span>
 
 		<!--begin::Container-->
-		<div id="kt_content_container" class="container-xxl">
+		<div id="kt_content_container" class="container-fluid">
 
 			<!--begin::Layout-->
 			<div class="row">
@@ -151,6 +151,9 @@
 									<a class="nav-link" data-bs-toggle="tab" href="#documents">Dokümanlar</a>
 								</li>
 								<li class="nav-item w-md-150px me-0">
+									<a class="nav-link" data-bs-toggle="tab" href="#saleExpenses">Masraflar</a>
+								</li>
+								<li class="nav-item w-md-150px me-0">
 									<a class="nav-link" data-bs-toggle="tab" href="#notes">Notlar</a>
 								</li>
 
@@ -169,27 +172,45 @@
 																  class="<?= $editable ? 'cursor-pointer' : ''; ?> changeStatus badge badge-<?= Main::getStatus($sale["fkStatus"])["className"] ?>"><?= Main::getStatus($sale["fkStatus"])["title"] ?></span>
 								</div>
 							</div>
+							<?php
+
+							if ($sale['fkStatus'] == 4) {
+								?>
+								<div class="fv-row mb-7">
+									<label class=" fw-bold  fs-6 mb-2">Satış Tarihi</label>
+									<div class="text-gray-600 "><?= $sale["approvedAt"] ? localizeDate("d M Y", $sale["approvedAt"]) : "-" ?></div>
+								</div>
+								<?php
+							}
+							?>
 							<div class="fv-row mb-7">
 								<label class=" fw-bold  fs-6 mb-2">Son İşlem Tarihi</label>
 								<div class="text-gray-600 "><?= showDate($sale["updatedAt"]) ?></div>
 							</div>
-							<div class="fv-row">
-								<label class=" fw-bold  fs-6 mb-2">Satış Sorumlusu</label>
-								<div class="text-gray-600 text-center">
-									<div class="align-items-center">
-										<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-											<a class=" cursor-default" href="javascript:void(0)">
+							<?php
+							if ($user) {
+								?>
+								<div class="fv-row">
+									<label class=" fw-bold  fs-6 mb-2">Satış Sorumlusu</label>
+									<div class=" text-gray-600 text-center">
+										<div class="<?= isCan('admin') ? 'changeFkUser' : ''; ?> align-items-center">
+											<div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+												<a class=" cursor-pointer" href="javascript:void(0)">
 
-												<div class="symbol"><?= getAvatar($user) ?></div>
-											</a>
-										</div>
-										<div class="d-flex flex-column">
-											<a href="javascript:void(0)"
-											   class="fw-bold text-gray-500 cursor-default mb-1"><?= $user["firstName"] ?> <?= $user["lastName"] ?></a>
+													<div class="symbol"><?= getAvatar($user) ?></div>
+												</a>
+											</div>
+											<div class="d-flex flex-column">
+												<a href="javascript:void(0)"
+												   class="fw-bold text-gray-500 cursor-pointer mb-1"><?= $user["firstName"] ?> <?= $user["lastName"] ?></a>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+								<?php
+							}
+							?>
+
 						</div>
 					</div>
 				</div>
@@ -263,7 +284,7 @@
 													<!--end::Datepicker-->
 													<!--begin::Icon-->
 													<!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-													<span class="<?=!$editable ? "d-none" : "";?> svg-icon svg-icon-2 position-absolute ms-4 end-0">
+													<span class="<?= !$editable ? "d-none" : ""; ?> svg-icon svg-icon-2 position-absolute ms-4 end-0">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
 																		 height="24" viewBox="0 0 24 24" fill="none">
 																		<path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
@@ -284,20 +305,147 @@
 												<span class="fs-2x fw-bolder text-gray-800">Fatura #</span>
 												<input type="text" name="invoiceNumber"
 														<?= writeDisableByPerm("edit-sale") ?>
-														<?=!$editable ? "disabled" : "";?>
+														<?= !$editable ? "disabled" : ""; ?>
 													   class="form-control form-control-flush fw-bolder text-muted fs-3 w-125px"
 													   value="<?= $sale["invoiceNumber"] ?>" placehoder="..."/>
 											</div>
 
 											<!--end::Input group-->
 											<!--begin::Input group-->
-											<div class="opacity-0 align-items-center justify-content-end flex-equal order-3 fw-row"
+											<div class="ms-auto text-end justify-content-end flex-equal order-3 fw-row"
 												 data-bs-toggle="tooltip" data-bs-trigger="hover">
-												<a target="_blank"
-												   href="<?= base_url("sales/" . $sale["saleId"] . "/view") ?>"
-												   type="button" role="button" class="btn btn-light-primary"><i
-															class="fa fa-eye"></i> Fatura Görüntüle
-												</a>
+												<!--begin::Action menu-->
+												<a href="#" class="btn btn-light-primary ps-7"
+												   data-kt-menu-trigger="click" data-kt-menu-attach="parent"
+												   data-kt-menu-placement="bottom-end">İşlemler
+													<!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+													<span class="svg-icon svg-icon-2 me-0">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+														 viewBox="0 0 24 24" fill="none">
+														<path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
+															  fill="currentColor"></path>
+													</svg>
+												</span>
+													<!--end::Svg Icon--></a>
+												<!--begin::Menu-->
+												<div class="text-start menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold py-4 w-250px fs-6"
+													 data-kt-menu="true" style="">
+													<!--begin::Menu item-->
+													<div class="menu-item px-5">
+														<div class="menu-content text-muted pb-2 px-5 fs-7 text-uppercase">
+															Teklif
+														</div>
+													</div>
+													<!--end::Menu item-->
+													<!--begin::Menu item-->
+													<div class="menu-item px-5">
+														<a download="download" target="_blank"
+														   href="<?= base_url('sales/' . $sale['saleId'] . '/madeOffer') ?>"
+														   class="menu-link px-5">İndir</a>
+													</div>
+													<!--end::Menu item-->
+													<!--begin::Menu item-->
+													<div class="menu-item px-5">
+														<a target="_blank"
+														   href="<?= base_url('sales/' . $sale['saleId'] . '/madeOffer') ?>"
+														   class="menu-link px-5">Görüntüle</a>
+													</div>
+													<!--end::Menu item-->
+													<div class="menu-item px-5" data-kt-menu-trigger="hover"
+														 data-kt-menu-placement="right-end">
+														<a href="#" class="menu-link px-5">
+															<span class="menu-title">Mail Gönder</span>
+															<span class="menu-arrow"></span>
+														</a>
+														<!--begin::Menu sub-->
+														<div class="menu-sub menu-sub-dropdown w-175px py-4" style="">
+															<!--begin::Menu item-->
+															<div class="menu-item px-5">
+																<a href="#" data-sendto="customer"
+																   class="menu-link px-5 sendOfferTo">Müşteriye
+
+																	<i class="fas fa-info-circle ms-2 fs-7"
+																	   data-bs-toggle="tooltip" title=""
+																	   data-bs-original-title="<?= $customer["email"] ?>"
+																	   aria-label="<?= $customer["email"] ?>"></i></a>
+															</div>
+															<!--end::Menu item-->
+															<!--begin::Menu item-->
+															<div class="menu-item px-5">
+																<a href="" data-sendto="self"
+																   class="menu-link px-5 sendOfferTo">Kendime
+																	<i class="fas fa-info-circle ms-2 fs-7"
+																	   data-bs-toggle="tooltip" title=""
+																	   data-bs-original-title="<?= Auth::get('email') ?>"
+																	   aria-label="<?= Auth::get('email') ?>"></i>
+																</a>
+															</div>
+															<!--end::Menu item-->
+															<?php
+															if (isCan('admin')) {
+																?>
+																<!--begin::Menu item-->
+																<div class="menu-item px-5">
+																	<a href="" data-sendto="staff"
+																	   class="menu-link px-5 sendOfferTo">Personele <i
+																				class="fas fa-info-circle ms-2 fs-7"
+																				data-bs-toggle="tooltip" title=""
+																				data-bs-original-title="<?= @$user['email'] ?>"
+																				aria-label="<?= @$user['email'] ?>"></i></a>
+																</div>
+																<!--end::Menu item-->
+																<?php
+															} else {
+																?>
+																<!--begin::Menu item-->
+																<div class="menu-item px-5">
+																	<a href="" data-sendto="admin"
+																	   class="menu-link px-5 sendOfferTo">Yönetici(ler)e</a>
+																</div>
+																<!--end::Menu item-->
+																<?php
+															}
+															?>
+
+															<!--begin::Menu separator-->
+															<div class="separator my-2"></div>
+															<!--end::Menu separator-->
+														</div>
+														<!--end::Menu sub-->
+													</div>
+
+													<!--begin::Menu separator-->
+													<div class="separator my-3"></div>
+													<!--end::Menu separator-->
+													<!--begin::Menu item-->
+													<div class="menu-item px-5">
+														<div class="menu-content text-muted pb-2 px-5 fs-7 text-uppercase">
+															Diğer İşlemler
+														</div>
+													</div>
+													<!--end::Menu item-->
+													<!--begin::Menu item-->
+													<div class="menu-item px-5">
+														<a href="<?= base_url('sales/' . $sale['saleId'] . '/view') ?>"
+														   target="_blank" class="menu-link px-5">Fatura Şablonu</a>
+													</div>
+													<!--end::Menu item-->
+													<?php
+													if (isCan('admin')) {
+														?>
+														<!--begin::Menu item-->
+														<div class="menu-item px-5">
+															<a href="javascript:void(0)"
+															   class="menu-link text-danger px-5 deleteSaleButton">Kaydı
+																Sil</a>
+														</div>
+														<!--end::Menu item-->
+														<?php
+													}
+													?>
+												</div>
+												<!--end::Menu-->
+												<!--end::Menu-->
 											</div>
 
 
@@ -372,8 +520,8 @@
 													<thead>
 													<tr class="border-bottom fs-7 fw-bolder text-gray-700 text-uppercase">
 														<th class="min-w-250px mw-250px">Ürün/Hİzmet</th>
-														<th colspan="2" class="min-w-100px mw-100px">Miktar</th>
-														<th class="min-w-100px mw-125px">Fiyat</th>
+														<th colspan="2" class="min-w-100px mw-100px">MİKTAR</th>
+														<th class="min-w-100px mw-125px">FİYAT</th>
 														<th class="d-none min-w-100px mw-100px">KDV</th>
 														<th class="min-w-150px mw-150px text-start">Tutar</th>
 													</tr>
@@ -1070,6 +1218,82 @@
 						</div>
 						<!--end::Content-->
 					</div>
+					<div class="tab-pane fade " id="saleExpenses" role="tabpanel">
+						<!--begin::Content-->
+						<div class="flex-lg-row-fluid mb-10 mb-lg-0">
+							<!--begin::Card-->
+							<div class="card">
+
+								<div class="card-header border-0 pt-6">
+									<!--begin::Card title-->
+									<div class="card-title">
+										<!--begin::Search-->
+										<div class="d-flex align-items-center position-relative my-1">
+											<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+											<span class="svg-icon svg-icon-1 position-absolute ms-6">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+														 viewBox="0 0 24 24" fill="none">
+														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+															  height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+															  fill="currentColor"></rect>
+														<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+															  fill="currentColor"></path>
+													</svg>
+												</span>
+											<!--end::Svg Icon-->
+											<input type="text" data-kt-filter="searchNoteInput"
+												   class="form-control form-control-solid w-250px ps-15"
+												   placeholder="Tabloda ara">
+										</div>
+										<!--end::Search-->
+									</div>
+									<!--begin::Card title-->
+									<div class="card-toolbar">
+										<div class="d-flex justify-content-end ms-4"
+											 data-kt-customer-table-toolbar="base">
+
+											<!--begin::Add customer-->
+											<button class="btn btn-primary" data-bs-toggle="modal"
+													data-bs-target="#addSaleExpenseModal"><i class="fa fa-plus"></i>
+												Masraf Kaydı Ekle
+											</button>
+											<!--end::Add customer-->
+										</div>
+									</div>
+								</div>
+								<!--begin::Card body-->
+								<div class="card-body p-12">
+									<div class="d-flex flex-column align-items-start flex-xxl-row">
+										<table class="table align-middle table-row-dashed fs-6 gy-5 saleExpenses-datatable">
+											<!--begin::Table head-->
+											<thead>
+											<!--begin::Table row-->
+											<tr class="table-hover  text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+
+												<th class="min-w-50px">#</th>
+												<th class="min-w-125px">Başlık</th>
+												<th class="min-w-125px">Tutar</th>
+												<th class="min-w-125px">Tarih</th>
+												<th class="min-w-125px">Oluşturan</th>
+												<th class="min-w-">İşlem</th>
+											</tr>
+											<!--end::Table row-->
+											</thead>
+											<!--end::Table head-->
+											<!--begin::Table body-->
+											<tbody class="text-gray-600 fw-bold cursor-pointer">
+
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<!--end::Card body-->
+							</div>
+							<!--end::Card-->
+						</div>
+						<!--end::Content-->
+					</div>
 					<div class="tab-pane fade " id="notes" role="tabpanel">
 						<!--begin::Content-->
 						<div class="flex-lg-row-fluid mb-10 mb-lg-0">
@@ -1198,6 +1422,114 @@
 </div>
 <!--end::Content-->
 <div id="userRole"><?= Auth::get('fkRole') ?></div>
+<?php
+if (isCan('admin')) {
+	?>
+	<div class="modal fade " id="changeUserModal" data-bs-backdrop="static"
+		 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<!--begin::Modal dialog-->
+		<div class="modal-dialog modal-dialog-centered modal-md">
+			<!--begin::Modal content-->
+			<div class="modal-content">
+				<!--begin::Modal header-->
+				<div class="modal-header" id="kt_modal_add_user_header">
+					<!--begin::Modal title-->
+					<h2 class="fw-bolder formTitle">Satış Sorumlusu Değiştir</h2>
+					<!--end::Modal title-->
+					<!--begin::Close-->
+					<div class="btn btn-icon btn-sm btn-active-icon-primary"
+						 data-bs-dismiss="modal">
+						<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+						<span class="svg-icon svg-icon-1">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
+						<!--end::Svg Icon-->
+					</div>
+					<!--end::Close-->
+				</div>
+				<!--end::Modal header-->
+				<!--begin::Modal body-->
+				<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+					<!--begin::Form-->
+					<form id="changeUserForm" enctype="multipart/form-data" class="form"
+						  action="#">
+						<input type="hidden" name="action" value="CHANGE_USER">
+						<input type="hidden" name="saleID" value="<?= $sale["saleId"] ?>">
+						<input type="hidden" name="customerID" value="<?= $sale["fkCustomer"] ?>">
+						<input type="hidden" name="currencyID" value="<?= $sale["fkCurrency"] ?>">
+						<!--begin::Scroll-->
+						<div class="d-flex flex-column scroll-y me-n7 pe-7"
+							 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+							 data-kt-scroll-activate="{default: false, lg: true}"
+							 data-kt-scroll-max-height="auto"
+							 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+							 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+							 data-kt-scroll-offset="300px">
+							<!--begin::Input group-->
+							<!--end::Input group-->
+							<div class="row">
+
+								<div class="col-lg-12">
+									<div class="fv-row mb-5 row">
+										<div class="col-md-12 col-sm-12 fv-row ">
+											<label class="required fw-bold  fs-6 mb-2">Satış Sorumlusu</label>
+											<!--end::Label-->
+
+											<select required name="userID" type="text"
+													class="form-control  form-control-solid">
+												<?php
+												foreach ($users as $_user) {
+													?>
+													<option <?= $_user['userId'] == $user['userId'] ? 'selected' : ''; ?>
+															value="<?= $_user["userId"] ?>"><?= $_user["firstName"] ?></option>
+													<?php
+												}
+												?>
+											</select>
+
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<!--end::Scroll-->
+						<!--begin::Actions-->
+						<div class="text-center pt-15">
+							<button type="reset" class="btn btn-light me-3"
+									data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
+								Kapat
+							</button>
+							<button type="submit" class="btn btn-primary"
+									data-kt-users-modal-action="submit">
+								<span class="indicator-label">Kaydet</span>
+								<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+							</button>
+						</div>
+						<!--end::Actions-->
+					</form>
+					<!--end::Form-->
+				</div>
+				<!--end::Modal body-->
+			</div>
+			<!--end::Modal content-->
+		</div>
+		<!--end::Modal dialog-->
+	</div>
+	<?php
+}
+?>
 <div class="modal fade <?= hideByPerm() ?>" id="addCollectModal" data-bs-backdrop="static"
 	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
 	<!--begin::Modal dialog-->
@@ -1347,7 +1679,6 @@
 	</div>
 	<!--end::Modal dialog-->
 </div>
-
 <div class="modal fade <?= hideByPerm() ?>" id="addCollectAutoModal" data-bs-backdrop="static"
 	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
 	<!--begin::Modal dialog-->
@@ -2194,6 +2525,251 @@ if ($editable) {
 							Kapat
 						</button>
 						<button type="submit" class="btn btn-primary">
+							<span class="indicator-label">Kaydet</span>
+							<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+						</button>
+					</div>
+					<!--end::Actions-->
+				</form>
+				<!--end::Form-->
+			</div>
+			<!--end::Modal body-->
+		</div>
+		<!--end::Modal content-->
+	</div>
+	<!--end::Modal dialog-->
+</div>
+<div class="modal fade" id="addSaleExpenseModal" data-bs-backdrop="static"
+	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+	<!--begin::Modal dialog-->
+	<div class="modal-dialog modal-dialog-centered mw-750px">
+		<!--begin::Modal content-->
+		<div class="modal-content">
+			<!--begin::Modal header-->
+			<div class="modal-header" id="kt_modal_add_user_header">
+				<!--begin::Modal title-->
+				<h2 class="fw-bolder formTitle">Masraf Ekle</h2>
+				<!--end::Modal title-->
+				<!--begin::Close-->
+				<div class="btn btn-icon btn-sm btn-active-icon-primary"
+					 data-bs-dismiss="modal">
+					<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+					<span class="svg-icon svg-icon-1">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
+					<!--end::Svg Icon-->
+				</div>
+				<!--end::Close-->
+			</div>
+			<!--end::Modal header-->
+			<!--begin::Modal body-->
+			<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+				<!--begin::Form-->
+				<form id="addSaleExpenseForm" enctype="multipart/form-data" class="form"
+					  action="#">
+					<input type="hidden" name="action" value="ADD">
+					<input type="hidden" name="saleID" value="<?= $sale["saleId"] ?>">
+					<input type="hidden" name="customerID" value="<?= $sale["fkCustomer"] ?>">
+					<!--begin::Scroll-->
+					<div class="d-flex flex-column scroll-y me-n7 pe-7"
+						 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+						 data-kt-scroll-activate="{default: false, lg: true}"
+						 data-kt-scroll-max-height="auto"
+						 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+						 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+						 data-kt-scroll-offset="300px">
+						<!--begin::Input group-->
+						<!--end::Input group-->
+						<div class="row">
+
+							<div class="col-lg-12">
+								<div class="fv-row mb-5 ">
+									<div class="col-md-12 col-sm-12 fv-row ">
+										<!--begin::Label-->
+										<label class="fw-bold fs-6 mb-2">Başlık</label>
+										<!--end::Label-->
+										<!--begin::Input-->
+										<input required placeholder="Başlık" class="form-control form-control-solid"
+											   name="title"/>
+										<!--end::Input-->
+									</div>
+								</div>
+								<div class="fv-row mb-5 ">
+									<div class="col-md-12 col-sm-12 fv-row ">
+										<!--begin::Label-->
+										<label class="fw-bold fs-6 mb-2">Açıklama</label>
+										<!--end::Label-->
+										<!--begin::Input-->
+										<textarea required name="explanation" id=""
+												  placeholder="Bir şeyler yazın..."
+												  rows="4"
+												  class="form-control form-control-solid resize-none"></textarea>
+										<!--end::Input-->
+									</div>
+								</div>
+								<div class="fv-row mb-5 ">
+									<div class="col-md-12 col-sm-12 fv-row ">
+										<!--begin::Label-->
+										<label class="fw-bold fs-6 mb-2">Tutar</label>
+										<!--end::Label-->
+										<div class="input-group input-group-solid">
+												<span aria-expanded="false"
+													  class="input-group-text  dr bg-light-primary hoverable"><?= $currencySymbol ?></span>
+											<!--begin::Input-->
+											<input required placeholder="Tutar"
+												   class="form-control form-control-solid resize-none "
+												   data-input-type="decimal" name="totalPrice"/>
+											<!--end::Input-->
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+					<!--end::Scroll-->
+					<!--begin::Actions-->
+					<div class="text-center pt-15">
+						<button type="reset" class="btn btn-light me-3"
+								data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
+							Kapat
+						</button>
+						<button type="submit" class="btn btn-primary"
+								data-kt-users-modal-action="submit">
+							<span class="indicator-label">Kaydet</span>
+							<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+						</button>
+					</div>
+					<!--end::Actions-->
+				</form>
+				<!--end::Form-->
+			</div>
+			<!--end::Modal body-->
+		</div>
+		<!--end::Modal content-->
+	</div>
+	<!--end::Modal dialog-->
+</div>
+<div class="modal fade" id="editSaleExpenseModal" data-bs-backdrop="static"
+	 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+	<!--begin::Modal dialog-->
+	<div class="modal-dialog modal-dialog-centered mw-750px">
+		<!--begin::Modal content-->
+		<div class="modal-content">
+			<!--begin::Modal header-->
+			<div class="modal-header" id="kt_modal_add_user_header">
+				<!--begin::Modal title-->
+				<h2 class="fw-bolder formTitle">Bilgileri Düzenle</h2>
+				<!--end::Modal title-->
+				<!--begin::Close-->
+				<div class="btn btn-icon btn-sm btn-active-icon-primary"
+					 data-bs-dismiss="modal">
+					<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+					<span class="svg-icon svg-icon-1">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
+					<!--end::Svg Icon-->
+				</div>
+				<!--end::Close-->
+			</div>
+			<!--end::Modal header-->
+			<!--begin::Modal body-->
+			<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+				<!--begin::Form-->
+				<form id="editSaleExpenseForm" enctype="multipart/form-data" class="form"
+					  action="#">
+					<input type="hidden" name="action" value="EDIT">
+					<input type="hidden" name="saleID" value="<?= $sale["saleId"] ?>">
+					<input type="hidden" name="saleExpenseID" value="">
+					<input type="hidden" name="customerID" value="<?= $sale["fkCustomer"] ?>">
+					<!--begin::Scroll-->
+					<div class="d-flex flex-column scroll-y me-n7 pe-7"
+						 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+						 data-kt-scroll-activate="{default: false, lg: true}"
+						 data-kt-scroll-max-height="auto"
+						 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+						 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+						 data-kt-scroll-offset="300px">
+						<!--begin::Input group-->
+						<!--end::Input group-->
+						<div class="row">
+
+							<div class="col-lg-12">
+								<div class="fv-row mb-5 ">
+									<div class="col-md-12 col-sm-12 fv-row ">
+										<!--begin::Label-->
+										<label class="fw-bold fs-6 mb-2">Başlık</label>
+										<!--end::Label-->
+										<!--begin::Input-->
+										<input required placeholder="Başlık" class="form-control form-control-solid"
+											   name="title"/>
+										<!--end::Input-->
+									</div>
+								</div>
+								<div class="fv-row mb-5 ">
+									<div class="col-md-12 col-sm-12 fv-row ">
+										<!--begin::Label-->
+										<label class="fw-bold fs-6 mb-2">Açıklama</label>
+										<!--end::Label-->
+										<!--begin::Input-->
+										<textarea required name="explanation" id=""
+												  placeholder="Bir şeyler yazın..."
+												  rows="4"
+												  class="form-control form-control-solid resize-none"></textarea>
+										<!--end::Input-->
+									</div>
+								</div>
+								<div class="fv-row mb-5 ">
+									<div class="col-md-12 col-sm-12 fv-row ">
+										<!--begin::Label-->
+										<label class="fw-bold fs-6 mb-2">Tutar</label>
+										<!--end::Label-->
+										<div class="input-group input-group-solid">
+												<span aria-expanded="false"
+													  class="input-group-text  dr bg-light-primary hoverable"><?= $currencySymbol ?></span>
+											<!--begin::Input-->
+											<input required placeholder="Tutar"
+												   class="form-control form-control-solid resize-none "
+												   data-input-type="decimal" name="totalPrice"/>
+											<!--end::Input-->
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+					<!--end::Scroll-->
+					<!--begin::Actions-->
+					<div class="text-center pt-15">
+						<button type="reset" class="btn btn-light me-3"
+								data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
+							Kapat
+						</button>
+						<button type="submit" class="btn btn-primary"
+								data-kt-users-modal-action="submit">
 							<span class="indicator-label">Kaydet</span>
 							<span class="indicator-progress">Please wait...
 																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

@@ -8,6 +8,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 /* Ajax:START */
 $route["ajax/announcement"] = "Announcement/view";
+$route["ajax"] = "Ajax/dashReports";
 /* Ajax:END */
 
 /* User:START */
@@ -16,6 +17,7 @@ $route["auth/login"]["POST"] = "User/loginPost";
 $route["auth/logout"]["GET"] = "User/signOut";
 $route["change-theme"]["POST"] = "User/changeTheme";
 $route["users"]["GET"] = "User/list";
+$route["users"]["POST"] = "User/action";
 $route["users/(:num)"]["GET"] = "User/details/$1";
 $route["users/add"]["POST"] = "User/add";
 /* User:END */
@@ -70,6 +72,16 @@ $route["customer-groups"]["GET"] = "CustomerGroup/list";
 $route["customer-groups"]["POST"] = "CustomerGroup/action";
 /* CustomerGroup:END */
 
+/* CustomerSource:START */
+$route["customer-sources"]["GET"] = "CustomerSource/list";
+$route["customer-sources"]["POST"] = "CustomerSource/action";
+/* CustomerSource:END */
+
+/* Sector:START */
+$route["sectors"]["GET"] = "Sector/list";
+$route["sectors"]["POST"] = "Sector/action";
+/* Sector:END */
+
 /* Config:START */
 $route["settings"]["GET"] = "Config/view";
 $route["settings"]["POST"] = "Config/update";
@@ -103,8 +115,8 @@ $route["sales/(:num)/view"]["GET"] = "Sale/view/$1";
 $route["sales"]["GET"] = "Sale/list";
 $route["sales"]["POST"] = "Sale/action";
 $route["sales/ajax"]["POST"] = "Sale/ajax";
-$route["invoice-detail/(:num)"]["GET"] = "Sale/viewByPublic/$1";
-$route["invoice-detail/(:num)/paymentDetails"]["POST"] = "Sale/paymentDetails/$1";
+$route["sales/(:num)/madeOffer"]["GET"] = "Sale/madeOffer/$1";
+$route["sales/(:num)/sendOffer"]["POST"] = "Sale/sendOffer/$1";
 /* Sale:END */
 
 /* Expense:START */
@@ -128,12 +140,18 @@ $route["payments"]["POST"] = "Payment/action";
 
 $route["documents/ajax"]["POST"] = "Document/ajax";
 $route["documents"]["POST"] = "Document/action";
+$route["documents/download/(:any)/(:num)"]["GET"] = "Document/download/$1/$2";
 
 $route["notes/ajax"]["POST"] = "Note/ajax";
 $route["notes"]["POST"] = "Note/action";
 
+$route["saleExpenses/ajax"]["POST"] = "SaleExpense/ajax";
+$route["saleExpenses"]["POST"] = "SaleExpense/action";
+
 $route["trial-products/ajax"]["POST"] = "TrialProduct/ajax";
+$route["trial-products/ajaxGeneral"]["POST"] = "TrialProduct/ajaxGeneral";
 $route["trial-products"]["POST"] = "TrialProduct/action";
+$route["trial-products"]["GET"] = "TrialProduct/index";
 
 $route["logs/ajax"]["POST"] = "ActivityLog/ajax";
 

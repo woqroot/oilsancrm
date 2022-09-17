@@ -25,6 +25,11 @@ class NPMailer
 		$this->ci->email->initialize($this->config);
 	}
 
+
+	public function addAttachment($file)
+	{
+		$this->ci->email->attach( $file);
+	}
 	public function send($to, $subject, $message)
 	{
 

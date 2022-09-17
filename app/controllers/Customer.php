@@ -15,6 +15,8 @@ class Customer extends NP_Controller
 		$this->load->model("TrialProductModel");
 		$this->load->model("ProductModel");
 		$this->load->model("DocumentModel");
+		$this->load->model("CustomerSourceModel");
+		$this->load->model("SectorModel");
 	}
 
 	public function list()
@@ -22,7 +24,9 @@ class Customer extends NP_Controller
 
 		$data = [
 			"cities" => $this->CityModel->all([], "title ASC"),
-			"customerGroups" => $this->CustomerGroupModel->all([], "title ASC")
+			"customerGroups" => $this->CustomerGroupModel->all([], "title ASC"),
+			'customerSources' => $this->CustomerSourceModel->all([], 'title ASC'),
+			'sectors' => $this->SectorModel->all([], 'title ASC')
 		];
 
 		$this->setBreadcrumb(["Müşteriler", "Müşteri Listesi"]);
@@ -48,7 +52,10 @@ class Customer extends NP_Controller
 					"fkDistrict" => post("fkCountry") == 1 ? post("fkDistrict") : null,
 					"address" => post("address") ?: null,
 					"phone" => post("phone") ? phoneMask(post("phone")) : null,
-					"secondPhone" => post("secondPhone") ? phoneMask(post("secondPhone")) : null
+					"secondPhone" => post("secondPhone") ? phoneMask(post("secondPhone")) : null,
+					'fkCustomerSource' => post('fkSource'),
+					'fkSector' => post('fkSector'),
+					'fkUser' => Auth::get('userId')
 				];
 
 				$insert = $this->CustomerModel->insert($data);
@@ -109,10 +116,15 @@ class Customer extends NP_Controller
 					"address" => post("address"),
 					"phone" => post("phone") ? phoneMask(post("phone")) : null,
 					"secondPhone" => post("secondPhone") ? phoneMask(post("secondPhone")) : null,
+					'fkCustomerSource' => post('fkSource'),
+					'fkSector' => post('fkSector'),
 
 
 				];
 
+				if(isCan('admin') && post('fkUser')){
+					$data['fkUser'] = post('fkUser');
+				}
 				$insert = $this->CustomerModel->update($data, $customerID);
 
 				if (!$insert) return $this->response();
@@ -265,8 +277,14 @@ class Customer extends NP_Controller
 			"statistics" => $this->CustomerModel->getStatistics($customerID),
 			"sortedProducts" => $this->ProductModel->all([], "name ASC"),
 			"units" => $this->UnitModel->all([], "name ASC"),
-			"contacts" => $this->CustomerContactModel->all(['fkCustomer' => $customerID])
+			"contacts" => $this->CustomerContactModel->all(['fkCustomer' => $customerID]),
+			'customerSources' => $this->CustomerSourceModel->all([], 'title ASC'),
+			'source' => $this->CustomerSourceModel->first($customer['fkCustomerSource']),
+			'user' => $this->UserModel->first(['userId' => $customer['fkUser']]),
+			'staffs' => $this->UserModel->all([],'firstName ASC'),
+			'sectors' => $this->SectorModel->all([], 'title ASC')
 		];
+
 
 		$this->setBreadcrumb(["Müşteri Detay", $customer["name"]]);
 		$this->render($data);
@@ -291,6 +309,13 @@ class Customer extends NP_Controller
 		if ($filterCustomerGroupID > 0) {
 			$whereSearch .= " AND c.fkCustomerGroup = '$filterCustomerGroupID'";
 		}
+
+		$filterByIsActive = $this->input->post("filterByIsActive");
+		if($filterByIsActive === "0" || $filterByIsActive === "1"){
+			$whereSearch .= " AND c.isActive = '$filterByIsActive'";
+
+		}
+
 
 		if ($searchVal) {
 

@@ -8,6 +8,16 @@ class TrialProduct extends NP_Controller
 		$this->load->model("TrialProductModel");
 		$this->load->model("SaleModel");
 		$this->load->model("CustomerModel");
+		$this->load->model("ProductModel");
+		$this->load->model("UnitModel");
+	}
+
+	public function index()
+	{
+		$this->setBreadcrumb('Deneme Ürünleri');
+		$data["units"] = $this->UnitModel->all([], "name ASC");
+		$data["sortedProducts"] = $this->ProductModel->all([], "name ASC");
+		$this->render($data);
 	}
 
 	public function ajax()
@@ -117,17 +127,162 @@ class TrialProduct extends NP_Controller
 
 	}
 
+	public function ajaxGeneral()
+	{
+
+		$searchableColumns = [
+			"tp.trialProductId",
+			"s.invoiceNumber",
+			"c.name",
+			"p.name",
+			"tp.startDate",
+			"tp.endDate",
+		];
+
+		$searchVal = $this->input->post("search")["value"];
+
+		$whereSearch = "WHERE tp.deletedAt IS NULL";
+
+
+//		$filterCustomerGroupID = $this->input->post("customerGroupID");
+//		if ($filterCustomerGroupID > 0) {
+//			$whereSearch .= " AND c.fkCustomerGroup = '$filterCustomerGroupID'";
+//		}
+
+		if ($searchVal) {
+
+			$whereSearch .= " AND (";
+
+			foreach ($searchableColumns as $key => $searchableColumn) {
+
+				$whereSearch .= "$searchableColumn LIKE '%{$searchVal}%'";
+				if (array_key_last($searchableColumns) != $key) {
+					$whereSearch .= " OR ";
+				} else {
+					$whereSearch .= ")";
+				}
+			}
+		}
+
+		if (isset($this->input->post("order")[0]["column"]) and isset($this->input->post("order")[0]["dir"])) {
+			$orderBy = "ORDER BY " . $searchableColumns[$this->input->post("order")[0]["column"]] . " " . $this->input->post("order")[0]["dir"];
+		} else {
+			$orderBy = "ORDER BY tp.tpStatus ASC, tp.endDate ASC";
+		}
+
+		$start = $this->input->post("start") ?? 0;
+		$length = $this->input->post("length") == -1 ? 10 : $this->input->post("length");
+
+		$limit = "LIMIT {$start}, {$length}";
+
+		if (!isCan('admin')) {
+			$whereSearch .= " AND s.fkUser = '" . Auth::get('userId') . "'";
+		}
+
+		$list = $this->TrialProductModel->list($whereSearch, $orderBy, $limit);
+
+		$data = [];
+
+		$countTotalRecords = $this->TrialProductModel->countRecords($whereSearch, $orderBy, $limit);
+		$countFilteredRecords = $this->TrialProductModel->countRecords($whereSearch, $orderBy);
+
+		foreach ($list as $item) {
+			$deleteLink = '';
+			if (isCan('admin')) {
+				$deleteLink = '<div class="ms-2">
+						<button type="button" data-id="' . $item['trialProductId'] . '" data-saleid="' . $item["fkSale"] . '" class="btn btn-sm btn-icon btn-light btn-active-light-danger deleteTrialProduct" >
+							<!--begin::Svg Icon | path: icons/duotune/coding/cod007.svg-->
+							<span class="svg-icon svg-icon-5 m-0">
+								<i class="fa fa-trash"></i>
+							</span>
+							<!--end::Svg Icon-->
+						</button>
+					</div>';
+			}
+
+
+			$userText = '<div class="d-flex align-items-center">
+								<div class="d-flex flex-column">
+									<span 
+									   class="text-gray-600 mb-1">' . $item["userFirstName"] . ' ' . $item["userLastName"] . '</span>
+									<span class="text-gray-500">' . $item["userEmail"] . '</span>
+								</div></div>';
+
+			if (strtotime($item['endDate']) <= time()) {
+				$endDate = '<span class="text-danger fw-bolder">' . localizeDate("d M Y", $item["endDate"]) . '</span>';
+			} else {
+				$endDate = '<span class="">' . localizeDate("d M Y", $item["endDate"]) . '</span>';
+
+			}
+			$_data = [
+				"<span data-status='" . $item["tpStatus"] . "' data-id='" . $item["trialProductId"] . "' class='tpStatus badge badge-sm badge-light-primary'>#" . $item["trialProductId"] . "</span>",
+				'<a target="_blank" href="' . base_url('sales/' . $item['fkSale']) . '"><span class="badge badge-primary">#' . $item['invoiceNumber'] . '</span></a> - <a target="_blank" href="' . base_url('customers/' . $item['fkCustomer']) . '">' . $item['customerName'] . '</a>',
+
+				"<span class='badge badge-light-primary'>" . $item["amount"] . " " . $item["unitName"] . "</span>" . " " . $item["name"],
+				localizeDate("d M Y", $item["startDate"]),
+				$endDate,
+				$userText
+			];
+			if(!isCan('admin')){
+				unset($_data[5]);
+				$_data[5] = '<div class="d-flex">
+					<div class="ms-2" data-kt-filemanger-table="copy_link">
+					
+							<button type="button" data-id="' . $item['trialProductId'] . '" class=" text-hover-primary btn btn-sm btn-icon btn-light btn-hover-light-primary editTrialProductButton">
+								<!--begin::Svg Icon | path: icons/duotune/coding/cod007.svg-->
+								<span class="svg-icon svg-icon-5 m-0">
+									<i class=" fa fa-eye"></i>
+								</span>
+								<!--end::Svg Icon-->
+							</button>
+					
+					</div>
+					' . $deleteLink . '
+				</div>';
+			}else{
+				$_data[6] = '<div class="d-flex">
+					<div class="ms-2" data-kt-filemanger-table="copy_link">
+					
+							<button type="button" data-id="' . $item['trialProductId'] . '" class=" text-hover-primary btn btn-sm btn-icon btn-light btn-hover-light-primary editTrialProductButton">
+								<!--begin::Svg Icon | path: icons/duotune/coding/cod007.svg-->
+								<span class="svg-icon svg-icon-5 m-0">
+									<i class=" fa fa-eye"></i>
+								</span>
+								<!--end::Svg Icon-->
+							</button>
+					
+					</div>
+					' . $deleteLink . '
+				</div>';
+			}
+
+			$data[] = $_data;
+
+
+		}
+
+		$response = array(
+			'draw' => intval($this->input->post("draw")),
+			'recordsTotal' => $countTotalRecords,
+			'recordsFiltered' => $countFilteredRecords,
+			'data' => $data
+
+
+		);
+		echo json_encode($response);
+
+	}
 
 	public function action()
 	{
 		switch (post("action")) {
 			case "ADD":
-				if(count($_POST['products']) <= 0 || !$_POST['products']['0']['productID']){
-					return $this->response(0,"En az bir ürün seçimi yapmalısınız.");
+				if (count($_POST['products']) <= 0 || !$_POST['products']['0']['productID']) {
+					return $this->response(0, "En az bir ürün seçimi yapmalısınız.");
 				}
 
-				if(!post('startDate') || !post('endDate'))
-					return $this->response(0,"Ürünlerin verildiği tarih ve tahmini geri alım tarihini girmelisiniz.");
+				if (!post('startDate') || !post('endDate'))
+					return $this->response(0, "Ürünlerin verildiği tarih ve tahmini geri alım tarihini girmelisiniz.");
 
 				$data = [
 					'department' => post('department'),
@@ -153,7 +308,7 @@ class TrialProduct extends NP_Controller
 
 				}
 
-					return $this->response(1, "Deneme süreci başarıyla oluşturuldu!");
+				return $this->response(1, "Deneme süreci başarıyla oluşturuldu!");
 
 				break;
 			case "DELETE":
@@ -202,4 +357,6 @@ class TrialProduct extends NP_Controller
 				break;
 		}
 	}
+
+
 }

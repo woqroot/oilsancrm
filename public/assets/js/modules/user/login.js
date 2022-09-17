@@ -53,19 +53,7 @@ var KTSigninGeneral = function () {
 							}
 						})
 
-						Swal.fire({
-							text: "Başarıyla giriş yapıldı, yönlendiriliyorsunuz...",
-							icon: "success",
-							buttonsStyling: !1,
-							showConfirmButton: !1,
-							customClass: {confirmButton: "btn btn-primary"}
-						}).then((function (e) {
-							if (e.isConfirmed) {
-								t.querySelector('[name="email"]').value = "", t.querySelector('[name="password"]').value = "";
-								var i = t.getAttribute("data-kt-redirect-url");
-								i && (location.href = i)
-							}
-						}))
+
 					}
 				}))
 			}))

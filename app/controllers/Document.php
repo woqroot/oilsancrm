@@ -30,6 +30,9 @@ class Document extends NP_Controller
 		if (post("fkExpense")) {
 			$whereSearch .= " AND d.fkExpense = '" . post("fkExpense") . "'";
 		}
+		if (post("fkUser")) {
+			$whereSearch .= " AND d.fkUser = '" . post("fkUser") . "'";
+		}
 
 //		$filterCustomerGroupID = $this->input->post("customerGroupID");
 //		if ($filterCustomerGroupID > 0) {
@@ -78,7 +81,7 @@ class Document extends NP_Controller
 				$item["firstName"] . " " . $item["lastName"],
 				'<div class="d-flex">
 					<div class="ms-2" data-kt-filemanger-table="copy_link">
-						<a download href="' . uploads_url($item["document"]) . '">
+						<a download href="' . base_url("documents/download/" . $item['uuid']."/".$item['documentId']) . '">
 							<button type="button" class=" text-hover-primary btn btn-sm btn-icon btn-light btn-hover-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
 								<!--begin::Svg Icon | path: icons/duotune/coding/cod007.svg-->
 								<span class="svg-icon svg-icon-5 m-0">
@@ -89,7 +92,7 @@ class Document extends NP_Controller
 						</a>
 					</div>
 					<div class="ms-2">
-						<button type="button" data-id="' . $item['documentId'] . '" class="btn btn-sm btn-icon btn-light btn-active-light-danger deleteDocument ' . hideByPerm("delete-document") . '" >
+						<button type="button" data-id="' . $item['documentId'] . '" class="btn btn-sm btn-icon btn-light btn-active-light-danger deleteDocument ' . hideByPerm("admin") . '" >
 							<!--begin::Svg Icon | path: icons/duotune/coding/cod007.svg-->
 							<span class="svg-icon svg-icon-5 m-0">
 								<i class="fa fa-trash"></i>
@@ -129,12 +132,14 @@ class Document extends NP_Controller
 				$data["fkSupplier"] = post("fkSupplier") ?: null;
 				$data["fkSale"] = post("fkSale") ?: null;
 				$data["fkExpense"] = post("fkExpense") ?: null;
+				$data["fkUser"] = post("fkUser") ?: null;
 
 
 				$fileName = upload_file("document", "sale-documents");
 				if (!$fileName) return $this->response(0, "Dosya yüklenirken bir hata meydana geldi.");
 
 				$data["document"] = $fileName;
+				$data["uuid"] = generateUUID();
 				$success = $this->DocumentModel->insert($data);
 				if ($success) {
 					Logger::insert("ADD_DOCUMENT", ["fkSale" => $data["fkSale"], "fkDocument" => $success["documentId"]]);
@@ -148,16 +153,24 @@ class Document extends NP_Controller
 			case "DELETE":
 				$id = post("id");
 				$find = $this->DocumentModel->first($id);
-				if(!$find){
-					return $this->response(0,"Doküman bulunamadı!");
+				if (!$find) {
+					return $this->response(0, "Doküman bulunamadı!");
 				}
 				$delete = $this->DocumentModel->delete($id);
-				if ($delete){
+				if ($delete) {
 					Logger::insert("ADD_DOCUMENT", ["fkSale" => $find["fkSale"], "fkDocument" => $find["documentId"]]);
 					return $this->response(1, "Doküman başarıyla silindi!");
 				}
 				return $this->response();
 				break;
 		}
+	}
+
+	public function download($UUID,$documentID)
+	{
+		$document = $this->DocumentModel->first(['uuid' => $UUID,'documentId' => $documentID]);
+		if (!$document)
+			redirect(base_url());
+		force_download(uploads_dir($document['document']), null);
 	}
 }

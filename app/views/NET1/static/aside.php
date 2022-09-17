@@ -98,6 +98,23 @@
 								</a>
 							</div>
 
+							<div class="menu-item">
+								<a href="<?= base_url("customer-sources") ?>" class="menu-link">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Kaynak Tanımları</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a href="<?= base_url("sectors") ?>" class="menu-link">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Sektör Tanımları</span>
+								</a>
+							</div>
+
 
 						</div>
 					</div>
@@ -231,6 +248,14 @@
 											<i class="bi bi-calendar fs-3"></i>
 										</span>
 						<span class="menu-title">Takvim</span>
+					</a>
+				</div>
+				<div class="menu-item">
+					<a class="menu-link" href="<?= base_url("trial-products") ?>">
+										<span class="menu-icon">
+											<i class="bi bi-stack-overflow fs-3"></i>
+										</span>
+						<span class="menu-title">Deneme Ürünleri</span>
 					</a>
 				</div>
 				<?php

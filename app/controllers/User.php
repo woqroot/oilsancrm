@@ -8,6 +8,8 @@ class User extends NP_Controller
 
 		$this->load->model("UserModel");
 		$this->load->model("TestModel");
+		$this->load->model("DocumentModel");
+		$this->load->model("SaleModel");
 
 	}
 
@@ -46,7 +48,7 @@ class User extends NP_Controller
 
 		$findUser = $this->UserModel->findUserByEmail($email);
 		if ($findUser) {
-			if ($findUser["password"] == $password) {
+			if (password_verify($password,$findUser["password"])) {
 //				$role = $this->UserModel->getRole($findUser["fkRole"]) OR die($this->toJson(["status" => 3]));
 				// TODO:: Convert to Password_verify
 
@@ -62,7 +64,7 @@ class User extends NP_Controller
 				return $this->response(1, "Başarıyla giriş yapıldı, yönlendiriliyorsunuz...");
 			}
 		}
-		return $this->response(0,"Bilgileriniz hatalı, lütfen tekrar deneyin.");
+		return $this->response(0, "Bilgileriniz hatalı, lütfen tekrar deneyin.");
 
 	}
 
@@ -141,6 +143,54 @@ class User extends NP_Controller
 
 	}
 
+	public function action()
+	{
+		checkPerms('admin');
+		switch (post('action')) {
+			case "EDIT":
+
+				$user = $this->UserModel->first(post('userID'));
+				if (!$user)
+					return $this->response();
+
+				$data = [
+					'firstName' => post('firstName'),
+					'lastName' => post('lastName'),
+					'birthDate' => convertDate(post('birthDate'))
+				];
+
+				if ($user['email'] != post('email')) {
+					$findDuplicate = $this->UserModel->first(['email' => post('email')]);
+					if ($findDuplicate) {
+						return $this->response(0, 'Bu e-posta adresi ile kayıtlı başka bir kullanıcı mevcut.');
+					}
+
+					$data['email'] = post('email');
+				}
+
+				if ($user['phone'] != phoneMask(post('phone'))) {
+					$findDuplicate = $this->UserModel->first(['phone' => phoneMask(post('phone'))]);
+					if ($findDuplicate) {
+						return $this->response(0, 'Bu telefon numarası ile kayıtlı başka bir kullanıcı mevcut.');
+					}
+
+					$data["phone"] = phoneMask(post('phone'));
+				}
+
+				if(post('password') && strlen(post('password')) >= 8){
+					$data["password"] = passwordEncrypt(post('password'));
+				}
+
+				$success = $this->UserModel->update($data, $user['userId']);
+
+				if ($success)
+					return $this->response(1, "Değişiklikler başarıyla kaydedildi.");
+
+				return $this->response();
+				break;
+		}
+	}
+
 	public function details($userID)
 	{
 		$user = $this->UserModel->details($userID);
@@ -148,9 +198,26 @@ class User extends NP_Controller
 			redirect("users");
 		}
 		$this->setBreadcrumb($user["firstName"] . " " . $user["lastName"]);
+		$goalStats = $this->UserModel->getMonthlyGoalStats(Auth::get('userId'), defaultCurrency());
+
+		if ($goalStats["monthlyGoal"] > 0) {
+			$percent = floor($goalStats['current']['total'] / $goalStats["monthlyGoal"] * 100);
+		} else {
+			$percent = 0;
+		}
+
+		$goal = [
+			'title' => 'Aylık Satış Hedefi',
+			'currentSales' => number_format($goalStats['current']['total'], 2) . ' ' . $goalStats['current']['currency'],
+			'total' => $goalStats["monthlyGoal"] . ' ' . $goalStats['current']['currency'],
+			'percent' => $percent
+		];
 
 		$data = [
-			"user" => $user
+			"user" => $user,
+			"goal" => $goal,
+			"sales" => $this->SaleModel->all(['fkUser' => $user['userId']]),
+			"documents" => $this->DocumentModel->all(['fkUser' => $user['userId']])
 		];
 
 		$this->render($data);

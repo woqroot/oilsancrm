@@ -15,7 +15,7 @@ class UserModel extends NP_Model
 		$data = $this->findById($userID);
 
 
-		if($data){
+		if ($data) {
 			$data["role"] = $this->getRole($data["fkRole"]);
 		}
 		return $data;
@@ -70,6 +70,22 @@ class UserModel extends NP_Model
 //			->join("rolePermission","rolePermission.fkRole = ")
 	}
 
+	public function getMonthlyGoalStats($userID, $currency = 'USD')
+	{
+		$user = $this->first($userID);
 
+		if (!$user)
+			return ['success' => false];
+
+
+		$monthlyGoal = $user['monthlyGoal'];
+		$thisMonth = $this->SaleModel->getSuccessfulSalesTotalOfThisMonth($userID, $currency);
+
+		return [
+			'monthlyGoal' => $monthlyGoal,
+			'current' => $thisMonth
+		];
+
+	}
 
 }

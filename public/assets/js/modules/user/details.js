@@ -1,102 +1,182 @@
-"use strict";
-var KTAccountSettingsSigninMethods = {
-	init: function () {
-		var t, e;
-		!function () {
-			var t = document.getElementById("kt_signin_email"), e = document.getElementById("kt_signin_email_edit"),
-				n = document.getElementById("kt_signin_password"),
-				o = document.getElementById("kt_signin_password_edit"),
-				i = document.getElementById("kt_signin_email_button"), s = document.getElementById("kt_signin_cancel"),
-				r = document.getElementById("kt_signin_password_button"),
-				a = document.getElementById("kt_password_cancel");
-			i.querySelector("button").addEventListener("click", (function () {
-				l()
-			})), s.addEventListener("click", (function () {
-				l()
-			})), r.querySelector("button").addEventListener("click", (function () {
-				d()
-			})), a.addEventListener("click", (function () {
-				d()
-			}));
-			var l = function () {
-				t.classList.toggle("d-none"), i.classList.toggle("d-none"), e.classList.toggle("d-none")
-			}, d = function () {
-				n.classList.toggle("d-none"), r.classList.toggle("d-none"), o.classList.toggle("d-none")
-			}
-		}(), e = document.getElementById("kt_signin_change_email"), t = FormValidation.formValidation(e, {
-			fields: {
-				emailaddress: {
-					validators: {
-						notEmpty: {message: "Email is required"},
-						emailAddress: {message: "The value is not a valid email address"}
-					}
-				}, confirmemailpassword: {validators: {notEmpty: {message: "Password is required"}}}
+$(document).ready(function(){
+	$(".autoForm").on("submit",function(e){
+		e.preventDefault();
+
+		let formData = new FormData(this);
+
+		$.ajax({
+			type: "POST",
+			url: hostUrl + "users",
+			data: formData,
+			dataType: 'json',
+			contentType: false,
+			processData: false,
+			beforeSend: function(){
+				$("button").prop("disabled",true);
+
 			},
-			plugins: {
-				trigger: new FormValidation.plugins.Trigger,
-				bootstrap: new FormValidation.plugins.Bootstrap5({rowSelector: ".fv-row"})
+			success: function(res){
+				$("button").prop("disabled",false);
+				if(res.status === 1){
+					Swal.fire('Başarılı!',res.message,'success').then(r => window.location.reload());
+				}else{
+					Swal.fire('Hata!',res.message,'error')
+				}
+			},
+			error: function(){
+				Swal.fire('Hata!','Bir sorun oluştu.','error').then(r => window.location.reload())
+				$("button").prop("disabled",false);
 			}
-		}), e.querySelector("#kt_signin_submit").addEventListener("click", (function (n) {
-			n.preventDefault(), console.log("click"), t.validate().then((function (n) {
-				"Valid" == n ? swal.fire({
-					text: "Sent password reset. Please check your email",
-					icon: "success",
-					buttonsStyling: !1,
-					confirmButtonText: "Ok, got it!",
-					customClass: {confirmButton: "btn font-weight-bold btn-light-primary"}
-				}).then((function () {
-					e.reset(), t.resetForm()
-				})) : swal.fire({
-					text: "Sorry, looks like there are some errors detected, please try again.",
-					icon: "error",
-					buttonsStyling: !1,
-					confirmButtonText: "Ok, got it!",
-					customClass: {confirmButton: "btn font-weight-bold btn-light-primary"}
-				})
-			}))
-		})), function (t) {
-			var e, n = document.getElementById("kt_signin_change_password");
-			e = FormValidation.formValidation(n, {
-				fields: {
-					currentpassword: {validators: {notEmpty: {message: "Current Password is required"}}},
-					newpassword: {validators: {notEmpty: {message: "New Password is required"}}},
-					confirmpassword: {
-						validators: {
-							notEmpty: {message: "Confirm Password is required"},
-							identical: {
-								compare: function () {
-									return n.querySelector('[name="newpassword"]').value
-								}, message: "The password and its confirm are not the same"
-							}
+		})
+	})
+
+	let documentsTable = $(".documents-datatable").DataTable({
+		info: !0,
+		order: [],
+		columnDefs: [
+			{
+				orderable: !0, targets: 0
+			},
+			{
+				orderable: !0, targets: 1
+			},
+			{
+				orderable: !0, targets: 2
+			},
+			{
+				orderable: !0, targets: 3
+			},
+			{
+				orderable: !0, targets: 4
+			}
+		],
+		responsive: true,
+		"processing": true,
+		"serverSide": true,
+		"ajax": {
+			"url": hostUrl + "documents/ajax",
+			"data": function (d) {
+				d.fkUser = $("#userID").val();
+			},
+			"type": "POST",
+
+		}
+	}).on("draw", function () {
+		KTMenu.createInstances();
+	});
+
+	$('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+		$.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+		if($(this).hasClass('xyz')){
+			documentsTable.columns.adjust().responsive.recalc();
+		}
+	});
+	document.querySelector('[data-kt-filter="searchDocumentInput"]').addEventListener('keyup', function (e) {
+		documentsTable.search(e.target.value).draw();
+	});
+
+	$(document).on("click", ".deleteDocument", function (e) {
+		var documentID = $(this).data('id');
+		Swal.fire({
+			icon: 'warning',
+			title: 'Bu dokümanı kalıcı olarak silmek istediğinize emin misiniz?',
+			showConfirmButton: !0,
+			showCancelButton: !0,
+			cancelButtonText: "Vazgeç",
+			confirmButtonText: "Sil",
+		}).then((result) => {
+			if (result.isConfirmed === true) {
+				$.ajax({
+					type: "POST",
+					url: hostUrl + "documents",
+					dataType: "json",
+					data: {
+						action: "DELETE",
+						id: documentID
+					},
+					beforeSend: function () {
+						$("button").prop("disabled", true);
+					},
+					success: function (res) {
+						$("button").prop("disabled", false);
+
+						if (res.status == 1) {
+
+							// reloadPage();
+							Swal.fire({
+								icon: 'success',
+								text: res.message,
+								showConfirmButton: !1,
+								cancelButtonText: "Kapat",
+								showCancelButton: !0,
+								allowOutsideClick: !1
+							});
+							documentsTable.draw(false);
 						}
 					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger,
-					bootstrap: new FormValidation.plugins.Bootstrap5({rowSelector: ".fv-row"})
-				}
-			}), n.querySelector("#kt_password_submit").addEventListener("click", (function (t) {
-				t.preventDefault(), console.log("click"), e.validate().then((function (t) {
-					"Valid" == t ? swal.fire({
-						text: "Sent password reset. Please check your email",
-						icon: "success",
-						buttonsStyling: !1,
-						confirmButtonText: "Ok, got it!",
-						customClass: {confirmButton: "btn font-weight-bold btn-light-primary"}
-					}).then((function () {
-						n.reset(), e.resetForm()
-					})) : swal.fire({
-						text: "Sorry, looks like there are some errors detected, please try again.",
-						icon: "error",
-						buttonsStyling: !1,
-						confirmButtonText: "Ok, got it!",
-						customClass: {confirmButton: "btn font-weight-bold btn-light-primary"}
+				})
+			}
+		})
+	})
+
+	$(document).on("submit", "#addDocumentForm", function (e) {
+		e.preventDefault();
+		const formData = new FormData(this);
+
+		$.ajax({
+			type: "POST",
+			url: hostUrl + "documents",
+			dataType: "json",
+			data: formData,
+			contentType: false,
+			processData: false,
+			cache: false,
+			beforeSend: function () {
+				$("button").prop("disabled", true);
+			},
+			success: function (res) {
+				if (res.status === 1) {
+					$("#addDocumentModal").modal("hide");
+					Swal.fire({
+						icon: 'success',
+						text: res.message,
+						showConfirmButton: !1,
+						cancelButtonText: "Kapat",
+						showCancelButton: !0,
+						allowOutsideClick: !1
+					});
+
+					$("#addDocumentForm input[type!=hidden][name!=collectDate]").val("");
+					$("#addDocumentForm select[type!=hidden]").val("");
+					$("#addDocumentForm textarea[type!=hidden]").val("");
+
+					documentsTable.draw();
+
+				} else {
+					Swal.fire({
+						icon: 'error',
+						text: res.message,
+						showConfirmButton: !1,
+						cancelButtonText: "Kapat",
+						showCancelButton: !0,
+						allowOutsideClick: !1
 					})
-				}))
-			}))
-		}()
-	}
-};
-KTUtil.onDOMContentLoaded((function () {
-	KTAccountSettingsSigninMethods.init()
-}));
+				}
+				$("button").prop("disabled", false);
+
+			},
+			error: function (r) {
+				Swal.fire({
+					icon: 'error',
+					text: "Hata meydana geldi!",
+					showConfirmButton: !1,
+					cancelButtonText: "Kapat",
+					showCancelButton: !0,
+					allowOutsideClick: !1
+				})
+				$("button").prop("disabled", false);
+
+			}
+		})
+	})
+})
