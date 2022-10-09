@@ -160,7 +160,7 @@ class Product extends NP_Controller
 				break;
 
 			case "FIND_BY_NAME":
-				$name = explode(" [-",post("name"))[0];
+				$name = explode(" [-", post("name"))[0];
 
 				$data = $this->ProductModel->first(["name" => $name]);
 				if ($data) {
@@ -182,6 +182,10 @@ class Product extends NP_Controller
 					}
 					if ($productFluidity) {
 						$data["info"] .= "<b>Akışkanlık Der: </b>" . $productFluidity["title"] . "<br>";
+					}
+
+					if ($data["costPrice"]) {
+						$data["info"] .= "<b>Birim Maliyeti: </b>" . $data["costPrice"] . " " . $data["currencySymbol"] . "<br>";
 					}
 
 					if ($data["type"] == "PRODUCT") {
@@ -220,8 +224,8 @@ class Product extends NP_Controller
 		foreach ($results as $result) {
 			$brand = $this->BrandModel->first($result['fkBrand']);
 			$val = $result["name"];
-			if($brand)
-				$val .= " [-".$brand["title"]."-]";
+			if ($brand)
+				$val .= " [-" . $brand["title"] . "-]";
 			$suggestions[] = [
 				"value" => $val,
 				"data" => $result["name"],

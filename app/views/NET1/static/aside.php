@@ -282,7 +282,7 @@
 
 							?>
 							<div class="menu-item">
-								<a class="menu-link" href="<?= base_url("reports/byProduct") ?>">
+								<a class="menu-link" href="<?= base_url("reports/general") ?>">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -290,7 +290,7 @@
 								</a>
 							</div>
 							<div class="menu-item">
-								<a class="menu-link" href="<?= base_url("reports/byProduct") ?>">
+								<a class="menu-link" href="<?= base_url("reports/product") ?>">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -298,7 +298,7 @@
 								</a>
 							</div>
 							<div class="menu-item">
-								<a class="menu-link" href="<?= base_url("reports/byProduct") ?>">
+								<a class="menu-link" href="<?= base_url("reports/staff") ?>">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -306,11 +306,19 @@
 								</a>
 							</div>
 							<div class="menu-item">
-								<a class="menu-link" href="<?= base_url("reports/byProduct") ?>">
+								<a class="menu-link" href="<?= base_url("reports/sale") ?>">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
 									<span class="menu-title">Satış Raporları</span>
+								</a>
+							</div>
+							<div class="menu-item">
+								<a class="menu-link" href="<?= base_url("reports/trial-product") ?>">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+									<span class="menu-title">Deneme Ürünleri</span>
 								</a>
 							</div>
 

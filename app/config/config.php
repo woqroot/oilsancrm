@@ -23,7 +23,7 @@ date_default_timezone_set('Europe/Istanbul');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://192.168.1.109';
+$config['base_url'] = 'http://cakmak.works/oilsan';
 
 /*
 |--------------------------------------------------------------------------

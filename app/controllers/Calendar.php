@@ -43,7 +43,7 @@ class Calendar extends NP_Controller
 		if (!isCan('admin') && $userID != Auth::get('userId'))
 			$this->redirect();
 
-		$events = $this->CalendarEventModel->findByDateRange($userID,$start, $end);
+		$events = $this->CalendarEventModel->findByDateRange($userID, $start, $end);
 
 		$result = [];
 
@@ -60,9 +60,11 @@ class Calendar extends NP_Controller
 
 			$className = 'border-0 ';
 			$category = $this->EventCategoryModel->first($event['fkEventCategory']);
-			if ($category)
 
+			if ($category)
 				$className .= $category['className'];
+
+
 			$result[] = [
 				'id' => rand(1000000, 9999999),
 				'calendarEventId' => $event['calendarEventId'],
@@ -78,13 +80,6 @@ class Calendar extends NP_Controller
 			];
 		}
 
-		//				// 	id: V(),
-		//				// 	title: "All Day Event",
-		//				// 	start: I + "-01",
-		//				// 	end: I + "-02",
-		//				// 	description: "Toto lorem ipsum dolor sit incid idunt ut",
-		//				// 	className: "fc-event-danger fc-event-solid-warning",
-		//				// 	location: "Federation Square"
 		echo $this->toJson(
 			$result
 		);

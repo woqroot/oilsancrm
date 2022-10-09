@@ -1,7 +1,7 @@
 <?php
 
 function defaultCurrency(){
-	return "EUR";
+	return "USD";
 }
 
 function isLogin()
@@ -42,6 +42,10 @@ function getThemeClass()
 		return "moon";
 	}
 	return "sun";
+}
+
+function questionIcon($text){
+	return '<i class="fa fa-question-circle" data-bs-toggle="tooltip" title="'.$text.'" data-bs-html="true"></i>';
 }
 
 if (!function_exists("getUser")) {

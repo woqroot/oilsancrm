@@ -115,30 +115,6 @@
 					?>
 					<!--begin::Col-->
 					<div class="col-xl-4">
-						<!--begin::Mixed Widget 7-->
-						<div class="card card-xl-stretch-50 mb-5 mb-xl-8">
-							<!--begin::Body-->
-							<div class="card-body d-flex flex-column p-0">
-								<!--begin::Stats-->
-								<div class="flex-grow-1 card-p pb-0">
-									<div class="d-flex flex-stack flex-wrap">
-										<div class="me-2">
-											<a href="#" class="text-dark text-hover-primary fw-bolder fs-3">Generate
-												Reports</a>
-											<div class="text-muted fs-7 fw-bold">Finance and accounting reports</div>
-										</div>
-										<div class="fw-bolder fs-3 text-primary">$24,500</div>
-									</div>
-								</div>
-								<!--end::Stats-->
-								<!--begin::Chart-->
-									<div id="currentSalesStatuses" class="" data-kt-chart-color="primary"
-										 style="height: 300px"></div>
-								<!--end::Chart-->
-							</div>
-							<!--end::Body-->
-						</div>
-						<!--end::Mixed Widget 7-->
 						<!--begin::Mixed Widget 10-->
 						<div class="card card-xl-stretch-50 mb-5 mb-xl-8">
 							<!--begin::Body-->
@@ -158,6 +134,30 @@
 							</div>
 						</div>
 						<!--end::Mixed Widget 10-->
+						<!--begin::Mixed Widget 7-->
+						<div class="card card-xl-stretch-50 mb-5 mb-xl-8">
+							<!--begin::Body-->
+							<div class="card-body d-flex flex-column p-0">
+								<!--begin::Stats-->
+								<div class="flex-grow-1 card-p pb-0">
+									<div class="d-flex flex-stack flex-wrap">
+										<div class="me-2">
+											<a href="#" class="text-dark text-hover-primary fw-bolder fs-3">Deneme Ürünleri</a>
+											<div class="text-muted fs-7 fw-bold">Güncel deneme ürünlerine ait dağılım grafiği</div>
+										</div>
+										<div class="fw-bolder fs-3 text-primary">25 KG</div>
+									</div>
+								</div>
+								<!--end::Stats-->
+								<!--begin::Chart-->
+									<div id="currentSalesStatuses" class="" data-kt-chart-color="primary"
+										 style="height: 300px"></div>
+								<!--end::Chart-->
+							</div>
+							<!--end::Body-->
+						</div>
+						<!--end::Mixed Widget 7-->
+
 					</div>
 					<!--end::Col-->
 					<?php

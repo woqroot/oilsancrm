@@ -403,7 +403,7 @@
 														$user = getUser($sale['fkUser']);
 
 														?>
-														<td><?=$user ? $user["firstName"]." ".$user["lastName"] : 'Belirtilmemiş';?></td>
+														<td><?= $user ? $user["firstName"] . " " . $user["lastName"] : 'Belirtilmemiş'; ?></td>
 														<!--end::Amount=-->
 														<!--begin::Date=-->
 														<td data-order="2020-12-14T20:43:00+03:00"><?= localizeDate("d M Y", $sale["invoiceDate"]) ?>
@@ -468,6 +468,14 @@
 
 
 									<?php
+
+									if (count($contacts) <= 0) {
+										?>
+										<div class="alert alert-warning">
+											Kayıtlı yetkili bulunamadı. Yeni oluşturmak için sağ üstte yer alan artı (+) butonuna basın.
+										</div>
+										<?php
+									}
 									foreach ($contacts as $key => $contact) {
 										?>
 										<!--begin::Option-->
@@ -806,10 +814,12 @@
 														<!--end::Date=-->
 														<!--begin::Action=-->
 														<td class="pe-0 text-ensd">
-															<a download href="<?= base_url("documents/download/".$document['uuid']."/".$document["documentId"]) ?>"
+															<a download
+															   href="<?= base_url("documents/download/" . $document['uuid'] . "/" . $document["documentId"]) ?>"
 															   class="">
 
-																<button class="btn btn-light-success btn-sm text-center"><i class="fa fa-download fs-5"></i>
+																<button class="btn btn-light-success btn-sm text-center">
+																	<i class="fa fa-download fs-5"></i>
 																</button>
 															</a>
 														</td>

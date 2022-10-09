@@ -46,7 +46,31 @@ class SaleModel extends NP_Model
 		$date1 = date("Y-m-d", strtotime('first day of this month'));
 		$date2 = date("Y-m-d", strtotime('last day of this month'));
 
-		$sales = $this->db->query("SELECT * FROM sale WHERE approvedAt BETWEEN '{$date1}' AND '{$date2}' AND fkStatus = 4 {$againText}")->result_array();
+		$sales = $this->db->query("SELECT * FROM sale WHERE invoiceDate BETWEEN '{$date1}' AND '{$date2}' AND fkStatus = 4 {$againText}")->result_array();
+
+
+		$toCurrencyID = Helper::getCurrencyID($toCurrency);
+		$currency = Helper::currency($toCurrencyID);
+
+
+		return [
+			'total' => $this->collectToCurrency($sales, $toCurrencyID),
+			'currency' => $currency,
+			'count' => count($sales)
+		];
+
+	}
+
+	public function getSuccessfulSalesTotalOfDateRange($userID = null, $toCurrency = 'USD', $date1 = null, $date2 = null)
+	{
+		$againText = "";
+		if ($userID)
+			$againText = "AND fkUser = '" . $userID . "'";
+
+		$date1 = date("Y-m-d", strtotime($date1));
+		$date2 = date("Y-m-d", strtotime($date2));
+
+		$sales = $this->db->query("SELECT * FROM sale WHERE invoiceDate BETWEEN '{$date1}' AND '{$date2}' AND fkStatus = 4 {$againText}")->result_array();
 
 
 		$toCurrencyID = Helper::getCurrencyID($toCurrency);
@@ -82,8 +106,8 @@ class SaleModel extends NP_Model
 		for ($i = 0; $i <= 6; $i++) {
 
 			$dates[] = [
-				'year' => date("Y",strtotime('-'.$i.' month')),
-				'month' => date("m",strtotime('-'.$i.' month')),
+				'year' => date("Y", strtotime('-' . $i . ' month')),
+				'month' => date("m", strtotime('-' . $i . ' month')),
 			];
 		}
 
@@ -92,7 +116,7 @@ class SaleModel extends NP_Model
 			$countSuccess = $this->db->query("SELECT * FROM sale WHERE MONTH(approvedAt) = '{$date["month"]}' AND YEAR(approvedAt) = '{$date["year"]}' AND fkStatus = 4 AND deletedAt IS NULL")->num_rows();
 			$countDenies = $this->db->query("SELECT * FROM sale WHERE MONTH(approvedAt) = '{$date["month"]}' AND YEAR(approvedAt) = '{$date["year"]}' AND fkStatus = 5 AND deletedAt IS NULL")->num_rows();
 
-			$result["labels"][] = localizeDate("M",date("Y-m-d",strtotime($date['year'].'-'.$date['month'])));
+			$result["labels"][] = localizeDate("M", date("Y-m-d", strtotime($date['year'] . '-' . $date['month'])));
 			$result["series"]["success"][] = $countSuccess;
 			$result["series"]["denies"][] = $countDenies;
 		}

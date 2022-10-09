@@ -6,6 +6,17 @@ $route['default_controller'] = 'Dashboard/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+
+/* Report:START */
+$route["reports"]["POST"] = "Report/action";
+$route["reports/general"]["GET"] = "Report/general";
+$route["reports/general"]["POST"] = "Report/generalPost";
+$route["reports/product"] = "Report/product";
+$route["reports/staff"] = "Report/staff";
+$route["reports/sale"] = "Report/sale";
+$route["reports/trial-product"] = "Report/trialProduct";
+/* Report:END */
+
 /* Ajax:START */
 $route["ajax/announcement"] = "Announcement/view";
 $route["ajax/dashReportOne"] = "Ajax/dashReportsOne";

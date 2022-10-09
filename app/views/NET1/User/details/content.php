@@ -319,12 +319,12 @@
 																	</span>
 												<!--end::Svg Icon-->
 												<div class="fs-2 fw-bolder" data-kt-countup="true"
-													 data-kt-countup-value="4500" data-kt-countup-prefix="$">0
+													 data-kt-countup-value="000" data-kt-countup-prefix="$">0
 												</div>
 											</div>
 											<!--end::Number-->
 											<!--begin::Label-->
-											<div class="fw-bold fs-6 text-gray-400">Toplam Satış</div>
+											<div class="fw-bold fs-6 text-gray-400">Başarılı Satış</div>
 											<!--end::Label-->
 										</div>
 										<!--end::Stat-->

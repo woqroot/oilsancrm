@@ -106,7 +106,7 @@ class Mission extends NP_Controller
 
 				$data = [];
 
-				if (isCan("admin") ) {
+				if (isCan("admin")) {
 					$data = [
 						'title' => post('title'),
 						'explanation' => post('explanation'),
@@ -116,9 +116,10 @@ class Mission extends NP_Controller
 					];
 				}
 
-				if(post("type")){
+				if (post("type")) {
 					$data["fkMissionStatus"] = post("type") == "possitive" ? 2 : 1;
-				}else{
+					$data['completedAt'] = post('type') == "possitive" ? date("Y-m-d H:i:s") : null;
+				} else {
 					$data["fkMissionStatus"] = post("fkStatus");
 				}
 				$data["approveMessage"] = post("approveMessage");

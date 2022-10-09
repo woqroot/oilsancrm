@@ -686,7 +686,7 @@ Sisteme giriş yaparak görüntülemek için <a href="' . base_url('sales/' . $s
 	public function madeOffer($saleID)
 	{
 		$sale = $this->SaleModel->first($saleID);
-		$customer = $this->CustomerModel->first($saleID);
+		$customer = $this->CustomerModel->first($sale['fkCustomer']);
 
 		if (!$sale || !$customer)
 			redirect(base_url());

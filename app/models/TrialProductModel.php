@@ -33,4 +33,43 @@ class TrialProductModel extends NP_Model
 		{$whereString} {$orderBy} {$limit}");
 		return $stmt->num_rows();
 	}
+
+	public function statisticsByDateRange($startDate, $endDate)
+	{
+		$startDate = date("Y-m-d", strtotime($startDate)) . " 00:00:00";
+		$endDate = date("Y-m-d", strtotime($endDate)) . " 23:59:59";
+
+		$result = [
+			'total' => [
+				'count' => 0,
+				'amount' => 0.00
+			],
+			'completeds' => [
+				'count' => 0,
+				'amount' => 0.00
+			],
+			'progress' => [
+				'percent' => 0
+			]
+		];
+
+		$query = $this->all(['startDate >=' => $startDate, 'endDate <=' => $endDate, 'fkUnit' => 1]);
+
+		foreach ($query as $item) {
+			$result['total']['count']++;
+			$result['total']['amount'] += $item["amount"];
+
+			if ($item['tpStatus'] != 0) {
+
+				$result['completeds']['count']++;
+				$result['completeds']['amount'] += $item["amount"];
+
+			}
+		}
+
+
+		$result['progress']['percent'] = $result['completeds']['amount'] > 0 ? ($result['completeds']['amount'] / $result['total']['amount']) * 100 : 0;
+
+		return $result;
+	}
 }

@@ -130,37 +130,38 @@
 			<div class="card">
 				<input type="hidden" name="xUserID" id="xUserID" value="<?= $user['userId'] ?>">
 				<!--begin::Card header-->
-				<div class="card-header">
+				<div class="card-header align-items-center">
 					<h2 class="card-title fw-bolder">Takvim - <?= $user['firstName'] . ' ' . $user['lastName'] ?></h2>
+					<div style="margin-top: 0.5rem" class="symbol-group symbol-hover mb-3 me-auto">
+						<!--begin::User-->
+						<?php
+						if ($user['image'] && is_file(uploads_dir($user['image']))) {
+							?>
+							<!--begin::User-->
+							<div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+								 data-bs-original-title="<?= $user['firstName'] . ' ' . $user['lastName'] ?>">
+								<img alt="" src="<?= uploads_url($user['image']) ?>">
+							</div>
+							<!--end::User-->
+							<?php
+						} else {
+							?>
+							<!--begin::User-->
+							<div class=" symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+								 data-bs-original-title="<?= $user['firstName'] . ' ' . $user['lastName'] ?>">
+								<span class="symbol-label bg-success text-inverse-info fw-bolder"><?= mb_substr($user["firstName"], 0, 1, 'UTF-8') . mb_substr($user["lastName"], 0, 1, 'UTF-8') ?></span>
+							</div>
+							<!--end::User-->
+							<?php
+						}
+						?>
+						<!--end::User-->
+					</div>
 					<div class="card-toolbar">
 						<?php
 						if (isCan('admin')) {
 							?>
-							<div class="symbol-group symbol-hover mb-3 me-5">
-								<!--begin::User-->
-								<?php
-								if ($user['image'] && is_file(uploads_dir($user['image']))) {
-									?>
-									<!--begin::User-->
-									<div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-										 data-bs-original-title="<?= $user['firstName'] . ' ' . $user['lastName'] ?>">
-										<img alt="" src="<?= uploads_url($user['image']) ?>">
-									</div>
-									<!--end::User-->
-									<?php
-								} else {
-									?>
-									<!--begin::User-->
-									<div class=" symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-										 data-bs-original-title="<?= $user['firstName'] . ' ' . $user['lastName'] ?>">
-										<span class="symbol-label bg-primary text-inverse-info fw-bolder"><?= mb_substr($user["firstName"], 0, 1, 'UTF-8') . mb_substr($user["lastName"], 0, 1, 'UTF-8') ?></span>
-									</div>
-									<!--end::User-->
-									<?php
-								}
-								?>
-								<!--end::User-->
-							</div>
+
 							<div class="symbol-group symbol-hover mb-3 me-5">
 								<?php
 								$currentUser = $user;
@@ -221,6 +222,19 @@
 					</div>
 				</div>
 				<!--end::Card header-->
+				<span class="mt-10 ms-10">
+                    <?php
+					foreach ($eventCategories as $eventCategory) {
+						?>
+						<div class="float-start me-5">
+                            <div class="<?= $eventCategory["className"] ?>"
+								 style="float:left;width:16px;height:16px;border-radius:10px"></div>
+                            <div style="float:left;margin-left:5px;"> <?= $eventCategory["title"] ?></div>
+                        </div>
+						<?php
+					}
+					?>
+				</span>
 				<!--begin::Card body-->
 				<div class="card-body">
 					<!--begin::Calendar-->
