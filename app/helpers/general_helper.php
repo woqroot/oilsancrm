@@ -1,6 +1,9 @@
 <?php
 
-function defaultCurrency(){
+function defaultCurrency($returnID = false)
+{
+	if ($returnID)
+		return 2;
 	return "USD";
 }
 
@@ -44,8 +47,9 @@ function getThemeClass()
 	return "sun";
 }
 
-function questionIcon($text){
-	return '<i class="fa fa-question-circle" data-bs-toggle="tooltip" title="'.$text.'" data-bs-html="true"></i>';
+function questionIcon($text)
+{
+	return '<i class="fa fa-question-circle" data-bs-toggle="tooltip" title="' . $text . '" data-bs-html="true"></i>';
 }
 
 if (!function_exists("getUser")) {
@@ -114,6 +118,7 @@ function getMissionStatuses($id = null)
 
 	];
 }
+
 function clearDateTime($date)
 {
 	return str_replace(["T", "+03:00"], [" ", ""], $date);
@@ -461,6 +466,7 @@ function commaToDot($value)
 {
 	return str_replace(",", ".", str_replace(".", "", $value));
 }
+
 function generateEmailBody($user, $message)
 {
 
@@ -475,20 +481,20 @@ function generateEmailBody($user, $message)
                         <!--begin:Logo-->
                         <div style="margin-bottom: 10px">
                             <a href="<?= base_url() ?>" rel="noopener" target="_blank">
-                                <img alt="Logo" src="'.public_url().'assets/media/logos/logo-dark.svg"
+                                <img alt="Logo" src="' . public_url() . 'assets/media/logos/logo-dark.svg"
                                      style="height: 125px">
                             </a>
                         </div>
                         <!--end:Logo-->
                         <!--begin:Text-->
                         <div style="font-size: 14px; font-weight: 500; margin-bottom: 27px; font-family:Arial,Helvetica,sans-serif;">
-                            <p style="margin-bottom:9px; color:#181C32; font-size: 22px; font-weight:700">Merhaba '.$user["firstName"].',
+                            <p style="margin-bottom:9px; color:#181C32; font-size: 22px; font-weight:700">Merhaba ' . $user["firstName"] . ',
                                 OilsanCRM\'den mesaj var!</p>
-                            <p style="margin-bottom:2px; color:#7E8299">'.$message.'</p>
+                            <p style="margin-bottom:2px; color:#7E8299">' . $message . '</p>
                         </div>
                         <!--end:Text-->
                         <!--begin:Action-->
-                        <a href="'.base_url().'"
+                        <a href="' . base_url() . '"
                            style="background-color:#50CD89; border-radius:6px;display:inline-block; padding:11px 19px; color: #FFFFFF; font-size: 14px; font-weight:500;">
                             Giriş Yap
                         </a>
@@ -504,15 +510,16 @@ function generateEmailBody($user, $message)
 }
 
 
-function triggerUpdateSale($saleID){
+function triggerUpdateSale($saleID)
+{
 	$ci =& get_instance();
 	$ci->load->model('SaleModel');
 	$ci->load->model('CustomerModel');
 
 	$sale = $ci->SaleModel->first($saleID);
-	if(!$sale)
+	if (!$sale)
 		return false;
 
-	$ci->SaleModel->update(['updatedAt' => date('Y-m-d H:i:s')],$sale['saleId']);
-	$ci->CustomerModel->update(['updatedAt' => date('Y-m-d H:i:s')],$sale['fkCustomer']);
+	$ci->SaleModel->update(['updatedAt' => date('Y-m-d H:i:s')], $sale['saleId']);
+	$ci->CustomerModel->update(['updatedAt' => date('Y-m-d H:i:s')], $sale['fkCustomer']);
 }

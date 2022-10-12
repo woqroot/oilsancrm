@@ -305,7 +305,6 @@
 												 title="Satış Fatura Numarası">
 												<span class="fs-2x fw-bolder text-gray-800">Fatura #</span>
 												<input type="text" name="invoiceNumber"
-														<?= writeDisableByPerm("edit-sale") ?>
 														<?= !$editable ? "disabled" : ""; ?>
 													   class="form-control form-control-flush fw-bolder text-muted fs-3 w-125px"
 													   value="<?= $sale["invoiceNumber"] ?>" placehoder="..."/>
@@ -584,7 +583,7 @@
 															<td class="ps-0" colspan="2">
 																<div class="d-flex">
 																	<input class="form-control form-control-solid me-3"
-																			<?= writeDisableByPerm("edit-sale") ?>
+																			<?= !$editable ? "disabled" : ""; ?>
 																		   type="number" min="1"
 																		   name="product[old][quantity][]"
 																		   placeholder="1"
@@ -593,7 +592,7 @@
 
 																	<select class="form-control form-control-solid"
 																			type="number"
-																			<?= writeDisableByPerm("edit-sale") ?>
+																			<?= !$editable ? "disabled" : ""; ?>
 																			name="product[old][unit][]"
 																			data-kt-element="unit">
 																		<?php
@@ -613,12 +612,12 @@
 																	   name="product[old][price][]" placeholder="0,00"
 																	   value="<?= number_format($product["unitPrice"], 4, ",", ".") ?>"
 																	   data-kt-element="price"
-																		<?= writeDisableByPerm("edit-sale") ?>/>
+																		<?= !$editable ? "disabled" : ""; ?>/>
 															</td>
 															<td class="d-none">
 																<select class="form-control form-control-solid"
 																		name="product[old][vat][]"
-																		<?= writeDisableByPerm("edit-sale") ?>
+																		<?= !$editable ? "disabled" : ""; ?>
 																		data-kt-element="vat">
 																	<?php
 																	foreach (getVats() as $vat) {
@@ -641,7 +640,7 @@
 																		  class="input-group-text currencySymbol bg-light-primary "></span>
 																		</div>
 																		<input type="text"
-																				<?= writeDisableByPerm("edit-sale") ?>
+																				<?= !$editable ? "disabled" : ""; ?>
 																			   class="form-control form-control-solid text-end"
 																			   name="product[old][totalPriceWithVat][]"
 																			   placeholder="0,00"
@@ -739,7 +738,7 @@
 														<div class="productInputArea position-relative">
 
 															<input type="text"
-																	<?= writeDisableByPerm("edit-sale") ?>
+																	<?= !$editable ? "disabled" : ""; ?>
 																   class="productInput pe-20 form-control form-control-solid mb-2"
 																   name="product[new][name][]"
 																   placeholder="Ürün/Hizmet Adı"/>
@@ -754,7 +753,7 @@
 														<div class="d-flex">
 															<input class="form-control form-control-solid me-3"
 																   type="number"
-																	<?= writeDisableByPerm("edit-sale") ?>
+																	<?= !$editable ? "disabled" : ""; ?>
 																   min="1"
 																   name="product[new][quantity][]" placeholder="1"
 																   value="1"
@@ -763,7 +762,7 @@
 															<select class="form-control form-control-solid"
 																	type="number"
 																	min="1"
-																	<?= writeDisableByPerm("edit-sale") ?>
+																	<?= !$editable ? "disabled" : ""; ?>
 																	name="product[new][unit][]"
 																	data-kt-element="unit">
 																<?php
@@ -781,13 +780,13 @@
 															   class="form-control form-control-solid text-end"
 															   name="product[new][price][]" placeholder="0,00"
 															   value="0,00"
-																<?= writeDisableByPerm("edit-sale") ?>
+																<?= !$editable ? "disabled" : ""; ?>
 															   data-kt-element="price"/>
 													</td>
 													<td class="d-none">
 														<select class="form-control form-control-solid"
 																name="product[new][vat][]"
-																<?= writeDisableByPerm("edit-sale") ?>
+																<?= !$editable ? "disabled" : ""; ?>
 																data-kt-element="vat">
 															<?php
 															foreach (getVats() as $vat) {
@@ -809,7 +808,7 @@
 																<input type="text" data-input-type='decimal'
 																	   class="form-control form-control-solid text-end"
 																	   name="product[new][totalPriceWithVat][]"
-																		<?= writeDisableByPerm("edit-sale") ?>
+																		<?= !$editable ? "disabled" : ""; ?>
 																	   placeholder="0,00"
 																	   value="0,00"
 																	   data-kt-element="total"/>
@@ -854,7 +853,7 @@
 															title="Satış notlarını yalnızca ekip üyeleri görebilir."></i></label>
 												<textarea name="notes"
 														  <?= !$editable ? "disabled" : ""; ?>
-														<?= writeDisableByPerm("edit-sale") ?>
+														<?= !$editable ? "disabled" : ""; ?>
 														  class="resize-none form-control form-control-solid"
 														  rows="3"
 														  placeholder=""><?= $sale["notes"] ?></textarea>
@@ -867,7 +866,7 @@
 															title="Bu alan, oluşturulan fatura şablonunda not olarak gösterilir."></i></label>
 												<textarea name="invoiceNotes"
 														  <?= !$editable ? "disabled" : ""; ?>
-														<?= writeDisableByPerm("edit-sale") ?>
+														<?= !$editable ? "disabled" : ""; ?>
 														  class="resize-none form-control form-control-solid"
 														  rows="3"
 														  placeholder=""><?= $sale["invoiceNotes"] ?></textarea>

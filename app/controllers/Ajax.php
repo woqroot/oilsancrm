@@ -14,7 +14,7 @@ class Ajax extends NP_Controller
 
 	public function dashReportsOne()
 	{
-		$goalStats = $this->UserModel->getMonthlyGoalStats(Auth::get('userId'), defaultCurrency());
+		$goalStats = $this->UserModel->getMonthlyGoalStats(Auth::get('userId'));
 
 		if ($goalStats["monthlyGoal"] > 0) {
 			$percent = floor($goalStats['current']['total'] / $goalStats["monthlyGoal"] * 100);
@@ -27,8 +27,8 @@ class Ajax extends NP_Controller
 			'data' => [
 				'goal' => [
 					'title' => 'Aylık Satış Hedefi',
-					'currentSales' => number_format($goalStats['current']['total'], 2) . ' ' . $goalStats['current']['currency'],
-					'total' => $goalStats["monthlyGoal"] . ' ' . $goalStats['current']['currency'],
+					'currentSales' => number_format($goalStats['current']['total'], 2) . ' KG',
+					'total' => $goalStats["monthlyGoal"] . ' KG',
 					'percent' => $percent
 				]
 			],

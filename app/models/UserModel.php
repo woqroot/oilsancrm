@@ -7,6 +7,7 @@ class UserModel extends NP_Model
 	{
 		parent::__construct();
 		$this->setTableName("user");
+		$this->load->model('SaleProductModel');
 
 	}
 
@@ -70,7 +71,7 @@ class UserModel extends NP_Model
 //			->join("rolePermission","rolePermission.fkRole = ")
 	}
 
-	public function getMonthlyGoalStats($userID, $currency = 'USD')
+	public function getMonthlyGoalStats($userID)
 	{
 		$user = $this->first($userID);
 
@@ -79,7 +80,7 @@ class UserModel extends NP_Model
 
 
 		$monthlyGoal = $user['monthlyGoal'];
-		$thisMonth = $this->SaleModel->getSuccessfulSalesTotalOfThisMonth($userID, $currency);
+		$thisMonth = $this->SaleProductModel->getTotalKilogramProductsOfThisMonth($userID);
 
 		return [
 			'monthlyGoal' => $monthlyGoal,

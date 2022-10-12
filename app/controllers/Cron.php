@@ -64,7 +64,6 @@ class Cron extends NP_Controller
 		}
 
 		$Currencies = simplexml_load_string($dataFromtcmb);
-//		print_r($Currencies);
 
 		$rates = [];
 

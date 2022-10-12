@@ -43,10 +43,10 @@ class SaleModel extends NP_Model
 		if ($userID)
 			$againText = "AND fkUser = '" . $userID . "'";
 
-		$date1 = date("Y-m-d", strtotime('first day of this month'));
-		$date2 = date("Y-m-d", strtotime('last day of this month'));
+		$date1 = date("Y-m-d", strtotime('first day of this month'))." 00:00:00";
+		$date2 = date("Y-m-d", strtotime('last day of this month'))." 23:59:59";
 
-		$sales = $this->db->query("SELECT * FROM sale WHERE invoiceDate BETWEEN '{$date1}' AND '{$date2}' AND fkStatus = 4 {$againText}")->result_array();
+		$sales = $this->db->query("SELECT * FROM sale WHERE sale.deletedAt IS NULL AND invoiceDate >= '{$date1}' AND invoiceDate <= '{$date2}' AND fkStatus = 4 {$againText}")->result_array();
 
 
 		$toCurrencyID = Helper::getCurrencyID($toCurrency);
@@ -70,7 +70,7 @@ class SaleModel extends NP_Model
 		$date1 = date("Y-m-d", strtotime($date1));
 		$date2 = date("Y-m-d", strtotime($date2));
 
-		$sales = $this->db->query("SELECT * FROM sale WHERE invoiceDate BETWEEN '{$date1}' AND '{$date2}' AND fkStatus = 4 {$againText}")->result_array();
+		$sales = $this->db->query("SELECT * FROM sale WHERE sale.deletedAt IS NULL AND invoiceDate BETWEEN '{$date1}' AND '{$date2}' AND fkStatus = 4 {$againText}")->result_array();
 
 
 		$toCurrencyID = Helper::getCurrencyID($toCurrency);

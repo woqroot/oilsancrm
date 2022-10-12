@@ -7,10 +7,29 @@
 			<?= $CI->loadLayout("breadcrumb"); ?>
 			<!--end::Page title-->
 			<!--begin::Actions-->
-			<div class="d-flex align-items-center gap-2 gap-lg-3">
-
+			<div class="d-flex align-items-center justify-content-end gap-2 gap-lg-3">
+				<!--begin::Input group-->
+				<div class="px-4 w-100">
+					<!--begin::Select-->
+					<select name="userID" data-control="select2"
+							data-placeholder="Tüm Personeller"
+							data-allow-clear="true"
+							class="form-select form-select-solid selectUser">
+						<option value=""></option>
+						<?php
+						foreach ($users as $user) {
+							?>
+							<option value="<?= $user["userId"] ?>"><?= $user["firstName"] . " " . $user["lastName"] ?></option>
+							<?php
+						}
+						?>
+					</select>
+					<!--end::Select-->
+				</div>
+				<!--end::Input group-->
 				<!--begin::Daterangepicker(defined in src/js/layout/app.js)-->
-				<div class="btn btn-sm btn-light d-flex align-items-center px-4 daterangeReport" id="daterangeReport">
+				<div class="w-100 btn btn-sm btn-light d-flex align-items-center px-4 daterangeReport"
+					 id="daterangeReport">
 					<!--begin::Display range-->
 					<div class="text-gray-600 fw-bolder" id="dateRangeValue">Loading date range...</div>
 					<input type="hidden" id="dateRangeHiddenInput" value="">
@@ -31,6 +50,7 @@
 					<!--end::Svg Icon-->
 				</div>
 				<!--end::Daterangepicker-->
+
 			</div>
 			<!--end::Actions-->
 		</div>
@@ -55,10 +75,11 @@
 								<div class="d-flex align-items-center">
 									<!--begin::Currency-->
 									<span class="fs-4 fw-bold text-gray-400 me-1 align-self-start"
-										  id="NPtotalSuccessSalesCurrency">$</span>
+										  id="">KG</span>
 									<!--end::Currency-->
 									<!--begin::Amount-->
-									<span class="fs-2hx fw-bolder text-dark me-2 lh-1 ls-n2" id="NPtotalSuccessSales">0,00</span>
+									<span class="fs-2 fw-bolder text-dark me-2 lh-1 ls-n2"
+										  id="NPtotalKilogram">0,00</span>
 									<!--end::Amount-->
 									<!--begin::Badge-->
 
@@ -66,8 +87,8 @@
 								</div>
 								<!--end::Info-->
 								<!--begin::Subtitle-->
-								<span class="text-gray-400 pt-1 fw-bold fs-6">Satış Tutarı (<span
-											id="NPcountSuccessSales">-</span>)</span>
+								<span class="text-gray-400 pt-1 fw-bold fs-6">Satış Miktarı (<span
+											id="NPcountKilogram">-</span>)</span>
 								<!--end::Subtitle-->
 							</div>
 							<!--end::Title-->
@@ -84,13 +105,13 @@
 								<!--begin::Info-->
 								<div class="d-flex align-items-center">
 									<!--begin::Amount-->
-									<span class="fs-2hx fw-bolder text-dark me-2 lh-1 ls-n2" id="NPcountEvents">-</span>
+									<span class="fs-2 fw-bolder text-dark me-2 lh-1 ls-n2" id="NPbestSellerKG">-</span>
 									<!--end::Amount-->
 
 								</div>
 								<!--end::Info-->
 								<!--begin::Subtitle-->
-								<span class="text-gray-400 pt-1 fw-bold fs-6">Etkinlik Sayısı <?= questionIcon('Personel ve yöneticilerin takvim modülü üzerinde seçtiğiniz tarih aralığında oluşturduğu toplam etkinlik sayısını ifade eder.') ?></span>
+								<span class="text-gray-400 pt-1 fw-bold fs-6">En Çok Satılan (KG) <?= questionIcon('Kilogram bazında en çok başarılı satış gerçekleştirilmiş ürünü ifade eder.') ?></span>
 								<!--end::Subtitle-->
 							</div>
 							<!--end::Title-->
@@ -107,14 +128,14 @@
 								<!--begin::Info-->
 								<div class="d-flex align-items-center">
 									<!--begin::Amount-->
-									<span class="fs-2hx fw-bolder text-dark me-2 lh-1 ls-n2"
-										  id="NPcountCreatedMissions">-</span>
+									<span class="fs-2 fw-bolder text-dark me-2 lh-1 ls-n2"
+										  id="NPbestSellerPRICE">-</span>
 									<!--end::Amount-->
 
 								</div>
 								<!--end::Info-->
 								<!--begin::Subtitle-->
-								<span class="text-gray-400 pt-1 fw-bold fs-6">Oluşturulan Görev <?= questionIcon('Seçtiğiniz tarih aralığında yönetici tarafından oluşturulmuş görev sayısını ifade eder.') ?></span>
+								<span class="text-gray-400 pt-1 fw-bold fs-6">En Çok Satılan (USD) <?= questionIcon('Tutar bazında en çok başarılı satış gerçekleştirilmiş ürünü ifade eder.') ?></span>
 								<!--end::Subtitle-->
 							</div>
 							<!--end::Title-->
@@ -131,14 +152,14 @@
 								<!--begin::Info-->
 								<div class="d-flex align-items-center">
 									<!--begin::Amount-->
-									<span class="fs-2hx fw-bolder text-dark me-2 lh-1 ls-n2"
-										  id="NPcountCompletedMissions">-</span>
+									<span class="fs-2 fw-bolder text-dark me-2 lh-1 ls-n2"
+										  id="NPbestSellerUSER">-</span>
 									<!--end::Amount-->
 
 								</div>
 								<!--end::Info-->
 								<!--begin::Subtitle-->
-								<span class="text-gray-400 pt-1 fw-bold fs-6">Tamamlanan Görev <?= questionIcon('Seçtiğiniz tarih aralığında personel tarafından <b>tamamlandı</b> olarak işaretlenen görev sayısını ifade eder.') ?></span>
+								<span class="text-gray-400 pt-1 fw-bold fs-6">En Çok Satan (Kg) <?= questionIcon('Filtreleme sonucunuza göre en yüksek miktarda satış yapan personeli ifade eder.') ?></span>
 								<!--end::Subtitle-->
 							</div>
 							<!--end::Title-->
@@ -152,59 +173,49 @@
 					<div style="    height: 94%;" class="card card-stretch mb-5 mb-xl-10">
 						<div class="card-header">
 							<h3 class="card-title align-items-start flex-column my-7">
-								<span class="card-label fw-bolder text-gray-800">Süreç Durumları</span>
-								<span class="text-gray-400 mt-1 fw-bold fs-6">Satış süreçlerine ait güncel durumu ifade eder.</span>
+								<span class="card-label fw-bolder text-gray-800">Kilogram Bazlı Dağılım</span>
+								<span class="text-gray-400 mt-1 fw-bold fs-6">Satışı gerçekleştirilmiş ürünlerin kilogram bazında dağılımı</span>
 							</h3>
 						</div>
 						<!--end::Header-->
 						<div class="card-body pt-0 pb-1">
-							<div id="saleStatusChart" style="margin-top: 25%;
+							<div id="productKGChart" style="margin-top: 25%;
     margin-left: 15%;" class="min-h-auto"></div>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-4 card-stretch hideAndShow">
-					<div class="card card-stretch mb-5 mb-xl-10">
+					<div style="    height: 94%;" class="card card-stretch mb-5 mb-xl-10">
 						<div class="card-header">
 							<h3 class="card-title align-items-start flex-column my-7">
-								<span class="card-label fw-bolder text-gray-800">Tamamlanan Görevler</span>
-								<span class="text-gray-400 mt-1 fw-bold fs-6">Görev sisteminde tamamlanan görev sayılarını ifade eder.</span>
+								<span class="card-label fw-bolder text-gray-800">Tutar Bazlı Dağılım</span>
+								<span class="text-gray-400 mt-1 fw-bold fs-6">Satışı gerçekleştirilmiş ürünlerin tutar <b>(<?=defaultCurrency()?>)</b> bazında dağılımı</span>
 							</h3>
 						</div>
 						<!--end::Header-->
 						<div class="card-body pt-0 pb-1">
-							<div id="missionUserChart" class="min-h-auto"></div>
+							<div id="productPRICEChart" style="margin-top: 25%;
+    margin-left: 15%;" class="min-h-auto"></div>
 						</div>
 					</div>
 				</div>
-				<!--begin::Col-->
-				<div class="col-xl-4 card-stretch hideAndShow">
-					<!--begin::Mixed Widget 4-->
-					<div class="card card-xl-stretch mb-xl-8">
-						<!--begin::Beader-->
-						<div class="card-header border-0 py-5">
-							<h3 class="card-title align-items-start flex-column">
-								<span class="card-label fw-bolder fs-3 mb-1">Deneme Ürünleri</span>
-								<span class="text-muted fw-bold fs-7">Seçtiğiniz aralıkta müşterilere teslim edilen deneme ürünleri</span>
+				<div class="col-lg-4 card-stretch hideAndShow">
+					<div style="    height: 94%;" class="card card-stretch mb-5 mb-xl-10">
+						<div class="card-header">
+							<h3 class="card-title align-items-start flex-column my-7">
+								<span class="card-label fw-bolder text-gray-800">Personel Bazlı Dağılım (KG)</span>
+								<span class="text-gray-400 mt-1 fw-bold fs-6">Satışı gerçekleştirilmiş ürünlerin toplam miktarına göre personel bazında dağılımı</span>
 							</h3>
 						</div>
 						<!--end::Header-->
-						<!--begin::Body-->
-						<div class="card-body d-flex flex-column">
-							<div class="flex-grow-1">
-								<div class="trialProductChart" data-kt-chart-color="primary"
-									 style="height: 200px"></div>
-							</div>
-							<div class="pt-5">
-								<p class="text-center fs-6 pb-5">
-								<p id="trialProductsExplanation" class="text-muted">-</p>
-							</div>
+						<div class="card-body pt-0 pb-1">
+							<div id="productUSERChart" style="margin-top: 25%;
+    margin-left: 15%;" class="min-h-auto"></div>
 						</div>
-						<!--end::Body-->
 					</div>
-					<!--end::Mixed Widget 4-->
 				</div>
 			</div>
+
 			<!--end::Container-->
 		</div>
 		<!--end::Post-->

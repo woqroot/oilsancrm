@@ -79,6 +79,63 @@ class Report extends NP_Controller
 
 	public function product()
 	{
+		$data = [
+			'users' => $this->UserModel->all(['fkRole' => 2])
+		];
+		$this->setBreadcrumb(['Raporlar', 'Ürün Raporları']);
+
+		$this->render($data);
+	}
+
+	public function productPost()
+	{
+		$dateRange = post('daterange');
+		$explode = explode(" - ", $dateRange);
+
+		$userID = post('userID');
+		$startDate = $explode[0]." 00:00:00";
+		$endDate = $explode[1]." 23:59:59";
+
+		$getTotalKilogramProductsDateRange = $this->SaleProductModel->getTotalKilogramProductsDateRange($startDate,$endDate,$userID);
+		$getBestSellerProductKG = $this->SaleProductModel->getTheMostSalesProductByQuantity($startDate,$endDate,$userID);
+		$getBestSellerProductPRICE = $this->SaleProductModel->getTheMostSalesProductByPrice($startDate,$endDate,$userID);
+		$getBestSellerProductUSER = $this->SaleProductModel->getTheMostSalesProductByUser($startDate,$endDate,$userID);
+
+		if(!isset($getBestSellerProductKG["name"])){
+			$getBestSellerProductKG = "-";
+		}else{
+			$getBestSellerProductKG = $getBestSellerProductKG['name']." (".$getBestSellerProductKG["totalQuantity"]." kg)";
+		}
+
+		if(!isset($getBestSellerProductUSER["firstName"])){
+			$getBestSellerProductUSER = "-";
+		}else{
+			$getBestSellerProductUSER = $getBestSellerProductUSER['firstName']." ".$getBestSellerProductUSER['lastName']." (".$getBestSellerProductUSER["totalQuantity"]." kg)";
+		}
+
+		if(!isset($getBestSellerProductPRICE["name"])){
+			$getBestSellerProductPRICE = "-";
+		}else{
+			$getBestSellerProductPRICE = $getBestSellerProductPRICE['name']." (".$getBestSellerProductPRICE["totalPricex"]." $)";
+		}
+
+		$productKGChart = $this->SaleProductModel->getChartDataByKG($startDate,$endDate,$userID);
+		$productPRICEChart = $this->SaleProductModel->getChartDataByPRICE($startDate,$endDate,$userID);
+		$productUSERChart = $this->SaleProductModel->getChartDataByUSER($startDate,$endDate,$userID);
+		return $this->toJson([
+			'success' => true,
+			'statics' => [
+				'totalKilogram' => showBalance($getTotalKilogramProductsDateRange["total"]),
+				'countKilogram' => $getTotalKilogramProductsDateRange["count"],
+				'bestSellerKG' => $getBestSellerProductKG,
+				'bestSellerPRICE' => $getBestSellerProductPRICE,
+				'bestSellerUSER' => $getBestSellerProductUSER,
+			],
+			'productKGChart' => $productKGChart,
+			'productPRICEChart' => $productPRICEChart,
+			'productUSERChart' => $productUSERChart,
+		]);
 
 	}
+
 }

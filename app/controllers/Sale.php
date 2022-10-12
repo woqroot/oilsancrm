@@ -192,7 +192,8 @@ class Sale extends NP_Controller
 								"totalPrice" => $totalPrice,
 								"vatPercent" => post("product")["vat"][$index],
 								"totalPriceWithVat" => includeVat($totalPrice, post("product")["vat"][$index]),
-								"fkProduct" => $findProduct["productId"]
+								"fkProduct" => $findProduct["productId"],
+								"unitCostPrice" => $findProduct["costPrice"]
 							];
 
 							$saleData["totalPrice"] += rounder($_productData["totalPrice"]);
@@ -388,6 +389,7 @@ class Sale extends NP_Controller
 								"vatPercent" => post("product")["new"]["vat"][$index],
 								"totalPriceWithVat" => includeVat($totalPrice, post("product")["new"]["vat"][$index]),
 								"fkProduct" => $findProduct["productId"],
+								"unitCostPrice" => $findProduct["costPrice"],
 								"fkSale" => $saleID
 							];
 
