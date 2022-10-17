@@ -13,9 +13,10 @@ $route["reports/general"]["GET"] = "Report/general";
 $route["reports/general"]["POST"] = "Report/generalPost";
 $route["reports/product"]["GET"] = "Report/product";
 $route["reports/product"]["POST"] = "Report/productPost";
+$route["reports/trial-product"]["GET"] = "Report/trialProduct";
+$route["reports/trial-product"]["POST"] = "Report/trialProductPost";
 $route["reports/staff"] = "Report/staff";
 $route["reports/sale"] = "Report/sale";
-$route["reports/trial-product"] = "Report/trialProduct";
 /* Report:END */
 
 /* Ajax:START */

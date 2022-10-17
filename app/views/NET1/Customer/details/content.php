@@ -52,7 +52,7 @@
 								?>
 								<!--end::Position-->
 								<!--begin::Info-->
-								<div class="d-flex flex-wrap flex-center">
+								<div class="d-flex flex-wrap flex-center d-none">
 									<!--begin::Stats-->
 									<div class="border border-gray-300 border-dashed rounded py-3 px-3 mb-3">
 										<div class="fs-4 fw-bolder text-gray-700">
@@ -229,7 +229,7 @@
 						</li>
 						<!--end:::Tab item-->
 						<!--begin:::Tab item-->
-						<li class="nav-item ms-auto">
+						<li class="d-none nav-item ms-auto">
 							<!--begin::Action menu-->
 							<a href="#" class="btn btn-primary ps-7" data-kt-menu-trigger="click"
 							   data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">İşlemler

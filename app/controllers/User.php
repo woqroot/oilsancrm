@@ -198,7 +198,7 @@ class User extends NP_Controller
 			redirect("users");
 		}
 		$this->setBreadcrumb($user["firstName"] . " " . $user["lastName"]);
-		$goalStats = $this->UserModel->getMonthlyGoalStats(Auth::get('userId'), defaultCurrency());
+		$goalStats = $this->UserModel->getMonthlyGoalStats($userID);
 
 		if ($goalStats["monthlyGoal"] > 0) {
 			$percent = floor($goalStats['current']['total'] / $goalStats["monthlyGoal"] * 100);
@@ -208,8 +208,8 @@ class User extends NP_Controller
 
 		$goal = [
 			'title' => 'Aylık Satış Hedefi',
-			'currentSales' => number_format($goalStats['current']['total'], 2) . ' ' . $goalStats['current']['currency'],
-			'total' => $goalStats["monthlyGoal"] . ' ' . $goalStats['current']['currency'],
+			'currentSales' => number_format($goalStats['current']['total'], 2) . ' KG',
+			'total' => $goalStats["monthlyGoal"] . ' KG' ,
 			'percent' => $percent
 		];
 

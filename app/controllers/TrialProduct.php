@@ -149,6 +149,41 @@ class TrialProduct extends NP_Controller
 //			$whereSearch .= " AND c.fkCustomerGroup = '$filterCustomerGroupID'";
 //		}
 
+		$startDateBetween = post("startDateBetween");
+		if ($startDateBetween) {
+			$string = explode(' - ', $startDateBetween);
+
+			$date1 = explode('/', $string[0]);
+			$date2 = explode('/', $string[1]);
+
+			$finalDate1 = $date1[2] . '-' . $date1[1] . '-' . $date1[0];
+			$finalDate2 = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+
+			$whereSearch .= " AND tp.startDate >= '$finalDate1' AND tp.startDate <= '$finalDate2'";
+
+
+		}
+
+		$endDateBetween = post("endDateBetween");
+		if ($endDateBetween) {
+			$string = explode(' - ', $endDateBetween);
+
+			$date1 = explode('/', $string[0]);
+			$date2 = explode('/', $string[1]);
+
+			$finalDate1 = $date1[2] . '-' . $date1[1] . '-' . $date1[0];
+			$finalDate2 = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+
+			$whereSearch .= " AND tp.endDate >= '$finalDate1' AND tp.endDate <= '$finalDate2'";
+
+
+		}
+
+
+		if ($_POST['statusID'] === "0" || $_POST['statusID'] === "1" || $_POST['statusID'] === "2") {
+			$stID = $_POST['statusID'];
+			$whereSearch .= " AND tp.tpStatus = '$stID'";
+		}
 		if ($searchVal) {
 
 			$whereSearch .= " AND (";

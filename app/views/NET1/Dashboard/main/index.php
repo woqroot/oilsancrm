@@ -82,7 +82,7 @@ if (isCan('admin')) {
 					tooltip: {
 						style: {fontSize: "12px"}, y: {
 							formatter: function (e) {
-								return e + " başarısız satış"
+								return e + " süreç"
 							}
 						}
 					},

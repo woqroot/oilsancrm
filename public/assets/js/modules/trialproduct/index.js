@@ -1,5 +1,50 @@
 $(document).ready(function () {
 
+	var start = moment('2020-01-01');
+	var end = moment('2029-12-31');
+
+	function cb(start, end) {
+		$("#kt_daterangepicker_1").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
+	}
+
+
+	$("#kt_daterangepicker_1").daterangepicker({
+		startDate: start,
+		endDate: end,
+		ranges: {
+			"Tüm Zamanlar": [moment('2022-09-01'), moment('2029-12-31')],
+			"Bugün": [moment(), moment()],
+			"Dün": [moment().subtract(1, "days"), moment().subtract(1, "days")],
+			"Son 7 gün": [moment().subtract(6, "days"), moment()],
+			"Son 30 gün": [moment().subtract(29, "days"), moment()],
+			"Bu ay": [moment().startOf("month"), moment().endOf("month")],
+			"Geçen ay": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+		},
+		parentEl: '#kkmenu',
+		locale: {
+			format: "DD/MM/YYYY"
+		}
+	}, cb);
+	$("#kt_daterangepicker_2").daterangepicker({
+		startDate: start,
+		endDate: end,
+		ranges: {
+			"Tüm Zamanlar": [moment('2022-09-01'), moment('2029-12-31')],
+			"Bugün": [moment(), moment()],
+			"Dün": [moment().subtract(1, "days"), moment().subtract(1, "days")],
+			"Son 7 gün": [moment().subtract(6, "days"), moment()],
+			"Son 30 gün": [moment().subtract(29, "days"), moment()],
+			"Bu ay": [moment().startOf("month"), moment().endOf("month")],
+			"Geçen ay": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+		},
+		parentEl: '#kkmenu',
+		locale: {
+			format: "DD/MM/YYYY"
+		}
+	}, cb);
+
+	cb(start, end);
+
 	let table = $(".np-datatable").DataTable({
 		language: {
 			url: hostUrl + 'public/assets/plugins/custom/datatables/datatables.language-tr.json'
@@ -28,7 +73,9 @@ $(document).ready(function () {
 		"ajax": {
 			"url": hostUrl + "trial-products/ajaxGeneral",
 			"data": function (d) {
-
+				d.startDateBetween = $("#kt_daterangepicker_1").val();
+				d.endDateBetween = $("#kt_daterangepicker_2").val();
+				d.statusID = $("#filterStatus").val();
 			},
 			"type": "POST",
 
@@ -181,6 +228,9 @@ $(document).ready(function () {
 		})
 
 
+	})
+	$('button[data-kt-user-table-filter="filter"]').on("click",function(){
+		table.draw();
 	})
 	const filterSearch = document.querySelector('.np-search-table');
 	filterSearch.addEventListener('keyup', function (e) {

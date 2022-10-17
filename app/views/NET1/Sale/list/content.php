@@ -68,7 +68,7 @@
 								<!--end::Svg Icon-->Filtrele
 							</button>
 							<!--begin::Menu 1-->
-							<div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
+							<div id="kkmenu" class="menu menu-sub menu-sub-dropdown w-500px" data-kt-menu="true">
 								<!--begin::Header-->
 								<div class="px-7 py-5">
 									<div class="fs-5 text-dark fw-bolder">Kayıtları Filtrele</div>
@@ -78,7 +78,14 @@
 								<div class="separator border-gray-200"></div>
 								<!--end::Separator-->
 								<!--begin::Content-->
-								<div class="px-7 py-5" data-kt-user-table-filter="form">
+								<div class="px-7 py-5" data-kt-user-table-filter="form" >
+									<!--start::Input group-->
+									<div class="mb-6">
+										<label class="form-label fs-6 fw-bold">Tarih:</label>
+										<input class="form-control form-control-solid" placeholder="Tarih Seçimi"
+											   id="kt_daterangepicker_1"/>
+									</div>
+									<!--end::Input group-->
 									<!--begin::Input group-->
 									<div class="mb-10">
 										<label class="form-label fs-6 fw-bold">Durum:</label>

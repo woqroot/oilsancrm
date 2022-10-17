@@ -116,12 +116,12 @@
 					<!--begin::Col-->
 					<div class="col-xl-4">
 						<!--begin::Mixed Widget 10-->
-						<div class="card card-xl-stretch-50 mb-5 mb-xl-8">
+						<div class="card mb-5 mb-xl-8">
 							<!--begin::Body-->
 							<div class="card-body p-0 d-flex justify-content-between flex-column overflow-hidden">
 								<!--begin::Hidden-->
-								<div class="d-flex flex-stack flex-wrap flex-grow-1 px-9 pb-3">
-									<div class="me-2">
+								<div class="mt-5 d-flex flex-stack flex-wrap flex-grow-1 px-9 pb-3">
+									<div class="me-2 ">
 										<span class="fw-bolder text-gray-800 d-block fs-3">Satış Sonuçlanma Durumları</span>
 										<span class="text-gray-400 fw-bold"><?=localizeDate("M Y",date("Y-m-d H:i:s",strtotime('-6 month')))?> - <?=localizeDate("M Y",date("Y-m-d H:i:s"))?></span>
 									</div>
@@ -134,29 +134,7 @@
 							</div>
 						</div>
 						<!--end::Mixed Widget 10-->
-						<!--begin::Mixed Widget 7-->
-						<div class="card card-xl-stretch-50 mb-5 mb-xl-8">
-							<!--begin::Body-->
-							<div class="card-body d-flex flex-column p-0">
-								<!--begin::Stats-->
-								<div class="flex-grow-1 card-p pb-0">
-									<div class="d-flex flex-stack flex-wrap">
-										<div class="me-2">
-											<a href="#" class="text-dark text-hover-primary fw-bolder fs-3">Deneme Ürünleri</a>
-											<div class="text-muted fs-7 fw-bold">Güncel deneme ürünlerine ait dağılım grafiği</div>
-										</div>
-										<div class="fw-bolder fs-3 text-primary">25 KG</div>
-									</div>
-								</div>
-								<!--end::Stats-->
-								<!--begin::Chart-->
-									<div id="currentSalesStatuses" class="" data-kt-chart-color="primary"
-										 style="height: 300px"></div>
-								<!--end::Chart-->
-							</div>
-							<!--end::Body-->
-						</div>
-						<!--end::Mixed Widget 7-->
+
 
 					</div>
 					<!--end::Col-->

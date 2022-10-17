@@ -530,6 +530,20 @@ Sisteme giriş yaparak görüntülemek için <a href="' . base_url('sales/' . $s
 			$whereSearch .= " AND s.fkUser = '" . Auth::get('userId') . "'";
 		}
 
+		$dateBetween = post("dateBetween");
+		if ($dateBetween) {
+			$string = explode(' - ', $dateBetween);
+
+			$date1 = explode('/', $string[0]);
+			$date2 = explode('/', $string[1]);
+
+			$finalDate1 = $date1[2] . '-' . $date1[1] . '-' . $date1[0];
+			$finalDate2 = $date2[2] . '-' . $date2[1] . '-' . $date2[0];
+
+			$whereSearch .= " AND s.invoiceDate >= '$finalDate1' AND s.invoiceDate <= '$finalDate2'";
+
+
+		}
 		if ($searchVal) {
 
 			$whereSearch .= " AND (";
