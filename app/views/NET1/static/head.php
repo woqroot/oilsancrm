@@ -2,7 +2,7 @@
 //print_r(Auth::getSidebar());
 //exit;
 ?>
-<title><?=$_breadcrumb["current"]?> | OilsanCRM</title>
+<title><?=$_breadcrumb["current"]?> | MY CRM</title>
 <meta charset="utf-8"/>
 <meta name="description"
 	  content="The most advanced Bootstrap Admin Theme on Themeforest trusted by 94,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue &amp; Laravel versions. Grab your copy now and get life-time updates for free."/>

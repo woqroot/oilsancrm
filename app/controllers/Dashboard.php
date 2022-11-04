@@ -16,17 +16,20 @@ class Dashboard extends NP_Controller
 
 	public function index()
 	{
+
 		$statistics = [];
 		if (isCan('admin')) {
 			$statistics['waitingMissions'] = $this->MissionModel->count(['fkMissionStatus' => 1]);
 			$statistics['ongoingSales'] = $this->SaleModel->count(['fkStatus <' => 4]);
 		} else {
-			$statistics['waitingMissions'] = $this->MissionModel->count(['fkMissionStatus' => 1,'fkUser' => Auth::get('userId')]);
-			$statistics['ongoingSales'] = $this->SaleModel->count(['fkStatus <' => 4,'fkUser' => Auth::get('userId')]);
+			$statistics['waitingMissions'] = $this->MissionModel->count(['fkMissionStatus' => 1, 'fkUser' => Auth::get('userId')]);
+			$statistics['ongoingSales'] = $this->SaleModel->count(['fkStatus <' => 4, 'fkUser' => Auth::get('userId')]);
 
 		}
-		$statistics['todayEvents'] = $this->CalendarEventModel->count(['fkUser' => Auth::get('userId'),'startDate >=' => date('Y-m-d').' 00:00:00','startDate <=' => date('Y-m-d').' 23:59:59']);
 
+
+		$statistics['countCustomers'] = $this->CustomerModel->count();
+		$statistics['todayEvents'] = $this->CalendarEventModel->count(['fkUser' => Auth::get('userId'), 'startDate >=' => date('Y-m-d') . ' 00:00:00', 'startDate <=' => date('Y-m-d') . ' 23:59:59']);
 
 
 		$this->load->library("NPMailer");
@@ -36,11 +39,18 @@ class Dashboard extends NP_Controller
 		$this->setBreadcrumb(["Genel Bakış", "Ana Sayfa"]);
 		$this->setSubViewFolder("main");
 
+
+		$customers = $this->CustomerModel->all([], 'customerId ASC');
+
+
 		$data = [
 			"announcements" => $this->AnnouncementModel->getLast(15),
 			"hasAnyUnreadAnnouncement" => $this->AnnouncementModel->hasAnyUnread(),
-			'statistics' => $statistics
+			'statistics' => $statistics,
+			'customers' => $customers
 		];
+
+
 		$this->render($data);
 	}
 

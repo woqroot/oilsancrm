@@ -348,6 +348,11 @@ function reLocalizeDate($date, $format = "Y-m-d")
 
 function localizeDate($format, $datetime = 'now')
 {
+
+	if(!$datetime){
+		return null;
+	}
+
 	$z = date("$format", strtotime($datetime));
 	$gun_dizi = array(
 		'Monday' => 'Pazartesi',

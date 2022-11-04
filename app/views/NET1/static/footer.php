@@ -4,7 +4,7 @@
 		<!--begin::Copyright-->
 		<div class="text-dark order-2 order-md-1">
 			<span class="text-muted fw-bold me-1">2022©</span>
-			<a href="https://oilsan.com" target="_blank" class="text-gray-800 text-hover-primary">Oilsan Endüstriyel Yağlar ve Bakım Kimyasalları Dış Ticaret A.Ş.</a>
+			<a href="https://mycrm.com" target="_blank" class="text-gray-800 text-hover-primary">MY CRM</a>
 		</div>
 		<!--end::Copyright-->
 		<!--begin::Menu-->

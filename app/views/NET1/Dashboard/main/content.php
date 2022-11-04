@@ -7,65 +7,37 @@
 			<?= $CI->loadLayout('breadcrumb') ?>
 			<!--end::Page title-->
 			<!--begin::Actions-->
-			<div class="d-flex align-items-center gap-2 gap-lg-3">
+
+			<!--end::Primary button-->
+			<?php
+			if (isCan('admin')) {
+				?>
 				<!--begin::Primary button-->
-				<a href="<?= base_url('sales/create') ?>" class="btn btn-sm btn-primary">Yeni Satış Kaydı</a>
+				<a href="<?= base_url('customers') ?>" class="btn btn-sm btn-success">Yeni Müşteri</a>
 				<!--end::Primary button-->
 				<?php
-				if (isCan('admin')) {
-					?>
-					<!--begin::Primary button-->
-					<a href="<?= base_url('missions/add') ?>" class="btn btn-sm btn-success">Yeni Görev</a>
-					<!--end::Primary button-->
-					<?php
-				}
-				?>
-			</div>
-			<!--end::Actions-->
+			}
+			?>
 		</div>
-		<!--end::Container-->
+		<!--end::Actions-->
 	</div>
-	<!--end::Toolbar-->
-	<!--begin::Post-->
-	<div class="post d-flex flex-column-fluid" id="kt_post">
-		<!--begin::Container-->
-		<div id="kt_content_container" class="container-xxl">
-			<!--begin::Row-->
-			<div class="row gy-5 g-xl-8">
-				<div class="col-xl-4">
-					<!--begin::Statistics Widget 5-->
-					<a href="<?= base_url("missions") ?>" class="card bg-success hoverable card-xl-stretch mb-xl-8">
-						<!--begin::Body-->
-						<div class="card-body">
-							<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm008.svg-->
-							<span class="svg-icon svg-icon-white svg-icon-3x ms-n1">
-													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-														 viewBox="0 0 24 24" fill="none">
-														<path opacity="0.3"
-															  d="M18 21.6C16.3 21.6 15 20.3 15 18.6V2.50001C15 2.20001 14.6 1.99996 14.3 2.19996L13 3.59999L11.7 2.3C11.3 1.9 10.7 1.9 10.3 2.3L9 3.59999L7.70001 2.3C7.30001 1.9 6.69999 1.9 6.29999 2.3L5 3.59999L3.70001 2.3C3.50001 2.1 3 2.20001 3 3.50001V18.6C3 20.3 4.3 21.6 6 21.6H18Z"
-															  fill="currentColor"></path>
-														<path d="M12 12.6H11C10.4 12.6 10 12.2 10 11.6C10 11 10.4 10.6 11 10.6H12C12.6 10.6 13 11 13 11.6C13 12.2 12.6 12.6 12 12.6ZM9 11.6C9 11 8.6 10.6 8 10.6H6C5.4 10.6 5 11 5 11.6C5 12.2 5.4 12.6 6 12.6H8C8.6 12.6 9 12.2 9 11.6ZM9 7.59998C9 6.99998 8.6 6.59998 8 6.59998H6C5.4 6.59998 5 6.99998 5 7.59998C5 8.19998 5.4 8.59998 6 8.59998H8C8.6 8.59998 9 8.19998 9 7.59998ZM13 7.59998C13 6.99998 12.6 6.59998 12 6.59998H11C10.4 6.59998 10 6.99998 10 7.59998C10 8.19998 10.4 8.59998 11 8.59998H12C12.6 8.59998 13 8.19998 13 7.59998ZM13 15.6C13 15 12.6 14.6 12 14.6H10C9.4 14.6 9 15 9 15.6C9 16.2 9.4 16.6 10 16.6H12C12.6 16.6 13 16.2 13 15.6Z"
-															  fill="currentColor"></path>
-														<path d="M15 18.6C15 20.3 16.3 21.6 18 21.6C19.7 21.6 21 20.3 21 18.6V12.5C21 12.2 20.6 12 20.3 12.2L19 13.6L17.7 12.3C17.3 11.9 16.7 11.9 16.3 12.3L15 13.6V18.6Z"
-															  fill="currentColor"></path>
-													</svg>
-												</span>
-							<!--end::Svg Icon-->
-							<div class="text-white fw-bolder fs-2 mb-2 mt-5">Görevler</div>
-							<div class="fw-bold text-white">Bekleyen <b><?= $statistics['waitingMissions'] ?></b> Görev
-							</div>
-						</div>
-						<!--end::Body-->
-					</a>
-					<!--end::Statistics Widget 5-->
-				</div>
-				<div class="col-xl-4">
-					<!--begin::Statistics Widget 5-->
-					<a href="<?= base_url("sales") ?>" class="card bg-danger hoverable card-xl-stretch mb-xl-8">
-						<!--begin::Body-->
-						<div class="card-body">
-							<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm008.svg-->
-							<span class="svg-icon svg-icon-white svg-icon-3x ms-n1">
+	<!--end::Container-->
+</div>
+<!--end::Toolbar-->
+<!--begin::Post-->
+<div class="post d-flex flex-column-fluid" id="kt_post">
+	<!--begin::Container-->
+	<div id="kt_content_container" class="container-xxl">
+		<!--begin::Row-->
+		<div class="row gy-5 g-xl-8">
+
+			<div class="mx-auto col-xl-4">
+				<!--begin::Statistics Widget 5-->
+				<a href="<?= base_url("customers") ?>" class="card bg-danger hoverable card-xl-stretch mb-xl-8">
+					<!--begin::Body-->
+					<div class="card-body">
+						<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm008.svg-->
+						<span class="svg-icon svg-icon-white svg-icon-3x ms-n1">
 													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 														 viewBox="0 0 24 24" fill="none">
 														<path opacity="0.3"
@@ -75,661 +47,587 @@
 															  fill="currentColor"></path>
 													</svg>
 												</span>
-							<!--end::Svg Icon-->
-							<div class="text-white fw-bolder fs-2 mb-2 mt-5">Satışlar</div>
-							<div class="fw-bold text-white">Devam Eden <b><?= $statistics['ongoingSales'] ?></b> Süreç
-							</div>
+						<!--end::Svg Icon-->
+						<div class="text-white fw-bolder fs-2 mb-2 mt-5">Müşteriler</div>
+						<div class="fw-bold text-white">Devam Eden <b><?= $statistics['ongoingSales'] ?></b> Süreç
 						</div>
-						<!--end::Body-->
-					</a>
-					<!--end::Statistics Widget 5-->
-				</div>
-				<div class="col-xl-4">
-					<!--begin::Statistics Widget 5-->
-					<a href="<?= base_url("calendar") ?>" class="card bg-info hoverable card-xl-stretch mb-xl-8">
-						<!--begin::Body-->
-						<div class="card-body">
-							<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm008.svg-->
-							<span class="svg-icon svg-icon-white svg-icon-3x ms-n1">
+					</div>
+					<!--end::Body-->
+				</a>
+				<!--end::Statistics Widget 5-->
+			</div>
+
+
+			<div class="card">
+				<!--begin::Card header-->
+				<div class="card-header border-0 pt-6">
+					<!--begin::Card title-->
+					<div class="card-title">
+						<!--begin::Search-->
+						<div class="d-flex align-items-center position-relative my-1">
+							<!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+							<span class="svg-icon svg-icon-1 position-absolute ms-6">
 													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 														 viewBox="0 0 24 24" fill="none">
-														<path opacity="0.3"
-															  d="M10.9607 12.9128H18.8607C19.4607 12.9128 19.9607 13.4128 19.8607 14.0128C19.2607 19.0128 14.4607 22.7128 9.26068 21.7128C5.66068 21.0128 2.86071 18.2128 2.16071 14.6128C1.16071 9.31284 4.96069 4.61281 9.86069 4.01281C10.4607 3.91281 10.9607 4.41281 10.9607 5.01281V12.9128Z"
-															  fill="currentColor"></path>
-														<path d="M12.9607 10.9128V3.01281C12.9607 2.41281 13.4607 1.91281 14.0607 2.01281C16.0607 2.21281 17.8607 3.11284 19.2607 4.61284C20.6607 6.01284 21.5607 7.91285 21.8607 9.81285C21.9607 10.4129 21.4607 10.9128 20.8607 10.9128H12.9607Z"
-															  fill="currentColor"></path>
+														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+															  height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+															  fill="currentColor"/>
+														<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+															  fill="currentColor"/>
 													</svg>
 												</span>
 							<!--end::Svg Icon-->
-							<div class="text-white fw-bolder fs-2 mb-2 mt-5">Takvim</div>
-							<div class="fw-bold d-flex align-items-center text-white">
-								Bugün <?= $statistics['todayEvents'] ?> Etkinlik
-							</div>
+							<input type="text" data-table-action="search"
+								   class="form-control form-control-solid w-250px ps-14" placeholder="Müşteri Ara"/>
 						</div>
-						<!--end::Body-->
-					</a>
-					<!--end::Statistics Widget 5-->
-				</div>
-				<?php
-				if (isCan('admin')) {
-					?>
-					<!--begin::Col-->
-					<div class="col-xl-4">
-						<!--begin::Mixed Widget 10-->
-						<div class="card mb-5 mb-xl-8">
-							<!--begin::Body-->
-							<div class="card-body p-0 d-flex justify-content-between flex-column overflow-hidden">
-								<!--begin::Hidden-->
-								<div class="mt-5 d-flex flex-stack flex-wrap flex-grow-1 px-9 pb-3">
-									<div class="me-2 ">
-										<span class="fw-bolder text-gray-800 d-block fs-3">Satış Sonuçlanma Durumları</span>
-										<span class="text-gray-400 fw-bold"><?=localizeDate("M Y",date("Y-m-d H:i:s",strtotime('-6 month')))?> - <?=localizeDate("M Y",date("Y-m-d H:i:s"))?></span>
-									</div>
-									<div class="fw-bolder fs-3 text-primary totalResultedRegs"></div>
-								</div>
-								<!--end::Hidden-->
-								<!--begin::Chart-->
-								<div class="customChart" data-kt-color="primary" style="height: 175px"></div>
-								<!--end::Chart-->
-							</div>
-						</div>
-						<!--end::Mixed Widget 10-->
-
-
+						<!--end::Search-->
 					</div>
-					<!--end::Col-->
-					<?php
-				} else {
-					?>
-					<div class="col-xl-4">
-						<!--begin::Mixed Widget 2-->
-						<div class="card card-xl-stretch">
-							<!--begin::Header-->
-							<div class="card-header border-0 bg-primary py-5">
-								<h3 class="card-title fw-bolder text-white">Aylık Hedef</h3>
-
-							</div>
-							<!--end::Header-->
-							<!--begin::Body-->
-							<div class="card-body p-0">
-
-								<!--begin::Chart-->
-								<div class="d-flex flex-center w-100">
-									<div id="goalHedefChart" class="" data-kt-chart-color="primary"
-										 style="height: 300px"></div>
-								</div>
-								<!--end::Chart-->
+					<!--begin::Card title-->
+					<!--begin::Card toolbar-->
+					<div class="card-toolbar">
+						<!--begin::Toolbar-->
+						<div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+							<!--begin::Filter-->
+							<!--begin::Menu 1-->
+							<div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
 								<!--begin::Content-->
-								<div class="text-center w-100 position-relative z-index-1" style="margin-top: -130px">
-									<!--begin::Text-->
-									<p class="fw-bold fs-4 text-gray-400 mt-8">
-										Güncel Hedef
-									</p>
-									<!--end::Text-->
-									<!--begin::Action-->
-									<div class="mb-9 mb-xxl-1">
-										<a href='javascript:void(0)' class="btn btn-success fw-bold"
-										   id="currentGoal"></a>
-									</div>
-									<!--ed::Action-->
+								<div class="px-7 py-5" data-kt-user-table-filter="form">
+
 								</div>
 								<!--end::Content-->
-
 							</div>
-							<!--end::Body-->
+					
 						</div>
-						<!--end::Mixed Widget 2-->
+
 					</div>
-					<?php
-				}
-				?>
-				<!--begin::Col-->
-
-				<!--end::Col-->
-				<!--begin::Col-->
-				<div class="col-xl-8 ">
-					<div class="card card-xl-stretch mb-5 mb-xl-8">
-						<!--begin::Header-->
-						<div class="card-header border-0 pt-5">
-							<h3 class="card-title align-items-start flex-column">
-								<span class="card-label fw-bolder fs-3 mb-1">Haber Akışı</span>
-								<span class="text-muted mt-1 fw-bold fs-7">Son yayımlanan duyurular listelenmiştir.</span>
-							</h3>
-
-						</div>
-						<!--end::Header-->
-						<!--begin::Body-->
-						<div class="card-body py-3 overflow-scroll h-300px">
-							<div class="tab-content">
-								<!--begin::Tap pane-->
-								<div class="tab-pane fade show active" id="kt_table_widget_5_tab_1">
-									<?php
-									if (count($announcements) == 0) {
-										?>
-										<div class="alert alert-warning">Duyuru içeriği bulunamadı.</div>
-										<?php
-									}
-									?>
-									<!--begin::Table container-->
-									<div class="table-responsive">
-										<!--begin::Table-->
-										<table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4 overflow-hidden">
-											<!--begin::Table head-->
-											<thead>
-											<tr class="border-0">
-												<th class="p-0 w-50px"></th>
-												<th class="p-0 w-50px"></th>
-												<th class="p-0 w-150px"></th>
-											</tr>
-											</thead>
-											<!--end::Table head-->
-											<!--begin::Table body-->
-											<tbody>
-											<?php
-											$ix = 1;
-
-											foreach ($announcements as $announcement) {
-
-
-												?>
-												<tr data-id="<?= $announcement["announcementId"] ?>"
-													class="cursor-pointer viewAnnouncement <?= $announcement["isViewed"] == 0 ? "bg-light-warning animate__animated animate__headShake  alerting animate__infinite" : ""; ?>">
-													<td><span class="badge badge-light-warning">#<?= $ix++; ?></span>
-													</td>
-													<td>
-														<div class="symbol symbol-45px me-2">
-															<?= getAvatar($announcement["image"]) ?>
-														</div>
-													</td>
-													<td>
-														<a href="javascript:void(0)"
-														   class="text-dark fw-bolder text-hover-primary mb-1 fs-6"><?= $announcement["firstName"] ?> <?= $announcement["lastName"] ?></a>
-														<span class="text-muted fw-bold d-block"><?= localizeDate("d M Y", $announcement["createdAt"]) ?></span>
-													</td>
-													<td class="text-center"><span
-																class="badge badge-lg badge badge-light-primary"><?= $announcement["title"] ?></span>
-													</td>
-
-
-													<td class="text-end">
-														<a href="javascript:void(0)"
-														   data-id="<?= $announcement["announcementId"] ?>"
-														   class="viewAnnouncement btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-															<!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-															<span class="svg-icon svg-icon-2">
-																					<svg xmlns="http://www.w3.org/2000/svg"
-																						 width="24" height="24"
-																						 viewBox="0 0 24 24"
-																						 fill="none">
-																						<rect opacity="0.5" x="18"
-																							  y="13" width="13"
-																							  height="2" rx="1"
-																							  transform="rotate(-180 18 13)"
-																							  fill="black"/>
-																						<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-																							  fill="black"/>
-																					</svg>
-																				</span>
-															<!--end::Svg Icon-->
-														</a>
-													</td>
-												</tr>
-												<?php
-											}
-											?>
-											</tbody>
-											<!--end::Table body-->
-										</table>
-									</div>
-									<!--end::Table-->
-								</div>
-								<!--end::Tap pane-->
-								<!--begin::Tap pane-->
-								<div class="tab-pane fade" id="kt_table_widget_5_tab_2">
-									<!--begin::Table container-->
-									<div class="table-responsive">
-										<!--begin::Table-->
-										<table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4">
-											<!--begin::Table head-->
-											<thead>
-											<tr class="border-0">
-												<th class="p-0 w-50px"></th>
-												<th class="p-0 min-w-150px"></th>
-												<th class="p-0 min-w-140px"></th>
-												<th class="p-0 min-w-110px"></th>
-												<th class="p-0 min-w-50px"></th>
-											</tr>
-											</thead>
-											<!--end::Table head-->
-											<!--begin::Table body-->
-											<tbody>
-											<tr>
-												<td>
-													<div class="symbol symbol-45px me-2">
-																				<span class="symbol-label">
-																					<img src="/metronic8/demo8/assets/media/svg/brand-logos/plurk.svg"
-																						 class="h-50 align-self-center"
-																						 alt=""/>
-																				</span>
-													</div>
-												</td>
-												<td>
-													<a href="javascript:void(0)"
-													   class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Brad
-														Simmons</a>
-													<span class="text-muted fw-bold d-block">Movie Creator</span>
-												</td>
-												<td class="text-end text-muted fw-bold">React, HTML</td>
-												<td class="text-end">
-													<span class="badge badge-light-success">Approved</span>
-												</td>
-												<td class="text-end">
-													<a href="javascript:void(0)"
-													   class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-														<!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-														<span class="svg-icon svg-icon-2">
-																					<svg xmlns="http://www.w3.org/2000/svg"
-																						 width="24" height="24"
-																						 viewBox="0 0 24 24"
-																						 fill="none">
-																						<rect opacity="0.5" x="18"
-																							  y="13" width="13"
-																							  height="2" rx="1"
-																							  transform="rotate(-180 18 13)"
-																							  fill="black"/>
-																						<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-																							  fill="black"/>
-																					</svg>
-																				</span>
-														<!--end::Svg Icon-->
-													</a>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="symbol symbol-45px me-2">
-																				<span class="symbol-label">
-																					<img src="/metronic8/demo8/assets/media/svg/brand-logos/telegram.svg"
-																						 class="h-50 align-self-center"
-																						 alt=""/>
-																				</span>
-													</div>
-												</td>
-												<td>
-													<a href="javascript:void(0)"
-													   class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Popular
-														Authors</a>
-													<span class="text-muted fw-bold d-block">Most Successful</span>
-												</td>
-												<td class="text-end text-muted fw-bold">Python, MySQL</td>
-												<td class="text-end">
-													<span class="badge badge-light-warning">In Progress</span>
-												</td>
-												<td class="text-end">
-													<a href="javascript:void(0)"
-													   class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-														<!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-														<span class="svg-icon svg-icon-2">
-																					<svg xmlns="http://www.w3.org/2000/svg"
-																						 width="24" height="24"
-																						 viewBox="0 0 24 24"
-																						 fill="none">
-																						<rect opacity="0.5" x="18"
-																							  y="13" width="13"
-																							  height="2" rx="1"
-																							  transform="rotate(-180 18 13)"
-																							  fill="black"/>
-																						<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-																							  fill="black"/>
-																					</svg>
-																				</span>
-														<!--end::Svg Icon-->
-													</a>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="symbol symbol-45px me-2">
-																				<span class="symbol-label">
-																					<img src="/metronic8/demo8/assets/media/svg/brand-logos/bebo.svg"
-																						 class="h-50 align-self-center"
-																						 alt=""/>
-																				</span>
-													</div>
-												</td>
-												<td>
-													<a href="javascript:void(0)"
-													   class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Active
-														Customers</a>
-													<span class="text-muted fw-bold d-block">Movie Creator</span>
-												</td>
-												<td class="text-end text-muted fw-bold">AngularJS, C#</td>
-												<td class="text-end">
-													<span class="badge badge-light-danger">Rejected</span>
-												</td>
-												<td class="text-end">
-													<a href="javascript:void(0)"
-													   class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-														<!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-														<span class="svg-icon svg-icon-2">
-																					<svg xmlns="http://www.w3.org/2000/svg"
-																						 width="24" height="24"
-																						 viewBox="0 0 24 24"
-																						 fill="none">
-																						<rect opacity="0.5" x="18"
-																							  y="13" width="13"
-																							  height="2" rx="1"
-																							  transform="rotate(-180 18 13)"
-																							  fill="black"/>
-																						<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-																							  fill="black"/>
-																					</svg>
-																				</span>
-														<!--end::Svg Icon-->
-													</a>
-												</td>
-											</tr>
-											</tbody>
-											<!--end::Table body-->
-										</table>
-									</div>
-									<!--end::Table-->
-								</div>
-								<!--end::Tap pane-->
-								<!--begin::Tap pane-->
-								<div class="tab-pane fade" id="kt_table_widget_5_tab_3">
-									<!--begin::Table container-->
-									<div class="table-responsive">
-										<!--begin::Table-->
-										<table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4">
-											<!--begin::Table head-->
-											<thead>
-											<tr class="border-0">
-												<th class="p-0 w-50px"></th>
-												<th class="p-0 min-w-150px"></th>
-												<th class="p-0 min-w-140px"></th>
-												<th class="p-0 min-w-110px"></th>
-												<th class="p-0 min-w-50px"></th>
-											</tr>
-											</thead>
-											<!--end::Table head-->
-											<!--begin::Table body-->
-											<tbody>
-											<tr>
-												<td>
-													<div class="symbol symbol-45px me-2">
-																				<span class="symbol-label">
-																					<img src="/metronic8/demo8/assets/media/svg/brand-logos/kickstarter.svg"
-																						 class="h-50 align-self-center"
-																						 alt=""/>
-																				</span>
-													</div>
-												</td>
-												<td>
-													<a href="javascript:void(0)"
-													   class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Bestseller
-														Theme</a>
-													<span class="text-muted fw-bold d-block">Best Customers</span>
-												</td>
-												<td class="text-end text-muted fw-bold">ReactJS, Ruby</td>
-												<td class="text-end">
-													<span class="badge badge-light-warning">In Progress</span>
-												</td>
-												<td class="text-end">
-													<a href="javascript:void(0)"
-													   class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-														<!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-														<span class="svg-icon svg-icon-2">
-																					<svg xmlns="http://www.w3.org/2000/svg"
-																						 width="24" height="24"
-																						 viewBox="0 0 24 24"
-																						 fill="none">
-																						<rect opacity="0.5" x="18"
-																							  y="13" width="13"
-																							  height="2" rx="1"
-																							  transform="rotate(-180 18 13)"
-																							  fill="black"/>
-																						<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-																							  fill="black"/>
-																					</svg>
-																				</span>
-														<!--end::Svg Icon-->
-													</a>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="symbol symbol-45px me-2">
-																				<span class="symbol-label">
-																					<img src="/metronic8/demo8/assets/media/svg/brand-logos/bebo.svg"
-																						 class="h-50 align-self-center"
-																						 alt=""/>
-																				</span>
-													</div>
-												</td>
-												<td>
-													<a href="javascript:void(0)"
-													   class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Active
-														Customers</a>
-													<span class="text-muted fw-bold d-block">Movie Creator</span>
-												</td>
-												<td class="text-end text-muted fw-bold">AngularJS, C#</td>
-												<td class="text-end">
-													<span class="badge badge-light-danger">Rejected</span>
-												</td>
-												<td class="text-end">
-													<a href="javascript:void(0)"
-													   class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-														<!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-														<span class="svg-icon svg-icon-2">
-																					<svg xmlns="http://www.w3.org/2000/svg"
-																						 width="24" height="24"
-																						 viewBox="0 0 24 24"
-																						 fill="none">
-																						<rect opacity="0.5" x="18"
-																							  y="13" width="13"
-																							  height="2" rx="1"
-																							  transform="rotate(-180 18 13)"
-																							  fill="black"/>
-																						<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-																							  fill="black"/>
-																					</svg>
-																				</span>
-														<!--end::Svg Icon-->
-													</a>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="symbol symbol-45px me-2">
-																				<span class="symbol-label">
-																					<img src="/metronic8/demo8/assets/media/svg/brand-logos/vimeo.svg"
-																						 class="h-50 align-self-center"
-																						 alt=""/>
-																				</span>
-													</div>
-												</td>
-												<td>
-													<a href="javascript:void(0)"
-													   class="text-dark fw-bolder text-hover-primary mb-1 fs-6">New
-														Users</a>
-													<span class="text-muted fw-bold d-block">Awesome Users</span>
-												</td>
-												<td class="text-end text-muted fw-bold">Laravel,Metronic</td>
-												<td class="text-end">
-													<span class="badge badge-light-primary">Success</span>
-												</td>
-												<td class="text-end">
-													<a href="javascript:void(0)"
-													   class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-														<!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-														<span class="svg-icon svg-icon-2">
-																					<svg xmlns="http://www.w3.org/2000/svg"
-																						 width="24" height="24"
-																						 viewBox="0 0 24 24"
-																						 fill="none">
-																						<rect opacity="0.5" x="18"
-																							  y="13" width="13"
-																							  height="2" rx="1"
-																							  transform="rotate(-180 18 13)"
-																							  fill="black"/>
-																						<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-																							  fill="black"/>
-																					</svg>
-																				</span>
-														<!--end::Svg Icon-->
-													</a>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="symbol symbol-45px me-2">
-																				<span class="symbol-label">
-																					<img src="/metronic8/demo8/assets/media/svg/brand-logos/telegram.svg"
-																						 class="h-50 align-self-center"
-																						 alt=""/>
-																				</span>
-													</div>
-												</td>
-												<td>
-													<a href="javascript:void(0)"
-													   class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Popular
-														Authors</a>
-													<span class="text-muted fw-bold d-block">Most Successful</span>
-												</td>
-												<td class="text-end text-muted fw-bold">Python, MySQL</td>
-												<td class="text-end">
-													<span class="badge badge-light-warning">In Progress</span>
-												</td>
-												<td class="text-end">
-													<a href="javascript:void(0)"
-													   class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary">
-														<!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-														<span class="svg-icon svg-icon-2">
-																					<svg xmlns="http://www.w3.org/2000/svg"
-																						 width="24" height="24"
-																						 viewBox="0 0 24 24"
-																						 fill="none">
-																						<rect opacity="0.5" x="18"
-																							  y="13" width="13"
-																							  height="2" rx="1"
-																							  transform="rotate(-180 18 13)"
-																							  fill="black"/>
-																						<path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
-																							  fill="black"/>
-																					</svg>
-																				</span>
-														<!--end::Svg Icon-->
-													</a>
-												</td>
-											</tr>
-											</tbody>
-											<!--end::Table body-->
-										</table>
-									</div>
-									<!--end::Table-->
-								</div>
-								<!--end::Tap pane-->
-							</div>
-						</div>
-						<!--end::Body-->
-					</div>
+					<!--end::Card toolbar-->
 				</div>
-				<!--end::Col-->
-			</div>
-			<!--end::Row-->
-			<!--begin::Calendar Widget 1-->
+				<!--end::Card header-->
+				<!--begin::Card body-->
+				<div class="card-body py-4">
+					<!--begin::Table-->
+					<table class="table align-middle table-row-dashed fs-6 gy-5" id="customers-table">
+						<!--begin::Table head-->
+						<thead>
+						<!--begin::Table row-->
+						<tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+							<th class="text-start w-50px pe-2">
+								#
+							</th>
+							<th class="min-w-125px">Müşteri</th>
+							<th class="min-w-125px">İl / İlçe</th>
+							<th class="min-w-125px">Telefon Numarası</th>
+							<th class="min-w-125px">İş Yapılma Tarihi</th>
+							<th class="text- min-w-100px">İşlem</th>
+						</tr>
+						<!--end::Table row-->
+						</thead>
+						<!--end::Table head-->
+						<!--begin::Table body-->
+						<tbody class="text-gray-600 fw-bold">
+						<?php
+						foreach ($customers as $customer) {
 
-			<!--end::Calendar Widget 1-->
-			<!--begin::Modals-->
-			<div class="modal fade" id="viewAnnouncement" tabindex="-1" aria-hidden="true">
+							?>
+
+							<tr class="">
+								<td><?php echo $customer['customerId'] ?></td>
+								<td><?php echo $customer['name'] ?></td>
+								<td><?= getDistrict($customer['fkDistrict']) ?>/<?= getCity($customer['fkCity']) ?></td>
+								<td><?php echo $customer['phone'] ?></td>
+								<td><?php echo localizeDate("d M Y", $customer['workedAt']) ?></td>
+								<td><?php echo $customer['customerId'] ?></td>
+							</tr>
+							<?php
+						}
+						?>
+
+						<tr>
+							<td>a</td>
+							<td>b</td>
+							<td>c</td>
+							<td>d</td>
+							<td>e</td>
+							<td>f</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<?php
+
+			?>
+
+			<div class="modal fade" id="kt_modal_add_user" data-bs-backdrop="static"
+				 data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+				<!--begin::Modal dialog-->
+				<div class="modal-dialog modal-dialog-centered modal-xl">
+					<!--begin::Modal content-->
+					<div class="modal-content">
+						<!--begin::Modal header-->
+						<div class="modal-header" id="kt_modal_add_user_header">
+							<!--begin::Modal title-->
+							<h2 class="fw-bolder">Yeni Oluştur</h2>
+							<!--end::Modal title-->
+							<!--begin::Close-->
+							<div class="btn btn-icon btn-sm btn-active-icon-primary"
+								 data-bs-dismiss="modal">
+								<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+								<span class="svg-icon svg-icon-1">
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
+								<!--end::Svg Icon-->
+							</div>
+							<!--end::Close-->
+						</div>
+						<!--end::Modal header-->
+						<!--begin::Modal body-->
+						<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+							<!--begin::Form-->
+							<form id="addCustomerForm" enctype="multipart/form-data" class="form"
+								  action="#">
+								<input type="hidden" name="customerType" value="INDIVIDUAL">
+
+								<input type="hidden" name="action" value="ADD">
+								<!--begin::Scroll-->
+								<div class="d-flex flex-column scroll-y me-n7 pe-7"
+									 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+									 data-kt-scroll-activate="{default: false, lg: true}"
+									 data-kt-scroll-max-height="auto"
+									 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+									 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+									 data-kt-scroll-offset="300px">
+									<!--begin::Input group-->
+									<!--end::Input group-->
+									<div class="row">
+										<div class="fv-row mb-7 text-center">
+											<!--begin::Radio group-->
+											<div class="btn-group w-100 w-lg-50 " data-kt-buttons="true"
+												 data-kt-buttons-target="[data-kt-button]">
+												<!--begin::Radio-->
+												<label class="select-individual btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success active"
+													   data-kt-button="true">
+													<!--begin::Input-->
+													<input class="btn-check" checked type="radio"
+														   name="type"
+														   value="INDIVIDUAL"/>
+													<!--end::Input-->
+													Bireysel
+												</label>
+												<!--end::Radio-->
+												<!--begin::Radio-->
+												<label class="select-corporate btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-success "
+													   data-kt-button="true">
+													<!--begin::Input-->
+													<input class="btn-check" type="radio" name="type"
+														   value="CORPORATE"/>
+													<!--end::Input-->
+													Kurumsal
+												</label>
+												<!--end::Radio-->
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-6">
+												<h4 class="mb-7">Temel Bilgiler </h4>
+
+												<div class="fv-row row mb-5">
+													<!--begin::Input group-->
+													<div
+															class="col-md-12 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label data-np-type="CORPORATE"
+															   class="required fw-bold fs-6 mb-2">Firma
+															Adı</label>
+														<label data-np-type="INDIVIDUAL"
+															   class="required fw-bold fs-6 mb-2">Ad-Soyad</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="text"
+															   name="name"
+															   class="form-control form-control-lg form-control-solid">
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+												<div class="fv-row row mb-5">
+													<div class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Kısa İsim <i
+																	class="fa fa-info-circle"
+																	data-bs-toggle="tooltip"
+																	title="Kısa isim, müşteriyi tanımlamak amacıyla yalnızca ekip üyelerine gösterilir."></i></label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="text"
+															   name="shortName"
+															   class="form-control form-control-lg form-control-solid">
+														<!--end::Input-->
+													</div>
+													<div class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2 d-flex">Müşteri
+															Grubu
+															<?php
+															if (isCanOr("admin")) {
+																?>
+																<a href="javascript:void(0)"
+																   onclick="$('#addCustomerGroupModal').modal('show')"><span
+																			class="ms-1 badge badge-light-primary">Yeni Ekle</span></a>
+																<?php
+															}
+															?>
+														</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<select type="text"
+																name="fkCustomerGroup"
+																class="form-control form-control-lg form-control-solid selectCustomerGroup">
+															<option value="">Seçim Yok</option>
+															<?php
+															foreach ($customerGroups as $customerGroup) {
+																?>
+																<option value="<?= $customerGroup["customerGroupId"] ?>"><?= $customerGroup["title"] ?></option>
+																<?php
+															}
+															?>
+														</select>
+														<!--end::Input-->
+													</div>
+												</div>
+												<div class="fv-row row mb-5">
+													<!--begin::Input group-->
+													<div data-np-type="INDIVIDUAL"
+														 class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">TC Kimlik
+															Numarası</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="text"
+															   pattern="(\d)+"
+															   name="identityNumber"
+															   minlength="11"
+															   maxlength="11"
+															   class="form-control form-control-lg form-control-solid">
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+													<!--begin::Input group-->
+													<div data-np-type="CORPORATE"
+														 class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Vergi
+															Numarası</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="text"
+															   name="taxNumber"
+															   class="form-control form-control-lg form-control-solid">
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+													<!--begin::Input group-->
+													<div class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Vergi
+															Dairesi</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="text"
+															   name="taxOffice"
+															   class="form-control form-control-lg form-control-solid">
+														<!--end::Input-->
+													</div>
+													<!--end::Input group-->
+												</div>
+												<div class="fv-row row mb-5">
+													<div style="margin-top: -7px;"
+														 class="col-md-12 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Müşteri
+															Notları</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<textarea name="notes" rows="3"
+																  class="resize-none form-control form-control-solid"></textarea>
+														<!--end::Input-->
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<h4 class="mb-7">İletişim Bilgileri</h4>
+												<div class="fv-row row mb-5">
+													<div class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">E-Posta
+															Adresi</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="email"
+															   name="email"
+															   class="form-control form-control-lg form-control-solid">
+														<!--end::Input-->
+													</div>
+													<div class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Referans/Kaynak</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<select name="fkSource" id="selectSource"
+																class="form-control-solid form-control">
+															<option value="">Seçim Yok</option>
+															<?php
+															foreach ($customerSources as $customerSource) {
+																?>
+																<option value="<?= $customerSource['customerSourceId'] ?>"><?= $customerSource['title'] ?></option>
+																<?php
+															}
+															?>
+														</select>
+														<!--end::Input-->
+													</div>
+												</div>
+												<div class="fv-row row mb-5">
+													<div class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Ülke</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<select name="fkCountry" required id=""
+																class="form-control form-control-solid selectCountry">
+															<?php
+															foreach (getCountries() as $country) {
+																?>
+																<option <?= $country["countryId"] == 1 ? 'selected' : ''; ?>
+																		value="<?= $country["countryId"] ?>"><?= $country["title"] ?></option>
+																<?php
+															}
+															?>
+														</select>
+														<!--end::Input-->
+
+													</div>
+													<div class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Sektör</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<select name="fkSector" id="selectSector"
+																class="form-control-solid form-control">
+															<option value="">Seçim Yok</option>
+															<?php
+															foreach ($sectors as $sector) {
+																?>
+																<option value="<?= $sector['sectorId'] ?>"><?= $sector['title'] ?></option>
+																<?php
+															}
+															?>
+														</select>
+														<!--end::Input-->
+													</div>
+												</div>
+												<div class="fv-row row mb-5">
+													<div class="col-md-6 col-sm-12 fv-row">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Şehir</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<select name="fkCity" id=""
+																class="form-control form-control-solid selectCity">
+															<option value="">Şehir Seçimi</option>
+															<?php
+															foreach ($cities as $city) {
+																?>
+																<option value="<?= $city["cityId"] ?>"><?= $city["title"] ?></option>
+																<?php
+															}
+															?>
+														</select>
+														<!--end::Input-->
+
+													</div>
+
+													<div class="col-md-6 col-sm-12 fv-row ">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">İlçe</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<select name="fkDistrict" id=""
+																class="form-control form-control-solid selectDistrict">
+															<option value="">İlçe Seçimi</option>
+														</select>
+														<!--end::Input-->
+													</div>
+
+												</div>
+												<div class="fv-row row mb-5">
+													<div class="col-md-12 col-sm-12 fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Adres</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<textarea name="address"
+																  class="form-control form-control-lg form-control-solid resize-none"></textarea>
+														<!--end::Input-->
+													</div>
+												</div>
+												<div class="fv-row row mb-5">
+													<div class="col-md-6 col-sm-12 fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Telefon
+															Numarası</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="text"
+															   name="phone"
+															   class="form-control phoneMask form-control-lg form-control-solid">
+														<!--end::Input-->
+													</div>
+
+													<div class="col-md-6 col-sm-12 fv-row mb-7">
+														<!--begin::Label-->
+														<label class="fw-bold fs-6 mb-2">Telefon
+															Numarası - 2</label>
+														<!--end::Label-->
+														<!--begin::Input-->
+														<input type="text"
+															   name="secondPhone"
+															   class="form-control phoneMask form-control-lg form-control-solid">
+														<!--end::Input-->
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--end::Scroll-->
+								<!--begin::Actions-->
+								<div class="text-center pt-15">
+									<button type="reset" class="btn btn-light me-3"
+											data-kt-users-modal-action="cancel" data-bs-dismiss="modal">
+										Kapat
+									</button>
+									<button type="submit" class="btn btn-primary"
+											data-kt-users-modal-action="submit">
+										<span class="indicator-label">Kaydet</span>
+										<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+									</button>
+								</div>
+								<!--end::Actions-->
+							</form>
+							<!--end::Form-->
+						</div>
+						<!--end::Modal body-->
+					</div>
+					<!--end::Modal content-->
+				</div>
+				<!--end::Modal dialog-->
+			</div>
+
+			<?php
+			?>
+			<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="addCustomerGroupModal"
+				 tabindex="-1"
+				 aria-hidden="true">
 				<!--begin::Modal dialog-->
 				<div class="modal-dialog modal-dialog-centered mw-650px">
 					<!--begin::Modal content-->
 					<div class="modal-content">
 						<!--begin::Modal header-->
-						<div class="modal-header pb-0 border-0 justify-content-end">
+						<div class="modal-header" id="kt_modal_add_user_header">
+							<!--begin::Modal title-->
+							<h2 class="fw-bolder modal-title">Yeni Müşteri Grubu Oluştur</h2>
+							<!--end::Modal title-->
 							<!--begin::Close-->
-							<div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+							<div class="btn btn-icon btn-sm btn-active-icon-primary"
+								 data-bs-dismiss="modal">
 								<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
 								<span class="svg-icon svg-icon-1">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-									 fill="none">
-									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-										  transform="rotate(-45 6 17.3137)" fill="black"/>
-									<rect x="7.41422" y="6" width="16" height="2" rx="1"
-										  transform="rotate(45 7.41422 6)" fill="black"/>
-								</svg>
-							</span>
+																	<svg xmlns="http://www.w3.org/2000/svg" width="24"
+																		 height="24" viewBox="0 0 24 24" fill="none">
+																		<rect opacity="0.5" x="6" y="17.3137" width="16"
+																			  height="2" rx="1"
+																			  transform="rotate(-45 6 17.3137)"
+																			  fill="currentColor"/>
+																		<rect x="7.41422" y="6" width="16" height="2"
+																			  rx="1" transform="rotate(45 7.41422 6)"
+																			  fill="currentColor"/>
+																	</svg>
+																</span>
 								<!--end::Svg Icon-->
 							</div>
 							<!--end::Close-->
 						</div>
-						<!--begin::Modal header-->
+						<!--end::Modal header-->
 						<!--begin::Modal body-->
-						<div id="announcementDetails" class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-							<!--begin::Heading-->
-							<div class="text-center mb-13">
-								<!--begin::Title-->
-								<h1 class="mb-3" id="title">Duyuru</h1>
-								<!--end::Title-->
-								<div class="separator d-flex flex-center mb-8">
-
-								</div>
-
-							</div>
-
-							<!--begin::Textarea-->
-							<p class="mb-10 fw-bold fs-2" id="explanation">Bu bir örnek duyuru içeriğidir. Bu bir örnek
-								duyuru
-								içeriğidir. Bu bir örnek duyuru içeriğidir. Bu bir örnek duyuru içeriğidir. Bu bir örnek
-								duyuru
-								içeriğidir. </p>
-							<!--end::Textarea-->
-							<div class="separator d-flex flex-center mb-8">
-
-							</div>
-							<!--begin::Users-->
-							<div class="mb-10">
-								<!--begin::Heading-->
-
-								<div class="fs-6 fw-bold mb-2">Yayımlayan</div>
-
-
-								<!--end::Heading-->
-								<!--begin::List-->
-								<div class="mh-300px scroll-y me-n7 pe-7">
-									<!--begin::User-->
-									<div class="d-flex flex-stack py-4 border-bottom border-gray-300 border-bottom-dashed">
-										<!--begin::Details-->
-										<div class="d-flex align-items-center">
-											<!--begin::Avatar-->
-											<div class="symbol symbol-35px symbol-circle" id="showImage">
-
+						<div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+							<!--begin::Form-->
+							<form id="addCustomerGroupForm" enctype="multipart/form-data" class="form" action="#">
+								<input type="hidden" name="action" value="ADD">
+								<!--begin::Scroll-->
+								<div class="d-flex flex-column scroll-y me-n7 pe-7"
+									 id="kt_modal_add_user_scroll" data-kt-scroll="true"
+									 data-kt-scroll-activate="{default: false, lg: true}"
+									 data-kt-scroll-max-height="auto"
+									 data-kt-scroll-dependencies="#kt_modal_add_user_header"
+									 data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+									 data-kt-scroll-offset="300px">
+									<div class="row">
+										<!--begin::Input group-->
+										<div class="fv-row mb-7">
+											<!--begin::Label-->
+											<label class="fw-bold fs-6 mb-2">Başlık</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<div class="position-relative mb-3">
+												<input class="form-control form-control-lg form-control-solid"
+													   type="text" name="title">
 											</div>
-											<!--end::Avatar-->
-											<!--begin::Details-->
-											<div class="ms-5">
-												<a href="javascript:void(0)" id="name"
-												   class="fs-5 fw-bolder text-gray-900 text-hover-primary mb-2"></a>
-												<div class="fw-bold text-muted" id="email"></div>
-											</div>
-											<!--end::Details-->
+											<!--end::Input-->
 										</div>
-										<!--end::Details-->
-
 									</div>
-									<!--end::User-->
-
 								</div>
-							</div>
+								<!--end::Scroll-->
+								<!--begin::Actions-->
+								<div class="text-center pt-15">
+									<button type="reset" class="btn btn-light me-3"
+											data-bs-dismiss="modal">Kapat
+									</button>
+									<button type="submit" class="btn btn-primary"
+											data-kt-users-modal-action="submit">
+										<span class="indicator-label">Kaydet</span>
+										<span class="indicator-progress">Please wait...
+																		<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+									</button>
+								</div>
+								<!--end::Actions-->
+							</form>
+							<!--end::Form-->
 						</div>
+						<!--end::Modal body-->
 					</div>
+					<!--end::Modal content-->
 				</div>
+				<!--end::Modal dialog-->
 			</div>
-			<!--end::Modals-->
+			<?php
+
+			?>
+
+
 		</div>
-		<!--end::Container-->
 	</div>
-	<!--end::Post-->
+</div>
 </div>
